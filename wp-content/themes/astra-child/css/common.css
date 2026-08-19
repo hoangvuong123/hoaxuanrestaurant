@@ -1,0 +1,331 @@
+.f_logo img{
+	margin-bottom:20px;
+}
+
+.f_logo a {
+    transition: opacity .3s ease;
+}
+
+.f_logo a:hover {
+    opacity: .7;
+}
+
+.trp-shortcode-switcher__wrapper {
+    margin-top: -1rem;
+}
+
+.trp-shortcode-switcher {
+  display: flex!important;
+  background: none;
+  position: relative!important;
+  background: none!important;
+  padding: 0!important; 
+  overflow: unset!important;
+}
+
+.trp-shortcode-arrow {
+    display: none;
+}
+
+.trp-language-item-name {
+    display: none!important;
+}
+
+.trp-language-item {
+    padding: 0px!important;
+    min-height: 0!important;
+    transition: all .3s ease;
+}
+.trp-language-item:hover {
+    opacity: .7;
+}
+.trp-switcher-dropdown-list {
+   max-height: 100%!important;
+}
+
+.trp-language-item .trp-flag-image {
+    width: 22px!important;
+}
+
+#ast-scroll-top {
+    padding: 0.7rem 0 0;
+    width: 3.4em;
+    height: 3.4em;
+    border-radius: 100px;
+    right: 19px;
+    bottom: 14px;
+    transition: transform 0.2s, box-shadow 0.2s;
+    background-color: #FFD700!important;
+}
+
+#ast-scroll-top:hover {
+    transform: scale(1.08);
+}
+
+/* ============================================
+   POPUP NOTIFICATION - Duy Anh Restaurant
+============================================ */
+#da-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.72);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    z-index: 99998;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+}
+
+#da-overlay.da-visible {
+    display: flex;
+    animation: da-fadeIn 0.35s ease;
+}
+
+#da-overlay.da-hidden {
+    display: none;
+}
+
+
+#da-popup {
+    background: #1a1a1a;
+    border: 1px solid #c9a96e;
+    border-radius: 16px;
+    max-width: 480px;
+    width: 100%;
+    padding: 36px 32px 28px;
+    color: #f0e6d3;
+    position: relative;
+    box-shadow: 0 24px 80px rgba(0, 0, 0, 0.6),
+                0 0 0 1px rgba(201, 169, 110, 0.15);
+    animation: da-slideUp 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+#da-popup-icon {
+    width: 56px;
+    height: 56px;
+    background: linear-gradient(135deg, #c9a96e, #a07840);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    font-size: 24px;
+}
+
+#da-popup h2 {
+    font-family: 'Cinzel', 'Georgia', serif;
+    font-size: 1.25rem;
+    letter-spacing: 0.08em;
+    text-align: center;
+    color: #c9a96e;
+    margin: 0 0 16px;
+    text-transform: uppercase;
+}
+
+#da-popup p {
+    font-family: 'Lato', sans-serif;
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: #d4c4a8;
+    text-align: center;
+    margin: 0 0 12px;
+}
+
+.da-phone-highlight {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(201, 169, 110, 0.12);
+    border: 1px solid rgba(201, 169, 110, 0.35);
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #c9a96e !important;
+    letter-spacing: 0.05em;
+    margin: 4px auto 16px;
+    width: fit-content;
+}
+
+.da-wa-link {
+    color: #25d366;
+    text-decoration: none;
+    font-weight: 600;
+}
+.da-wa-link:hover {
+    text-decoration: underline;
+}
+
+.da-divider {
+    border: none;
+    border-top: 1px solid rgba(201, 169, 110, 0.2);
+    margin: 20px 0;
+}
+
+#da-confirm-btn {
+    display: block;
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(135deg, #c9a96e, #a07840);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-family: 'Cinzel', Georgia, serif;
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: opacity 0.2s, transform 0.15s;
+    margin-top: 8px;
+}
+#da-confirm-btn:hover {
+    opacity: 0.88;
+    transform: translateY(-1px);
+}
+#da-confirm-btn:active {
+    transform: translateY(0);
+}
+
+#da-fab-wrap {
+    position: fixed;
+    bottom: 75px;
+    right: 19px;
+    z-index: 99997;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+#da-notif-fab {
+    width: 52px;
+    height: 52px;
+    background: linear-gradient(135deg, #c9a96e, #8a6530);
+    border-radius: 50%;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(201, 169, 110, 0.45);
+    transition: transform 0.2s, box-shadow 0.2s;
+    border: 2px solid rgba(255, 255, 255, 0.15);
+    animation: da-pulse 2.5s ease infinite;
+}
+#da-notif-fab:hover {
+    transform: scale(1.08);
+    box-shadow: 0 6px 28px rgba(201, 169, 110, 0.6);
+}
+
+#da-notif-fab svg {
+    animation: da-ring 2.5s ease infinite;
+    transform-origin: top center;
+}
+
+#da-phone-fab {
+    width: 52px;
+    height: 52px;
+    background: linear-gradient(135deg, #25d366, #1a9e4d);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(37, 211, 102, 0.45);
+    transition: transform 0.2s, box-shadow 0.2s;
+    text-decoration: none;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    position: relative;
+}
+#da-phone-fab:hover {
+    transform: scale(1.08);
+    box-shadow: 0 6px 28px rgba(37, 211, 102, 0.6);
+}
+
+#da-phone-fab::before {
+    content: attr(data-phone);
+    position: absolute;
+    right: 62px;
+    background: #1a1a1a;
+    color: #c9a96e;
+    font-size: 0.78rem;
+    font-weight: 700;
+    padding: 6px 12px;
+    border-radius: 8px;
+    border: 1px solid rgba(201, 169, 110, 0.4);
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s;
+}
+#da-phone-fab:hover::before {
+    opacity: 1;
+}
+
+/* ---------- KEYFRAMES ---------- */
+@keyframes da-fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+@keyframes da-slideUp {
+    from { opacity: 0; transform: translateY(28px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes da-ring {
+    0%,  100% { transform: rotate(0deg); }
+    10%        { transform: rotate(-18deg); }
+    20%        { transform: rotate(18deg); }
+    30%        { transform: rotate(-12deg); }
+    40%        { transform: rotate(12deg); }
+    50%        { transform: rotate(0deg); }
+}
+
+@keyframes da-pulse {
+    0%,  100% { box-shadow: 0 0 0 0   rgba(201, 169, 110, 0.6); }
+    50%        { box-shadow: 0 0 0 12px rgba(201, 169, 110, 0); }
+}
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width: 480px) {
+    #da-popup {
+        padding: 28px 20px 22px;
+    }
+    #da-popup h2 {
+        font-size: 1.1rem;
+    }
+}
+
+/* ---------- LANGUAGE SWITCHER ---------- */
+#da-lang-switcher {
+    display: flex;
+    justify-content: flex-end;
+    gap: 6px;
+    margin-bottom: 8px;
+}
+
+.da-lang-btn {
+    background: none;
+    border: 2px solid transparent;
+    border-radius: 6px;
+    padding: 2px 4px;
+    font-size: 1.4rem;
+    cursor: pointer;
+    line-height: 1;
+    opacity: 0.45;
+    transition: opacity 0.2s, border-color 0.2s, transform 0.15s;
+}
+
+.da-lang-btn:hover {
+    opacity: 0.85;
+    transform: scale(1.1);
+}
+
+.da-lang-btn.da-lang-active {
+    opacity: 1;
+    border-color: rgba(201, 169, 110, 0.6);
+    background: rgba(201, 169, 110, 0.1);
+}

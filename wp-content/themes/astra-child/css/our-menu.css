@@ -1,0 +1,582 @@
+/* ================================================
+   RESTAURANT MENU — Complete Stylesheet
+================================================ */
+
+/* ── Reset & Base ── */
+.our-menu-page *,
+.our-menu-page *::before,
+.our-menu-page *::after {
+  box-sizing: border-box;
+}
+
+.our-menu-page {
+  width: 100%;
+  font-family: inherit;
+}
+
+.menu-wrapper {
+  display: flex;
+  flex-direction: column;
+  padding: 0 2rem;
+  gap: 60px;
+}
+
+/* ================================================
+   SECTION
+   ================================================ */
+.menu-section {
+  width: 100%;
+}
+
+/* ── Section Header ── */
+.menu-section__header {
+  margin-bottom: 24px;
+}
+
+.menu-section__header-inner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.menu-section__title-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+
+.menu-section__icon {
+  width: 50px;
+  height: 64px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.menu-section__title {
+  font-size: 3rem;
+  font-weight: 500;
+  margin: 0;
+  line-height: 1.2;
+  font-family: 'Cormorant Garamond', serif;
+  text-transform: uppercase;
+  color: #C9C518;
+}
+
+.menu-section__line {
+  height: 2px;
+  background: currentColor;
+  opacity: 0.15;
+  border-radius: 2px;
+}
+
+/* ================================================
+   TABS
+   ================================================ */
+.menu-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.menu-tab {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 15px 5px;
+  border: 1px solid #C9C518;
+  border-radius: 999px;
+  background: transparent;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: 'Cormorant Garamond', serif;
+  transition: opacity 0.2s ease, background 0.2s ease, color 0.2s ease;
+  white-space: nowrap;
+}
+
+.menu-tab:focus {
+  background-color: #C9C518!important;
+}
+
+.menu-tab:hover {
+  opacity: 0.85;
+  background-color: #C9C518!important;
+  border-color: #C9C518!important;
+}
+
+.menu-tab--active {
+  opacity: 1;
+  background: #C9C518;
+}
+
+.menu-tab--active .menu-tab__count,
+.menu-tab--active {
+  color: #fff;       
+  background: rgb(201 197 24 / 40%);
+}
+
+.menu-tab__count {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 5px;
+  border-radius: 999px;
+  background: rgba(191, 137, 101, 0.25);
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1;
+  font-family: 'Jost';
+}
+
+/* ================================================
+   GRID WRAP & LOADING
+   ================================================ */
+.menu-grid-wrap {
+  position: relative;
+}
+
+/* Loading overlay */
+.menu-loading {
+  display: none;
+  position: absolute;
+  inset: 0;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+.menu-loading[aria-hidden="false"] {
+  display: flex;
+}
+
+.menu-loading__spinner {
+  width: 36px;
+  height: 36px;
+  border: 3px solid rgba(0, 0, 0, 0.12);
+  border-top-color: currentColor;
+  border-radius: 50%;
+  animation: menu-spin 0.7s linear infinite;
+}
+
+@keyframes menu-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ── Opacity transition khi loading ── */
+.menu-items-list,
+.menu-categories-wrap,
+.menu-pagination {
+  transition: opacity 0.2s ease;
+}
+
+/* ================================================
+   TERM DESCRIPTION
+   ================================================ */
+.menu-term-desc {
+  margin-bottom: 16px;
+}
+
+.menu-term-desc__text {
+  font-size: 1rem;
+  opacity: 0.7;
+  line-height: 1.2; 
+  margin: 0 !important;
+}
+
+/* ================================================
+   MENU ITEMS LIST
+   ================================================ */
+.menu-items-list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem 5rem;
+}
+
+.menu-empty {
+  padding: 32px 0;
+  text-align: center;
+  opacity: 0.5;
+  font-style: italic;
+}
+
+/* ── Single menu item ── */
+.menu-items-list .menu-item {
+  padding: 1rem  0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Title row: tên trái, giá phải */
+.menu-item__title-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px;
+  width: 100%;
+}
+
+.menu-item__title-left {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  flex-shrink: 0;
+	color: #C9C518;
+}
+
+.menu-item__code {
+  color:#C9C518;
+  font-weight: 700;
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.menu-item__name {
+  font-weight: 700;
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.menu-item__title-separator {
+  color: #c9c518;
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.menu-item__name-translation {
+  color: rgba(255, 255, 255, 0.58) !important;
+  font-size: 0.9rem;
+  font-weight: 400;
+  font-style: normal;
+  line-height: 1.35;
+  text-transform: none;
+  opacity: 1;
+}
+
+.menu-item__sup {
+  font-size: 0.75em;
+  vertical-align: super;
+  margin-left: 2px;
+  color: #fff !important;
+}
+
+.menu-item__quantity {
+  font-size: 0.9em;
+  margin-left: 4px;
+  color: #FFF;
+}
+
+.menu-item__dots {
+  flex: 1;
+  border-bottom: 1px dotted #C9C518;
+  opacity: 0.35;
+  margin: 0 6px;
+  min-width: 20px;
+  transform: translateY(-4px);
+}
+
+.menu-item-prices {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.menu-item-price-badge {
+  flex-shrink: 0;
+  font-weight: 600;
+  font-size: 0.95rem;
+  line-height: 1;
+  padding: 2px 5px;
+  white-space: nowrap;
+  color: #C9C518;
+  border: 1px dotted #C9C518;
+}
+
+.menu-item__descriptions {
+  margin: 4px 0 10px !important;
+}
+
+.menu-item__desc {
+  margin: 0 !important;
+  font-size: 1.05rem;
+  opacity: 0.9;
+  line-height: 1.5;
+  white-space: pre-line;
+}
+
+.menu-item__desc--translation {
+  margin-top: 2px !important;
+  color: rgba(255, 255, 255, 0.58) !important;
+  font-size: 0.9rem;
+  line-height: 1.45;
+  opacity: 1;
+}
+
+.menu-item__desc--inline {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px;
+}
+
+.menu-item__desc-translation-inline {
+  color: rgba(255, 255, 255, 0.58) !important;
+  font-size: 0.9rem;
+  font-style: normal;
+}
+
+.menu-item__details {
+  margin: 2px 0 10px !important;
+  color: #fff;
+  font-size: 1.05rem;
+  font-style: normal;
+  line-height: 1.45;
+  opacity: 0.9;
+  white-space: pre-line;
+}
+
+.menu-item__food-types {
+  list-style: none;
+  margin: 8px 0 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.menu-item__ft-row {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  font-size: 1rem;
+}
+
+.menu-item__ft-left {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  flex: 1;
+}
+
+.menu-item__ft-text {
+  min-width: 0;
+  flex: 1;
+}
+
+.menu-item__ft-title {
+  min-width: 0;
+}
+
+.menu-item__ft-translation {
+  color: rgba(255, 255, 255, 0.58) !important;
+  font-size: 0.86rem;
+  font-weight: 400;
+  font-style: normal;
+  line-height: 1.35;
+  opacity: 1;
+}
+
+/* Keep every secondary-language field upright even when the theme styles translations as italic. */
+.our-menu-page .menu-item__name-translation,
+.our-menu-page .menu-item__desc--translation,
+.our-menu-page .menu-item__desc-translation-inline,
+.our-menu-page .menu-item__ft-translation {
+  font-style: normal !important;
+}
+
+.menu-item__ft-code {
+  font-weight: 600;
+  font-size: 0.8rem;
+  flex-shrink: 0;
+  color: #FFF;
+}
+
+.menu-item__ft-price {
+  font-weight: 600;
+  font-size: 0.9rem;
+  flex-shrink: 0;
+  color: #C9C518;
+}
+
+/* ================================================
+   MENU CATEGORY BLOCK (Extra Beilage etc.)
+   ================================================ */
+.menu-categories-wrap {
+  margin-top: 24px;
+}
+
+.menu-category-block {
+  background-color: #16696985;
+  border-radius: 30px;
+  padding: 16px 20px;
+  margin-bottom: 16px;
+  width: 50%;
+  margin: 0 auto;
+}
+
+.menu-category-block:last-child {
+  margin-bottom: 0;
+}
+
+.menu-category-block__title {
+  font-weight: 700;
+  font-size: 1.2rem;
+  margin: 0 0 12px 0 !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  white-space: pre-line;
+  color: #C9C518;
+  text-align: center;
+}
+
+.menu-category-block__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.menu-category-block__item {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  font-size: 1rem;
+}
+
+.menu-category-block__item-left {
+  flex: 1;
+  opacity: 0.9;
+}
+
+.menu-category-block__item-price {
+  flex-shrink: 0;
+  color: #C9C518;
+}
+
+/* ================================================
+   PAGINATION
+   ================================================ */
+.menu-pagination {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 28px;
+  justify-content: center;
+}
+
+.menu-page-btn {
+  min-width: 36px;
+  height: 36px;
+  padding: 2px 10px 0 13px;
+  border: 1px solid #C9C518;
+  border-radius: 6px;
+  background: transparent;
+  color: inherit;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer!important;
+  transition: opacity 0.2s ease, background 0.2s ease, color 0.2s ease;
+}
+
+.menu-page-btn--active,
+.menu-page-btn:hover {
+  background: rgb(201 197 24 / 40%);
+  color: #fff;
+  cursor: default;
+  border: 1px solid #C9C518!important;
+}
+
+/* ================================================
+   ALLERGEN NOTE
+   ================================================ */
+.menu-allergen-note {
+  width: min(100%, 760px);
+  padding: 30px 0 8px;
+  align-self: center;
+  margin-inline: auto;
+  border: 0;
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 1rem;
+  font-style: normal;
+  line-height: 1.35;
+}
+
+.menu-allergen-note__title {
+  margin: 0 0 18px;
+  color: rgba(255, 255, 255, 0.86);
+  font-family: 'Jost', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+
+.menu-allergen-note p {
+  margin: 0 0 18px;
+}
+
+.menu-allergen-note__codes {
+  margin-bottom: 26px;
+}
+
+/* ================================================
+   RESPONSIVE
+   ================================================ */
+@media (max-width: 750px) {
+  .menu-section__title {
+    font-size: 2rem;
+  }
+  
+  .menu-wrapper {
+    padding: 0 1rem;
+  }
+  
+  .menu-item__name,
+  .menu-item__code{
+    letter-spacing: 0 !important;
+  }
+
+  .menu-item {
+    padding: 0.5rem 0;
+  }
+  
+  .menu-item__descriptions {
+    margin: 4px 0 5px !important;
+  }
+  
+  .menu-items-list {
+    grid-template-columns: repeat(1, 1fr);
+    gap: 1rem 0;
+  }
+  
+  .menu-item__dots {
+    margin: 0 -4px;
+  }
+
+  .menu-tab {
+    padding: 2px 10px;
+    font-size: 0.8rem;
+  }
+  
+  .menu-category-block {
+     width: 100%;
+  }
+
+  .menu-allergen-note {
+    padding-top: 24px;
+    font-size: 0.9rem;
+    line-height: 1.45;
+  }
+
+
+}

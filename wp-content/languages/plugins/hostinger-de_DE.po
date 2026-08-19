@@ -1,0 +1,232 @@
+# Translation of Plugins - Hostinger Tools - Stable (latest release) in German
+# This file is distributed under the same license as the Plugins - Hostinger Tools - Stable (latest release) package.
+msgid ""
+msgstr ""
+"PO-Revision-Date: 2025-10-03 01:12:37+0000\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: GlotPress/4.0.3\n"
+"Language: de\n"
+"Project-Id-Version: Plugins - Hostinger Tools - Stable (latest release)\n"
+
+#: includes/Admin/Assets.php:173
+msgid "Connect domain"
+msgstr "Domain verbinden"
+
+#: includes/Admin/Assets.php:168
+msgid "It was an error updating your settings"
+msgstr "Beim Aktualisieren deiner Einstellungen ist ein Fehler aufgetreten"
+
+#: includes/Admin/Assets.php:167
+msgid "Your settings have been updated"
+msgstr "Deine Einstellungen wurden aktualisiert"
+
+#: includes/Admin/Assets.php:155
+msgid "Create file"
+msgstr "Datei erstellen"
+
+#: includes/Admin/Assets.php:150
+msgid "LLMS.txt"
+msgstr "LLMS.txt"
+
+#: includes/Admin/Assets.php:116
+msgid "Edit site"
+msgstr "Website bearbeiten"
+
+#: includes/Admin/Assets.php:115
+msgid "Preview site"
+msgstr "Vorschau der Website"
+
+#: includes/Admin/Assets.php:122
+msgid "Disable application passwords"
+msgstr "Anwendungspasswörter deaktivieren"
+
+#: includes/Admin/Assets.php:136
+msgid "is recommended"
+msgstr "wird empfohlen"
+
+#: includes/Admin/Assets.php:113 includes/Admin/Menu.php:22
+#: includes/Admin/Menu.php:31 includes/Admin/Menu.php:32
+msgid "Tools"
+msgstr "Werkzeuge"
+
+#: includes/Admin/Assets.php:166
+msgid "Link has been reset"
+msgstr "Der Link wurde zurückgesetzt"
+
+#: includes/Admin/Assets.php:163
+msgid "This will invalidate the currently generated link in use. This action cannot be undone, are you sure you want to proceed?"
+msgstr "Dadurch wird der aktuell erstellte Link ungültig. Diese Aktion kann nicht rückgängig gemacht werden. Bist du sicher, dass du fortfahren möchtest?"
+
+#: includes/Admin/Assets.php:162
+msgid "Bypass link reset"
+msgstr "Link-Zurücksetzung umgehen"
+
+#: includes/Admin/Assets.php:161
+msgid "Proceed anyway"
+msgstr "Trotzdem fortfahren"
+
+#: includes/Admin/Assets.php:154 includes/Admin/Assets.php:160
+#: includes/Admin/Assets.php:164
+msgid "Cancel"
+msgstr "Abbrechen"
+
+#: includes/Admin/Assets.php:159
+msgid "Disclaimer"
+msgstr "Haftungsausschluss"
+
+#: includes/Admin/Assets.php:158
+msgid " Turning on XML-RPC might make your site less secure. Do you want to proceed?"
+msgstr " Wenn du XML-RPC aktivierst, wird deine Website möglicherweise weniger sicher. Willst du fortfahren?"
+
+#: includes/Admin/Assets.php:157
+msgid "Bypass link"
+msgstr "Link umgehen"
+
+#: includes/Admin/Assets.php:156
+msgid "Maintenance mode"
+msgstr "Wartungsmodus"
+
+#: includes/Admin/Assets.php:141
+msgid "Redirects"
+msgstr "Weiterleitungen"
+
+#: includes/Admin/Assets.php:140
+msgid "Security"
+msgstr "Sicherheit"
+
+#: includes/Admin/Assets.php:138
+msgid "Maintenance"
+msgstr "Wartung"
+
+#: includes/Admin/Assets.php:137
+msgid "For improved security, ensure you use the latest version of WordPress"
+msgstr "Um die Sicherheit zu erhöhen, stelle sicher, dass du die neueste Version von WordPress verwendest."
+
+#: includes/Admin/Assets.php:135
+msgid "Update to"
+msgstr "Aktualisierung auf"
+
+#: includes/Admin/Assets.php:133
+msgid "Running the latest version"
+msgstr "Auf der neuesten Version"
+
+#: includes/Admin/Assets.php:132
+msgid "Various updates and fixes available in the newest version."
+msgstr "In der neuesten Version sind verschiedene Updates und Korrekturen verfügbar."
+
+#: includes/Admin/Assets.php:131
+msgid "WordPress version"
+msgstr "WordPress-Version"
+
+#: includes/Admin/Assets.php:130
+msgid "PHP version"
+msgstr "PHP-Version"
+
+#: includes/Admin/Assets.php:129
+msgid "WWW and non-WWW domain records are not pointing to the same host. Redirect not possible."
+msgstr "WWW- und Nicht-WWW-Domaineinträge zeigen nicht auf denselben Host. Weiterleitung nicht möglich."
+
+#: includes/Admin/Assets.php:128
+msgid "Redirects all WWW URLs to non-WWW ones"
+msgstr "Leitet alle WWW-URLs auf Nicht-WWW-URLs um"
+
+#: includes/Admin/Assets.php:127
+msgid "Force WWW"
+msgstr "WWW erzwingen"
+
+#: includes/Admin/Assets.php:126
+msgid "Redirects all HTTP URLs to HTTPS sites"
+msgstr "Leitet alle HTTP-URLs auf HTTPS-Websites um"
+
+#: includes/Admin/Assets.php:125
+msgid "Force HTTPS"
+msgstr "HTTPs erzwingen"
+
+#: includes/Admin/Assets.php:121
+msgid "XML-RPC allows apps to connect to your WordPress site, but might expose your site's security. Disable this feature if you don't need it"
+msgstr "XML-RPC ermöglicht es Apps, sich mit deiner WordPress-Website zu verbinden, kann aber die Sicherheit deiner Website gefährden. Deaktiviere diese Funktion, wenn du sie nicht brauchst"
+
+#: includes/Admin/Assets.php:120
+msgid "Disable XML-RPC"
+msgstr "XML-RPC deaktivieren"
+
+#: includes/Admin/Assets.php:119 includes/Admin/Assets.php:165
+msgid "Reset link"
+msgstr "Link zurücksetzen"
+
+#: includes/Admin/Assets.php:118
+msgid "Skip-link that bypasses the maintenance mode"
+msgstr "Skip-Link, der den Wartungsmodus umgeht"
+
+#: includes/Admin/Assets.php:117
+msgid "Disable public access to the site (WordPress admins will still be able to access)"
+msgstr "Deaktiviere den öffentlichen Zugriff auf die Website (WordPress-Administratoren können weiterhin darauf zugreifen)"
+
+#. translators: %s: PHP version
+#: hostinger.php:85
+msgid "Attention:"
+msgstr "Achtung:"
+
+#. Plugin Name of the plugin
+#: hostinger.php
+msgid "Hostinger Tools"
+msgstr "Hostinger Tools"
+
+#: includes/Admin/Assets.php:139
+msgid "Preview my website"
+msgstr "Vorschau meiner Website"
+
+#: includes/Admin/Views/Partials/RateUs.php:38
+msgid "on <a href=\"https://wordpress.org/support/plugin/hostinger/reviews/#new-post\" target=\"_blank\" rel=\"noopener noreferrer\">WordPress.org</a>"
+msgstr "auf <a href=\"https://wordpress.org/support/plugin/hostinger/reviews/#new-post\" target=\"_blank\" rel=\"noopener noreferrer\">WordPress.org</a>"
+
+#: includes/Admin/Views/Partials/RateUs.php:2
+msgid "Rate this plugin"
+msgstr "Bewerte dieses Plugin"
+
+#: includes/Views/ComingSoon.php:27
+msgid "New WordPress website is being built and will be published soon"
+msgstr "Die neue WordPress-Website wird gerade erstellt und demnächst veröffentlicht"
+
+#: includes/Views/ComingSoon.php:6 includes/Views/ComingSoon.php:24
+msgid "Coming Soon"
+msgstr "Demnächst verfügbar"
+
+#: includes/Errors.php:38
+msgid "Unknown error code."
+msgstr "Unbekannter Fehlercode."
+
+#: includes/Errors.php:22
+msgid "We apologize for the inconvenience. The AI content generation process encountered a server error. Please try again later, and if the issue persists, kindly contact our support team for assistance."
+msgstr "Wir entschuldigen uns für die Unannehmlichkeiten. Bei der Generierung von KI-Inhalten ist ein Serverfehler aufgetreten. Bitte versuche es später noch einmal. Sollte das Problem weiterhin bestehen, wende dich bitte an unser Support-Team."
+
+#: includes/Errors.php:19
+msgid "An unexpected error occurred. Please try again or contact support."
+msgstr "Es ist ein unerwarteter Fehler aufgetreten. Bitte versuche es erneut oder kontaktiere den Support."
+
+#: includes/Errors.php:16
+msgid "Action Failed. Try again or contact support. Apologies."
+msgstr "Aktion fehlgeschlagen. Versuche es erneut oder kontaktiere den Support. Entschuldigung."
+
+#. Author URI of the plugin
+#: hostinger.php
+msgid "https://www.hostinger.com"
+msgstr "https://www.hostinger.com"
+
+#. Description of the plugin
+#: hostinger.php
+msgid "Hostinger WordPress plugin."
+msgstr "Hostinger-WordPress-Plugin."
+
+#. Plugin URI of the plugin
+#: hostinger.php
+msgid "https://hostinger.com"
+msgstr "https://hostinger.com"
+
+#. Author of the plugin
+#: hostinger.php
+msgid "Hostinger"
+msgstr "Hostinger"

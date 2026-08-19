@@ -1,0 +1,91 @@
+# ==========================================
+# WORDPRESS SECRETS
+# ==========================================
+
+wp-config.php
+
+.env
+.env.*
+!.env.example
+
+
+# ==========================================
+# USER UPLOADS
+# ==========================================
+
+wp-content/uploads/
+
+
+# ==========================================
+# CACHE
+# ==========================================
+
+wp-content/cache/
+wp-content/litespeed/
+wp-content/w3tc-config/
+
+
+# ==========================================
+# BACKUPS
+# ==========================================
+
+wp-content/updraft/
+wp-content/ai1wm-backups/
+wp-content/backups/
+wp-content/backup-db/
+
+*.sql
+*.sql.gz
+*.tar
+*.tar.gz
+*.zip
+
+
+# ==========================================
+# LOGS
+# ==========================================
+
+*.log
+debug.log
+wp-content/debug.log
+
+
+# ==========================================
+# SERVER / TEMP BACKUPS
+# ==========================================
+
+.htaccess.bk
+
+*.bak
+*.backup
+*.tmp
+*.temp
+
+
+# ==========================================
+# PRIVATE DATA
+# ==========================================
+
+private/
+
+
+# ==========================================
+# WORDPRESS IMPORT TEMP DATA
+# ==========================================
+
+wordpress-import/
+wordpress-import-v4/
+wordpress-import-v5/
+
+
+# ==========================================
+# SYSTEM / EDITOR
+# ==========================================
+
+.DS_Store
+Thumbs.db
+
+.idea/
+.vscode/
+
+node_modules/
