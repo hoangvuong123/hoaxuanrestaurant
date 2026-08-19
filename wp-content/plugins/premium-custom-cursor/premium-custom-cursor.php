@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Premium Custom Cursor FX
  * Description: Advanced custom cursor with 16 visual presets, 3D tilt, bling effects, trails, hover labels and rich click animations.
- * Version: 1.2.0
+ * Version: 1.2.1
  * Author: Custom Build
  * License: GPL-2.0-or-later
  * Text Domain: premium-custom-cursor
@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 if ( ! class_exists( 'PCC_Premium_Custom_Cursor_FX_V120', false ) ) :
 
 final class PCC_Premium_Custom_Cursor_FX_V120 {
-	const VERSION = '1.2.0';
+	const VERSION = '1.2.1';
 	const OPTION  = 'pcc_settings';
 
 	public function __construct() {
@@ -93,7 +93,7 @@ final class PCC_Premium_Custom_Cursor_FX_V120 {
 		if ( ! is_array( $saved ) ) {
 			$saved = array();
 		}
-		return wp_parse_args( $saved, self::defaults() );
+		return wp_parse_args( $this->normalize_settings_array( $saved ), self::defaults() );
 	}
 
 	public function register_settings() {
@@ -108,7 +108,35 @@ final class PCC_Premium_Custom_Cursor_FX_V120 {
 		);
 	}
 
+	private function scalar_value( $value, $default = '' ) {
+		if ( is_scalar( $value ) || null === $value ) {
+			return null === $value ? $default : $value;
+		}
+
+		return $default;
+	}
+
+	private function normalize_settings_array( $settings ) {
+		$defaults = self::defaults();
+
+		if ( ! is_array( $settings ) ) {
+			return array();
+		}
+
+		foreach ( $settings as $key => $value ) {
+			if ( ! array_key_exists( $key, $defaults ) ) {
+				unset( $settings[ $key ] );
+				continue;
+			}
+
+			$settings[ $key ] = $this->scalar_value( $value, $defaults[ $key ] );
+		}
+
+		return $settings;
+	}
+
 	private function clamp( $value, $min, $max, $default ) {
+		$value = $this->scalar_value( $value, $default );
 		if ( ! is_numeric( $value ) ) {
 			return $default;
 		}
@@ -116,6 +144,7 @@ final class PCC_Premium_Custom_Cursor_FX_V120 {
 	}
 
 	private function hex( $value, $fallback ) {
+		$value = $this->scalar_value( $value, $fallback );
 		$value = sanitize_hex_color( $value );
 		return $value ? $value : $fallback;
 	}
@@ -125,6 +154,8 @@ final class PCC_Premium_Custom_Cursor_FX_V120 {
 		if ( ! is_array( $input ) ) {
 			return $d;
 		}
+
+		$input = $this->normalize_settings_array( $input );
 
 		$out = array();
 
@@ -148,16 +179,19 @@ final class PCC_Premium_Custom_Cursor_FX_V120 {
 			'hologram', 'crystal3d', 'chrome3d', 'aurora', 'bling',
 			'orbit', 'cyber', 'liquid', 'comet', 'luxe_gold'
 		);
-		$out['preset'] = ( isset( $input['preset'] ) && in_array( $input['preset'], $presets, true ) ) ? $input['preset'] : $d['preset'];
+		$preset = isset( $input['preset'] ) ? (string) $input['preset'] : $d['preset'];
+		$out['preset'] = in_array( $preset, $presets, true ) ? $preset : $d['preset'];
 
 		$blend_modes = array( 'normal', 'difference', 'exclusion', 'screen', 'multiply' );
-		$out['blend_mode'] = ( isset( $input['blend_mode'] ) && in_array( $input['blend_mode'], $blend_modes, true ) ) ? $input['blend_mode'] : $d['blend_mode'];
+		$blend_mode = isset( $input['blend_mode'] ) ? (string) $input['blend_mode'] : $d['blend_mode'];
+		$out['blend_mode'] = in_array( $blend_mode, $blend_modes, true ) ? $blend_mode : $d['blend_mode'];
 
 		$click_effects = array(
 			'none', 'shrink', 'pulse', 'ripple', 'double_ripple',
 			'spark_burst', 'diamond_burst', 'shockwave', 'firework'
 		);
-		$out['click_effect'] = ( isset( $input['click_effect'] ) && in_array( $input['click_effect'], $click_effects, true ) ) ? $input['click_effect'] : $d['click_effect'];
+		$click_effect = isset( $input['click_effect'] ) ? (string) $input['click_effect'] : $d['click_effect'];
+		$out['click_effect'] = in_array( $click_effect, $click_effects, true ) ? $click_effect : $d['click_effect'];
 
 		$out['disable_below'] = (int) $this->clamp( isset( $input['disable_below'] ) ? $input['disable_below'] : null, 0, 2560, $d['disable_below'] );
 		$out['z_index']       = (int) $this->clamp( isset( $input['z_index'] ) ? $input['z_index'] : null, 1, 2147483000, $d['z_index'] );
@@ -212,9 +246,9 @@ final class PCC_Premium_Custom_Cursor_FX_V120 {
 			$out[ $key ] = $this->hex( $value, $d[ $key ] );
 		}
 
-		$out['default_label'] = sanitize_text_field( isset( $input['default_label'] ) ? $input['default_label'] : $d['default_label'] );
-		$out['interactive_selector'] = sanitize_text_field( isset( $input['interactive_selector'] ) ? $input['interactive_selector'] : $d['interactive_selector'] );
-		$out['label_selector']       = sanitize_text_field( isset( $input['label_selector'] ) ? $input['label_selector'] : $d['label_selector'] );
+		$out['default_label']        = sanitize_text_field( $this->scalar_value( isset( $input['default_label'] ) ? $input['default_label'] : null, $d['default_label'] ) );
+		$out['interactive_selector'] = sanitize_textarea_field( $this->scalar_value( isset( $input['interactive_selector'] ) ? $input['interactive_selector'] : null, $d['interactive_selector'] ) );
+		$out['label_selector']       = sanitize_textarea_field( $this->scalar_value( isset( $input['label_selector'] ) ? $input['label_selector'] : null, $d['label_selector'] ) );
 
 		return $out;
 	}
