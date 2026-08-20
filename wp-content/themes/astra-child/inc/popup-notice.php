@@ -49,34 +49,42 @@ function hx_popup_get_settings() {
 }
 
 function hx_popup_sanitize_settings( $input ) {
-    if ( ! is_array( $input ) ) {
-        $input = [];
-    }
+    $log_file = WP_CONTENT_DIR . '/debug-popup.log';
+    try {
+        if ( ! is_array( $input ) ) {
+            $input = [];
+        }
 
-    $clean = hx_popup_default_settings();
+        $clean = hx_popup_default_settings();
 
-    $clean['order_notice_enabled']   = empty( $input['order_notice_enabled'] ) ? '0' : '1';
-    $clean['new_dishes_enabled']     = empty( $input['new_dishes_enabled'] ) ? '0' : '1';
-    $clean['closure_notice_enabled'] = empty( $input['closure_notice_enabled'] ) ? '0' : '1';
+        $clean['order_notice_enabled']   = empty( $input['order_notice_enabled'] ) ? '0' : '1';
+        $clean['new_dishes_enabled']     = empty( $input['new_dishes_enabled'] ) ? '0' : '1';
+        $clean['closure_notice_enabled'] = empty( $input['closure_notice_enabled'] ) ? '0' : '1';
 
-    $text_de = isset( $input['closure_text_de'] ) && is_scalar( $input['closure_text_de'] ) ? (string) $input['closure_text_de'] : '';
-    $text_en = isset( $input['closure_text_en'] ) && is_scalar( $input['closure_text_en'] ) ? (string) $input['closure_text_en'] : '';
+        $text_de = isset( $input['closure_text_de'] ) && is_scalar( $input['closure_text_de'] ) ? (string) $input['closure_text_de'] : '';
+        $text_en = isset( $input['closure_text_en'] ) && is_scalar( $input['closure_text_en'] ) ? (string) $input['closure_text_en'] : '';
 
-    $clean['closure_text_de'] = wp_kses_post( wp_unslash( $text_de ) );
-    $clean['closure_text_en'] = wp_kses_post( wp_unslash( $text_en ) );
+        $clean['closure_text_de'] = wp_kses_post( wp_unslash( $text_de ) );
+        $clean['closure_text_en'] = wp_kses_post( wp_unslash( $text_en ) );
 
-    $dish_ids = [];
-    if ( isset( $input['new_dish_ids'] ) && is_array( $input['new_dish_ids'] ) ) {
-        foreach ( $input['new_dish_ids'] as $id ) {
-            $abs_id = absint( $id );
-            if ( $abs_id > 0 && ! in_array( $abs_id, $dish_ids, true ) ) {
-                $dish_ids[] = $abs_id;
+        $dish_ids = [];
+        if ( isset( $input['new_dish_ids'] ) && is_array( $input['new_dish_ids'] ) ) {
+            foreach ( $input['new_dish_ids'] as $id ) {
+                $abs_id = absint( $id );
+                if ( $abs_id > 0 && ! in_array( $abs_id, $dish_ids, true ) ) {
+                    $dish_ids[] = $abs_id;
+                }
             }
         }
-    }
-    $clean['new_dish_ids'] = $dish_ids;
+        $clean['new_dish_ids'] = $dish_ids;
 
-    return $clean;
+        @file_put_contents( $log_file, date('[Y-m-d H:i:s]') . ' hx_popup_sanitize_settings: OK' . PHP_EOL, FILE_APPEND );
+        return $clean;
+
+    } catch ( \Throwable $e ) {
+        @file_put_contents( $log_file, date('[Y-m-d H:i:s]') . ' EXCEPTION: ' . $e->getMessage() . ' in ' . $e->getFile() . ':' . $e->getLine() . PHP_EOL, FILE_APPEND );
+        return hx_popup_default_settings();
+    }
 }
 
 function hx_popup_register_settings() {
