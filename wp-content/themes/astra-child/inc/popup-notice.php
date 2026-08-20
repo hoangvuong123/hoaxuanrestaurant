@@ -31,22 +31,50 @@ function hx_popup_get_settings() {
     }
 
     $settings = wp_parse_args( $settings, hx_popup_default_settings() );
-    $settings['new_dish_ids'] = array_values( array_filter( array_map( 'absint', (array) $settings['new_dish_ids'] ) ) );
+    
+    $dish_ids = [];
+    if ( isset( $settings['new_dish_ids'] ) && is_array( $settings['new_dish_ids'] ) ) {
+        foreach ( $settings['new_dish_ids'] as $id ) {
+            $abs_id = absint( $id );
+            if ( $abs_id > 0 && ! in_array( $abs_id, $dish_ids, true ) ) {
+                $dish_ids[] = $abs_id;
+            }
+        }
+    }
+    $settings['new_dish_ids'] = $dish_ids;
 
     return $settings;
 }
 
 function hx_popup_sanitize_settings( $input ) {
-    $input = is_array( $input ) ? $input : [];
+    if ( ! is_array( $input ) ) {
+        $input = [];
+    }
 
-    return [
-        'order_notice_enabled'   => empty( $input['order_notice_enabled'] ) ? '0' : '1',
-        'new_dishes_enabled'     => empty( $input['new_dishes_enabled'] ) ? '0' : '1',
-        'new_dish_ids'           => array_values( array_unique( array_filter( array_map( 'absint', (array) ( $input['new_dish_ids'] ?? [] ) ) ) ) ),
-        'closure_notice_enabled' => empty( $input['closure_notice_enabled'] ) ? '0' : '1',
-        'closure_text_de'        => wp_kses_post( (string) ( $input['closure_text_de'] ?? '' ) ),
-        'closure_text_en'        => wp_kses_post( (string) ( $input['closure_text_en'] ?? '' ) ),
-    ];
+    $clean = hx_popup_default_settings();
+
+    $clean['order_notice_enabled']   = empty( $input['order_notice_enabled'] ) ? '0' : '1';
+    $clean['new_dishes_enabled']     = empty( $input['new_dishes_enabled'] ) ? '0' : '1';
+    $clean['closure_notice_enabled'] = empty( $input['closure_notice_enabled'] ) ? '0' : '1';
+
+    $text_de = isset( $input['closure_text_de'] ) && is_scalar( $input['closure_text_de'] ) ? (string) $input['closure_text_de'] : '';
+    $text_en = isset( $input['closure_text_en'] ) && is_scalar( $input['closure_text_en'] ) ? (string) $input['closure_text_en'] : '';
+
+    $clean['closure_text_de'] = wp_kses_post( wp_unslash( $text_de ) );
+    $clean['closure_text_en'] = wp_kses_post( wp_unslash( $text_en ) );
+
+    $dish_ids = [];
+    if ( isset( $input['new_dish_ids'] ) && is_array( $input['new_dish_ids'] ) ) {
+        foreach ( $input['new_dish_ids'] as $id ) {
+            $abs_id = absint( $id );
+            if ( $abs_id > 0 && ! in_array( $abs_id, $dish_ids, true ) ) {
+                $dish_ids[] = $abs_id;
+            }
+        }
+    }
+    $clean['new_dish_ids'] = $dish_ids;
+
+    return $clean;
 }
 
 function hx_popup_register_settings() {
