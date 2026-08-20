@@ -445,34 +445,54 @@ function hx_popup_render_html() {
                         <?php hx_popup_render_panel_open( 'new', $first_tab === 'new', $has_tabs ); ?>
                             <div class="da-dish-list">
                                 <?php foreach ( $new_dishes as $dish ) :
-                                    $dish_id  = $dish->ID;
-                                    $title_de = get_the_title( $dish_id );
-                                    $title_en = trim( (string) hx_popup_get_field( 'title-en', $dish_id ) );
-                                    $desc_de  = trim( (string) hx_popup_get_field( 'describe-de', $dish_id ) );
-                                    $desc_en  = trim( (string) hx_popup_get_field( 'describe-en', $dish_id ) );
-                                    $code     = trim( (string) hx_popup_get_field( 'code', $dish_id ) );
-                                    $thumb    = get_the_post_thumbnail_url( $dish_id, 'medium' );
+                                    $dish_id    = $dish->ID;
+                                    $title_de   = get_the_title( $dish_id );
+                                    $title_en   = trim( (string) hx_popup_get_field( 'title-en', $dish_id ) );
+                                    $desc_de    = trim( (string) hx_popup_get_field( 'describe-de', $dish_id ) );
+                                    $desc_en    = trim( (string) hx_popup_get_field( 'describe-en', $dish_id ) );
+                                    $code       = trim( (string) hx_popup_get_field( 'code', $dish_id ) );
+                                    $prices     = hx_popup_price_data( $dish_id );
                                     ?>
-                                    <article class="da-dish-card">
-                                        <?php if ( $thumb ) : ?>
-                                            <img src="<?php echo esc_url( $thumb ); ?>" alt="<?php echo esc_attr( $title_de ); ?>">
+                                    <div class="menu-item" data-post-id="<?php echo esc_attr( $dish_id ); ?>">
+                                        <div class="menu-item__title-row">
+                                            <span class="menu-item__title-left">
+                                                <?php if ( $code ) : ?>
+                                                    <span class="menu-item__code"><?php echo esc_html( $code ); ?>.</span>
+                                                <?php endif; ?>
+                                                <span class="menu-item__name" data-da-lang="de"><?php echo esc_html( $title_de ); ?></span>
+                                                <span class="menu-item__name" data-da-lang="en"><?php echo esc_html( $title_en ?: $title_de ); ?></span>
+                                                <?php if ( $title_en && $title_en !== $title_de ) : ?>
+                                                    <span class="menu-item__name-translation" data-da-lang="de">/ <?php echo esc_html( $title_en ); ?></span>
+                                                    <span class="menu-item__name-translation" data-da-lang="en">/ <?php echo esc_html( $title_de ); ?></span>
+                                                <?php endif; ?>
+                                            </span>
+                                            <?php if ( ! empty( $prices ) ) : ?>
+                                                <span class="menu-item__dots" aria-hidden="true"></span>
+                                                <span class="menu-item-prices">
+                                                    <?php foreach ( $prices as $p ) :
+                                                        $label = $p['size'] ? $p['size'] . ': ' . $p['price'] : $p['price'];
+                                                    ?>
+                                                        <span class="menu-item-price-badge"><?php echo esc_html( $label ); ?></span>
+                                                    <?php endforeach; ?>
+                                                </span>
+                                            <?php endif; ?>
+                                        </div>
+
+                                        <?php if ( $desc_de || $desc_en ) : ?>
+                                            <div class="menu-item__descriptions">
+                                                <p class="menu-item__desc" data-da-lang="de"><?php echo esc_html( $desc_de ?: $desc_en ); ?></p>
+                                                <p class="menu-item__desc" data-da-lang="en"><?php echo esc_html( $desc_en ?: $desc_de ); ?></p>
+                                            </div>
                                         <?php endif; ?>
 
-                                        <div class="da-dish-card__body">
-                                            <h3>
-                                                <?php if ( $code ) : ?>
-                                                    <span class="da-dish-code"><?php echo esc_html( $code ); ?>.</span>
-                                                <?php endif; ?>
-                                                <?php echo hx_popup_lang_copy( $title_de, $title_en ); ?>
-                                            </h3>
-
-                                            <?php if ( $desc_de || $desc_en ) : ?>
-                                                <p><?php echo hx_popup_lang_copy( $desc_de, $desc_en ); ?></p>
-                                            <?php endif; ?>
-
-                                            <?php echo hx_popup_render_price_badges( $dish_id ); ?>
+                                        <div class="da-atc-row">
+                                            <button class="da-add-to-cart" type="button" data-post-id="<?php echo esc_attr( $dish_id ); ?>">
+                                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+                                                <span data-da-lang="de">In den Warenkorb</span>
+                                                <span data-da-lang="en">Add to cart</span>
+                                            </button>
                                         </div>
-                                    </article>
+                                    </div>
                                 <?php endforeach; ?>
                             </div>
 

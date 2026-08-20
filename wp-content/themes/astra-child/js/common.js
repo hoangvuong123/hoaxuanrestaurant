@@ -8,13 +8,13 @@ document.addEventListener('DOMContentLoaded', function () {
     'use strict';
 
     var STORAGE_PREFIX = 'da_popup_seen_';
-    var LANG_KEY    = 'da_popup_lang';
+    var LANG_KEY = 'da_popup_lang';
 
-    var overlay    = document.getElementById('da-overlay');
+    var overlay = document.getElementById('da-overlay');
     var confirmBtn = document.getElementById('da-confirm-btn');
-    var notifFab   = document.getElementById('da-notif-fab');
+    var notifFab = document.getElementById('da-notif-fab');
     var tabButtons = document.querySelectorAll('[data-da-tab]');
-    var tabPanels  = document.querySelectorAll('[data-da-panel]');
+    var tabPanels = document.querySelectorAll('[data-da-panel]');
 
     if (!overlay || !confirmBtn || !notifFab) return;
 
@@ -99,6 +99,18 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closePopup(); });
+
+    /* ---- Add-to-cart → trigger WhatsApp order plugin modal ---- */
+    overlay.addEventListener('click', function (e) {
+        var btn = e.target.closest('.da-add-to-cart');
+        if (!btn) return;
+        var postId = btn.dataset.postId;
+        var menuItem = postId && document.querySelector('.da-dish-list .menu-item[data-post-id="' + postId + '"]');
+        var titleRow = menuItem && menuItem.querySelector('.hx-order-title-row');
+        if (titleRow) {
+            titleRow.click();
+        }
+    });
 
 });
 
