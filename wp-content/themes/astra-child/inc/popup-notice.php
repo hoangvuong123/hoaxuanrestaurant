@@ -162,29 +162,29 @@ function hx_popup_render_settings_page() {
     $menu_posts   = hx_popup_get_menu_posts_for_admin();
     ?>
     <div class="wrap">
-        <h1>Hoa Xuan Popup</h1>
-        <p>Quan ly cac tab trong popup: thong bao dat hang, mon moi va lich nghi.</p>
+        <h1>Hoa Xuan Popup Settings</h1>
+        <p>Manage the popup tabs: order notice, new dishes, and closure notice.</p>
 
         <form method="post" action="options.php">
             <?php settings_fields( 'hx_popup_settings_group' ); ?>
 
             <table class="form-table" role="presentation">
                 <tr>
-                    <th scope="row">Thong bao hien tai</th>
+                    <th scope="row">Order Notice</th>
                     <td>
                         <label>
                             <input type="checkbox" name="<?php echo esc_attr( HX_POPUP_OPTION_KEY ); ?>[order_notice_enabled]" value="1" <?php checked( '1', $settings['order_notice_enabled'] ); ?>>
-                            Hien tab thong bao dat hang / WhatsApp hien tai
+                            Show order notice / WhatsApp tab
                         </label>
                     </td>
                 </tr>
 
                 <tr>
-                    <th scope="row">Mon moi trong menu</th>
+                    <th scope="row">New Dishes</th>
                     <td>
                         <label>
                             <input type="checkbox" name="<?php echo esc_attr( HX_POPUP_OPTION_KEY ); ?>[new_dishes_enabled]" value="1" <?php checked( '1', $settings['new_dishes_enabled'] ); ?>>
-                            Hien tab Mon moi
+                            Show new dishes tab
                         </label>
 
                         <p>
@@ -203,33 +203,33 @@ function hx_popup_render_settings_page() {
                                 <?php endforeach; ?>
                             </select>
                         </p>
-                        <p class="description">Giu Ctrl/Cmd de chon nhieu mon. Danh sach lay truc tiep tu post type <code>menu</code>.</p>
+                        <p class="description">Hold Ctrl/Cmd to select multiple dishes. List is pulled from the <code>menu</code> post type.</p>
                     </td>
                 </tr>
 
                 <tr>
-                    <th scope="row">Thong bao ngay nghi</th>
+                    <th scope="row">Closure Notice</th>
                     <td>
                         <label>
                             <input type="checkbox" name="<?php echo esc_attr( HX_POPUP_OPTION_KEY ); ?>[closure_notice_enabled]" value="1" <?php checked( '1', $settings['closure_notice_enabled'] ); ?>>
-                            Hien tab Lich nghi
+                            Show closure notice tab
                         </label>
 
                         <p>
-                            <label for="hx-popup-closure-de"><strong>Noi dung tieng Duc</strong></label><br>
+                            <label for="hx-popup-closure-de"><strong>German text</strong></label><br>
                             <textarea id="hx-popup-closure-de" name="<?php echo esc_attr( HX_POPUP_OPTION_KEY ); ?>[closure_text_de]" rows="4" class="large-text"><?php echo esc_textarea( $settings['closure_text_de'] ); ?></textarea>
                         </p>
 
                         <p>
-                            <label for="hx-popup-closure-en"><strong>Noi dung tieng Anh</strong></label><br>
+                            <label for="hx-popup-closure-en"><strong>English text</strong></label><br>
                             <textarea id="hx-popup-closure-en" name="<?php echo esc_attr( HX_POPUP_OPTION_KEY ); ?>[closure_text_en]" rows="4" class="large-text"><?php echo esc_textarea( $settings['closure_text_en'] ); ?></textarea>
                         </p>
-                        <p class="description">Admin tu nhap text, vi du: Hom nay quan tam nghi va mo lai vao ngay mai.</p>
+                        <p class="description">Enter the closure message shown in the popup, e.g.: We are closed today and will reopen tomorrow.</p>
                     </td>
                 </tr>
             </table>
 
-            <?php submit_button( 'Luu popup' ); ?>
+            <?php submit_button( 'Save settings' ); ?>
         </form>
     </div>
     <?php
@@ -405,7 +405,12 @@ function hx_popup_render_html() {
                     <button class="da-lang-btn" type="button" data-lang="en" title="English">🇬🇧</button>
                 </div>
 
-                <div id="da-popup-icon" aria-hidden="true">✦</div>
+                <div id="da-popup-icon" aria-hidden="true">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+                        <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+                    </svg>
+                </div>
                 <h2 id="da-popup-title">
                     <?php echo hx_popup_lang_copy( 'Aktuelle Hinweise', 'Current Notices' ); ?>
                 </h2>
