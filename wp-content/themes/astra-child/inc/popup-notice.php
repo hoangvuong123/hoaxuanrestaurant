@@ -11,7 +11,9 @@ if ( ! defined( 'DA_WHATSAPP_LINK' ) ) {
     define( 'DA_WHATSAPP_LINK', 'https://wa.me/4917621927505' );
 }
 
-const HX_POPUP_OPTION_KEY = 'hx_popup_settings';
+if ( ! defined( 'HX_POPUP_OPTION_KEY' ) ) {
+    define( 'HX_POPUP_OPTION_KEY', 'hx_popup_settings' );
+}
 
 function hx_popup_default_settings() {
     return [
