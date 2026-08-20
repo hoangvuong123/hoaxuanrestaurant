@@ -92,14 +92,20 @@
     background: #1a1a1a;
     border: 1px solid #c9a96e;
     border-radius: 16px;
-    max-width: 480px;
+    max-width: 560px;
+    max-height: calc(100vh - 32px);
     width: 100%;
     padding: 36px 32px 28px;
     color: #f0e6d3;
     position: relative;
+    overflow-y: auto;
     box-shadow: 0 24px 80px rgba(0, 0, 0, 0.6),
                 0 0 0 1px rgba(201, 169, 110, 0.15);
     animation: da-slideUp 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+[data-da-lang="en"] {
+    display: none;
 }
 
 #da-popup-icon {
@@ -117,7 +123,7 @@
 #da-popup h2 {
     font-family: 'Cinzel', 'Georgia', serif;
     font-size: 1.25rem;
-    letter-spacing: 0.08em;
+    letter-spacing: 0;
     text-align: center;
     color: #c9a96e;
     margin: 0 0 16px;
@@ -131,6 +137,188 @@
     color: #d4c4a8;
     text-align: center;
     margin: 0 0 12px;
+}
+
+.da-popup-tabs {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+    gap: 8px;
+    margin: 0 0 18px;
+}
+
+.da-popup-tab {
+    min-height: 42px;
+    border: 1px solid rgba(201, 169, 110, 0.24);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.04);
+    color: #d4c4a8;
+    cursor: pointer;
+    font-family: 'Lato', sans-serif;
+    font-size: 0.86rem;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 8px 10px;
+    transition: background 0.2s, border-color 0.2s, color 0.2s;
+}
+
+.da-popup-tab:hover,
+.da-popup-tab--active {
+    background: rgba(201, 169, 110, 0.14);
+    border-color: rgba(201, 169, 110, 0.7);
+    color: #f0e6d3;
+}
+
+.da-popup-tab__badge {
+    min-width: 20px;
+    height: 20px;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 6px;
+    background: #c9a96e;
+    color: #17120b;
+    font-size: 0.72rem;
+    line-height: 1;
+}
+
+.da-popup-panels {
+    margin-top: 4px;
+}
+
+.da-popup-panel[hidden] {
+    display: none;
+}
+
+.da-popup-panel--active {
+    animation: da-fadeIn 0.22s ease;
+}
+
+.da-alert {
+    border: 1px solid rgba(201, 169, 110, 0.32);
+    border-radius: 8px;
+    padding: 18px;
+    background: rgba(201, 169, 110, 0.08);
+}
+
+.da-alert strong {
+    display: block;
+    color: #c9a96e;
+    font-family: 'Cinzel', Georgia, serif;
+    font-size: 1rem;
+    margin-bottom: 8px;
+    text-align: center;
+}
+
+.da-alert p {
+    margin-bottom: 0 !important;
+}
+
+.da-dish-list {
+    display: grid;
+    gap: 10px;
+    max-height: 330px;
+    overflow-y: auto;
+    padding-right: 4px;
+}
+
+.da-dish-card {
+    display: flex;
+    gap: 12px;
+    border: 1px solid rgba(201, 169, 110, 0.2);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.035);
+    padding: 10px;
+    text-align: left;
+}
+
+.da-dish-card img {
+    flex: 0 0 82px;
+    width: 82px;
+    height: 82px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.da-dish-card__body {
+    min-width: 0;
+    flex: 1;
+}
+
+.da-dish-card h3 {
+    color: #f0e6d3;
+    font-family: 'Cinzel', Georgia, serif;
+    font-size: 0.98rem;
+    line-height: 1.35;
+    margin: 0 0 5px;
+}
+
+.da-dish-code {
+    color: #c9a96e;
+    margin-right: 5px;
+}
+
+.da-dish-card p {
+    text-align: left !important;
+    font-size: 0.82rem !important;
+    line-height: 1.45 !important;
+    color: #bcae92 !important;
+    margin: 0 0 8px !important;
+}
+
+.da-dish-prices {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.da-dish-prices span {
+    border-radius: 999px;
+    background: rgba(201, 169, 110, 0.16);
+    border: 1px solid rgba(201, 169, 110, 0.28);
+    color: #c9a96e;
+    font-size: 0.78rem;
+    font-weight: 700;
+    padding: 4px 8px;
+}
+
+.da-actions {
+    display: flex;
+    justify-content: center;
+    margin: 14px 0 2px;
+}
+
+.da-secondary-link {
+    min-height: 40px;
+    border-radius: 8px;
+    border: 1px solid rgba(201, 169, 110, 0.4);
+    color: #f0e6d3;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 16px;
+    text-decoration: none;
+    font-size: 0.86rem;
+    font-weight: 700;
+    transition: background 0.2s, color 0.2s;
+}
+
+.da-secondary-link:hover {
+    background: rgba(201, 169, 110, 0.14);
+    color: #fff;
+}
+
+.da-phone-row {
+    display: flex;
+    justify-content: center;
+}
+
+.da-whatsapp-row {
+    font-size: .85rem !important;
+    color: #a08060 !important;
 }
 
 .da-phone-highlight {
@@ -175,11 +363,11 @@
     font-family: 'Cinzel', Georgia, serif;
     font-size: 0.9rem;
     font-weight: 700;
-    letter-spacing: 0.1em;
+    letter-spacing: 0;
     text-transform: uppercase;
     cursor: pointer;
     transition: opacity 0.2s, transform 0.15s;
-    margin-top: 8px;
+    margin-top: 16px;
 }
 #da-confirm-btn:hover {
     opacity: 0.88;
@@ -296,6 +484,20 @@
     }
     #da-popup h2 {
         font-size: 1.1rem;
+    }
+
+    .da-popup-tabs {
+        grid-template-columns: 1fr;
+    }
+
+    .da-dish-card {
+        gap: 10px;
+    }
+
+    .da-dish-card img {
+        flex-basis: 68px;
+        width: 68px;
+        height: 68px;
     }
 }
 

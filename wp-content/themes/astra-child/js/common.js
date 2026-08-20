@@ -7,58 +7,70 @@ console.log('🔥 HOA XUAN JS FILE ĐANG CHẠY');
 document.addEventListener('DOMContentLoaded', function () {
     'use strict';
 
-    var STORAGE_KEY = 'da_popup_seen';
+    var STORAGE_PREFIX = 'da_popup_seen_';
     var LANG_KEY    = 'da_popup_lang';
 
     var overlay    = document.getElementById('da-overlay');
     var confirmBtn = document.getElementById('da-confirm-btn');
     var notifFab   = document.getElementById('da-notif-fab');
+    var tabButtons = document.querySelectorAll('[data-da-tab]');
+    var tabPanels  = document.querySelectorAll('[data-da-panel]');
 
     if (!overlay || !confirmBtn || !notifFab) return;
 
-    var i18n = {
-        de: {
-            title    : 'Bestellhinweis',
-            body     : 'Für Bestellungen <strong>zum Mitnehmen</strong> können Sie uns telefonisch oder per WhatsApp erreichen:',
-            wa       : '💬 WhatsApp schreiben',
-            delivery : '🚗 <strong>Lieferung</strong> – bitte nachfragen.',
-            btn      : 'Verstanden ✓',
-        },
-        en: {
-            title    : 'Order Notice',
-            body     : 'To place a <strong>takeaway order</strong>, please call or send us a WhatsApp message:',
-            wa       : '💬 Message on WhatsApp',
-            delivery : '🚗 <strong>Delivery</strong> – please enquire.',
-            btn      : 'Got it ✓',
-        },
-    };
+    var popupVersion = overlay.dataset.daPopupVersion || 'v1';
+    var STORAGE_KEY = STORAGE_PREFIX + popupVersion;
 
     var currentLang = localStorage.getItem(LANG_KEY) || 'de';
+    if (currentLang !== 'de' && currentLang !== 'en') {
+        currentLang = 'de';
+    }
 
     function applyLang(lang) {
         currentLang = lang;
         localStorage.setItem(LANG_KEY, lang);
 
-        var t = i18n[lang] || i18n['de'];
-
-        document.getElementById('da-popup-title').textContent    = t.title;
-        document.getElementById('da-popup-body').innerHTML       = t.body;
-        document.getElementById('da-popup-wa').textContent       = t.wa;
-        document.getElementById('da-popup-delivery').innerHTML   = t.delivery;
-        document.getElementById('da-confirm-btn').textContent    = t.btn;
+        document.querySelectorAll('[data-da-lang]').forEach(function (el) {
+            el.style.display = el.dataset.daLang === lang ? '' : 'none';
+        });
 
         document.querySelectorAll('.da-lang-btn').forEach(function (btn) {
             btn.classList.toggle('da-lang-active', btn.dataset.lang === lang);
         });
     }
 
-    applyLang(currentLang);
+    function activateTab(tabKey) {
+        tabButtons.forEach(function (btn) {
+            var isActive = btn.dataset.daTab === tabKey;
+            btn.classList.toggle('da-popup-tab--active', isActive);
+            btn.setAttribute('aria-selected', isActive ? 'true' : 'false');
+        });
+
+        tabPanels.forEach(function (panel) {
+            var isActive = panel.dataset.daPanel === tabKey;
+            panel.classList.toggle('da-popup-panel--active', isActive);
+            panel.hidden = !isActive;
+        });
+    }
 
     document.querySelectorAll('.da-lang-btn').forEach(function (btn) {
         btn.addEventListener('click', function () {
             applyLang(btn.dataset.lang);
         });
     });
+
+    tabButtons.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            activateTab(btn.dataset.daTab);
+        });
+    });
+
+    if (tabButtons.length) {
+        var activeBtn = document.querySelector('.da-popup-tab--active[data-da-tab]') || tabButtons[0];
+        activateTab(activeBtn.dataset.daTab);
+    }
+
+    applyLang(currentLang);
 
     if (!sessionStorage.getItem(STORAGE_KEY)) {
         overlay.classList.add('da-visible');
@@ -80,6 +92,12 @@ document.addEventListener('DOMContentLoaded', function () {
     confirmBtn.addEventListener('click', closePopup);
     overlay.addEventListener('click', function (e) { if (e.target === overlay) closePopup(); });
     notifFab.addEventListener('click', openPopup);
+    notifFab.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            openPopup();
+        }
+    });
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closePopup(); });
 
 });
