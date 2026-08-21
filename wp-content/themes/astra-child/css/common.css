@@ -1,3 +1,37 @@
+/* ============================================
+   CUSTOM SYSTEM SCROLLBAR
+   ============================================ */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: transparent;
+    border-radius: 6px;
+}
+
+*:hover::-webkit-scrollbar-thumb {
+    background: rgba(201, 169, 110, 0.4);
+}
+
+*:hover::-webkit-scrollbar-thumb:hover {
+    background: rgba(201, 169, 110, 0.8);
+}
+
+/* Firefox fallback */
+html,
+body,
+.da-dish-list,
+#da-popup {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(201, 169, 110, 0.4) transparent;
+}
+
 .f_logo img {
     margin-bottom: 20px;
 }
