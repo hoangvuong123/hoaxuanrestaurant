@@ -645,10 +645,15 @@
 
 .menu-search-results-title {
   color: #C9C518;
-  font-size: 1.5rem;
+  font-size: 1.8rem;
   margin-bottom: 24px;
   text-align: center;
   font-family: 'Cormorant Garamond', serif;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  border-bottom: 1px solid rgba(201, 197, 24, 0.2);
+  padding-bottom: 16px;
+  opacity: 0.9;
 }
 
 @media (min-width: 768px) {

@@ -196,100 +196,102 @@
 
     $(window).on('load', activateFromHash);
 
-    // ─── Event: Sticky Nav Scroll ────────────────────────────
-    $('.menu-quick-nav-btn').on('click', function () {
-        const targetSlug = $(this).data('target');
-        const $targetSection = $('#' + targetSlug);
-        if ($targetSection.length) {
-            $('html, body').animate({
-                scrollTop: $targetSection.offset().top - 140
-            }, 300);
-        }
-    });
-
-    let isNavUserDragging = false;
-    $(window).on('scroll', function () {
-        const scrollPos = $(window).scrollTop() + 180;
-        let currentTarget = null;
-        $('.menu-section').each(function () {
-            if ($(this).offset().top <= scrollPos && ($(this).offset().top + $(this).outerHeight() > scrollPos)) {
-                currentTarget = $(this).data('taxonomy');
+    $(function () {
+        // ─── Event: Sticky Nav Scroll ────────────────────────────
+        $('.menu-quick-nav-btn').on('click', function () {
+            const targetSlug = $(this).data('target');
+            const $targetSection = $('#' + targetSlug);
+            if ($targetSection.length) {
+                $('html, body').animate({
+                    scrollTop: $targetSection.offset().top - 140
+                }, 300);
             }
         });
 
-        if (currentTarget) {
-            $('.menu-quick-nav-btn').removeClass('active');
-            const $activeBtn = $('.menu-quick-nav-btn[data-target="' + currentTarget + '"]');
-            $activeBtn.addClass('active');
+        let isNavUserDragging = false;
+        $(window).on('scroll', function () {
+            const scrollPos = $(window).scrollTop() + 180;
+            let currentTarget = null;
+            $('.menu-section').each(function () {
+                if ($(this).offset().top <= scrollPos && ($(this).offset().top + $(this).outerHeight() > scrollPos)) {
+                    currentTarget = $(this).data('taxonomy');
+                }
+            });
 
-            if ($activeBtn.length && !isNavUserDragging) {
-                const $navLinks = $('.menu-sticky-nav__links');
-                const btnLeft = $activeBtn.position().left;
-                const btnWidth = $activeBtn.outerWidth();
-                const containerWidth = $navLinks.width();
-                const scrollLeft = $navLinks.scrollLeft();
+            if (currentTarget) {
+                $('.menu-quick-nav-btn').removeClass('active');
+                const $activeBtn = $('.menu-quick-nav-btn[data-target="' + currentTarget + '"]');
+                $activeBtn.addClass('active');
 
-                if (btnLeft < 20 || btnLeft + btnWidth > containerWidth - 20) {
-                    $navLinks.stop().animate({
-                        scrollLeft: scrollLeft + btnLeft - (containerWidth / 2) + (btnWidth / 2)
-                    }, 150);
+                if ($activeBtn.length && !isNavUserDragging) {
+                    const $navLinks = $('.menu-sticky-nav__links');
+                    const btnLeft = $activeBtn.position().left;
+                    const btnWidth = $activeBtn.outerWidth();
+                    const containerWidth = $navLinks.width();
+                    const scrollLeft = $navLinks.scrollLeft();
+
+                    if (btnLeft < 20 || btnLeft + btnWidth > containerWidth - 20) {
+                        $navLinks.stop().animate({
+                            scrollLeft: scrollLeft + btnLeft - (containerWidth / 2) + (btnWidth / 2)
+                        }, 150);
+                    }
                 }
             }
+        });
+
+        // ─── Event: Live Search ──────────────────────────────────
+        let searchTimeout = null;
+        const $searchInput = $('#menu-live-search');
+        const $searchClear = $('#menu-search-clear');
+        const $mainContent = $('#menu-main-content');
+        const $resultsContainer = $('#menu-search-results-container');
+
+        function performLiveSearch(keyword) {
+            if (!keyword) {
+                $resultsContainer.hide().empty();
+                $mainContent.fadeIn(300);
+                return;
+            }
+
+            $mainContent.hide();
+            $resultsContainer.html('<div class="menu-search-loading" style="padding:40px; text-align:center;"><div class="menu-loading__spinner" style="margin: 0 auto; display:block; position:relative; border-color: rgba(201, 169, 110, 0.2); border-top-color: #c9a96e;"></div></div>').show();
+
+            $.post(ajaxUrl, {
+                action: 'restaurant_menu_search',
+                keyword: keyword,
+                nonce: nonce
+            }).done(function (res) {
+                if (res.success) {
+                    $resultsContainer.html('<div style="padding: 24px 0">' + res.data.items_html + '</div>').hide().fadeIn(300);
+                } else {
+                    $resultsContainer.html('<p class="menu-empty">Fehler beim Laden. Bitte versuchen Sie es erneut.</p>');
+                }
+            }).fail(function () {
+                $resultsContainer.html('<p class="menu-empty">Netzwerkfehler. Bitte versuchen Sie es erneut.</p>');
+            });
+        }
+
+        if ($searchInput.length) {
+            $searchInput.on('input', function () {
+                const val = $(this).val().trim();
+                if (val.length > 0) {
+                    $searchClear.show();
+                } else {
+                    $searchClear.hide();
+                }
+
+                clearTimeout(searchTimeout);
+                searchTimeout = setTimeout(function () {
+                    performLiveSearch(val);
+                }, 400); // 400ms debounce
+            });
+
+            $searchClear.on('click', function () {
+                $searchInput.val('');
+                $(this).hide();
+                performLiveSearch('');
+            });
         }
     });
-
-    // ─── Event: Live Search ──────────────────────────────────
-    let searchTimeout = null;
-    const $searchInput = $('#menu-live-search');
-    const $searchClear = $('#menu-search-clear');
-    const $mainContent = $('#menu-main-content');
-    const $resultsContainer = $('#menu-search-results-container');
-
-    function performLiveSearch(keyword) {
-        if (!keyword) {
-            $resultsContainer.hide().empty();
-            $mainContent.show();
-            return;
-        }
-
-        $mainContent.hide();
-        $resultsContainer.html('<div class="menu-search-loading" style="padding:40px; text-align:center;"><div class="menu-loading__spinner" style="margin: 0 auto; display:block; position:relative;"></div></div>').show();
-
-        $.post(ajaxUrl, {
-            action: 'restaurant_menu_search',
-            keyword: keyword,
-            nonce: nonce
-        }).done(function (res) {
-            if (res.success) {
-                $resultsContainer.html(res.data.items_html);
-            } else {
-                $resultsContainer.html('<p class="menu-empty">Fehler beim Laden. Bitte versuchen Sie es erneut.</p>');
-            }
-        }).fail(function () {
-            $resultsContainer.html('<p class="menu-empty">Netzwerkfehler. Bitte versuchen Sie es erneut.</p>');
-        });
-    }
-
-    if ($searchInput.length) {
-        $searchInput.on('input', function () {
-            const val = $(this).val().trim();
-            if (val.length > 0) {
-                $searchClear.show();
-            } else {
-                $searchClear.hide();
-            }
-
-            clearTimeout(searchTimeout);
-            searchTimeout = setTimeout(function () {
-                performLiveSearch(val);
-            }, 350);
-        });
-
-        $searchClear.on('click', function () {
-            $searchInput.val('');
-            $(this).hide();
-            performLiveSearch('');
-        });
-    }
 
 })(jQuery);
