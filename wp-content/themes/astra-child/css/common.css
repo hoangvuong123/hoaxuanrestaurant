@@ -218,19 +218,22 @@ body,
 }
 
 .da-popup-tab__badge {
-    min-width: 20px;
-    height: 20px;
-    border-radius: 999px;
-    display: inline-flex;
+    box-sizing: border-box;
+    min-width: 22px;
+    height: 22px;
+    border-radius: 20px;
+    display: flex;
     align-items: center;
     justify-content: center;
     padding: 0 6px;
     background: #c9a96e;
     color: #17120b;
-    font-size: 0.72rem;
+    font-size: 0.8rem;
     font-weight: 700;
-    line-height: 20px;
-    vertical-align: middle;
+    line-height: 1;
+    letter-spacing: 0;
+    text-indent: 0;
+    margin-left: 2px;
 }
 
 .da-popup-panels {
