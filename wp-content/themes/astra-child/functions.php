@@ -173,3 +173,82 @@ function hx_render_floating_phone_button() {
     <?php
 }
 add_action( 'wp_footer', 'hx_render_floating_phone_button' );
+
+/* =======================================
+   Register Menu Badges ACF Fields
+======================================= */
+add_action('acf/init', 'my_acf_add_local_field_groups');
+function my_acf_add_local_field_groups() {
+    if( function_exists('acf_add_local_field_group') ):
+        acf_add_local_field_group(array(
+            'key' => 'group_menu_badges',
+            'title' => 'Trạng thái món ăn (Badges)',
+            'fields' => array(
+                array(
+                    'key' => 'field_badge_new',
+                    'label' => 'Món Mới (New)',
+                    'name' => 'badge_new',
+                    'type' => 'true_false',
+                    'ui' => 1,
+                ),
+                array(
+                    'key' => 'field_badge_new_type',
+                    'label' => 'Kiểu hiển thị Món Mới',
+                    'name' => 'badge_new_type',
+                    'type' => 'select',
+                    'choices' => array(
+                        'text' => 'Chữ (Text)',
+                        'icon' => 'Biểu tượng (Icon)',
+                    ),
+                    'default_value' => 'text',
+                    'conditional_logic' => array(
+                        array(
+                            array(
+                                'field' => 'field_badge_new',
+                                'operator' => '==',
+                                'value' => '1',
+                            ),
+                        ),
+                    ),
+                ),
+                array(
+                    'key' => 'field_badge_favorite',
+                    'label' => 'Được Yêu Thích (Favorite)',
+                    'name' => 'badge_favorite',
+                    'type' => 'true_false',
+                    'ui' => 1,
+                ),
+                array(
+                    'key' => 'field_badge_favorite_type',
+                    'label' => 'Kiểu hiển thị Yêu Thích',
+                    'name' => 'badge_favorite_type',
+                    'type' => 'select',
+                    'choices' => array(
+                        'text' => 'Chữ (Text)',
+                        'icon' => 'Biểu tượng (Icon)',
+                    ),
+                    'default_value' => 'icon',
+                    'conditional_logic' => array(
+                        array(
+                            array(
+                                'field' => 'field_badge_favorite',
+                                'operator' => '==',
+                                'value' => '1',
+                            ),
+                        ),
+                    ),
+                ),
+            ),
+            'location' => array(
+                array(
+                    array(
+                        'param' => 'post_type',
+                        'operator' => '==',
+                        'value' => 'menu',
+                    ),
+                ),
+            ),
+            'position' => 'side',
+        ));
+    endif;
+}

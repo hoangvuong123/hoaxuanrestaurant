@@ -678,6 +678,95 @@ body,
     opacity: 1;
 }
 
+/* ---------- MENU ITEM BADGES ---------- */
+.menu-item-badges {
+    display: inline-flex;
+    gap: 6px;
+    align-items: center;
+    margin-left: 6px;
+    vertical-align: middle;
+    transform: translateY(-2px);
+}
+
+.menu-badge {
+    display: inline-block;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    line-height: 1.2;
+    letter-spacing: 0.05em;
+    color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.menu-badge.badge-new {
+    background: linear-gradient(135deg, #e74c3c, #c0392b);
+    animation: badge-pulse 2s infinite;
+}
+
+.menu-badge.badge-fav {
+    background: linear-gradient(135deg, #f39c12, #d35400);
+    animation: badge-pulse 2.5s infinite;
+    animation-delay: 0.5s;
+}
+
+.menu-badge.badge-icon {
+    background: transparent;
+    box-shadow: none;
+    font-size: 1.15rem;
+    padding: 0 2px;
+    animation: badge-wiggle 2.5s infinite ease-in-out;
+    transform-origin: bottom center;
+}
+
+@keyframes badge-pulse {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(231, 76, 60, 0.7);
+    }
+
+    50% {
+        transform: scale(1.05);
+        box-shadow: 0 0 0 6px rgba(231, 76, 60, 0);
+    }
+
+    100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(231, 76, 60, 0);
+    }
+}
+
+@keyframes badge-wiggle {
+
+    0%,
+    100% {
+        transform: rotate(0deg) scale(1);
+    }
+
+    10% {
+        transform: rotate(-12deg) scale(1.15);
+    }
+
+    20% {
+        transform: rotate(12deg) scale(1.15);
+    }
+
+    30% {
+        transform: rotate(-12deg) scale(1.15);
+    }
+
+    40% {
+        transform: rotate(12deg) scale(1.15);
+    }
+
+    50%,
+    90% {
+        transform: rotate(0deg) scale(1);
+    }
+}
+
 /* ---------- KEYFRAMES ---------- */
 @keyframes da-fadeIn {
     from {
@@ -808,6 +897,7 @@ body,
     border-color: rgba(201, 169, 110, 0.6);
     background: rgba(201, 169, 110, 0.1);
 }
+
 /* ---------- FLOATING PHONE FAB ---------- */
 #da-phone-fab {
     width: 52px;

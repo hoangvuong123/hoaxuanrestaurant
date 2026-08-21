@@ -388,6 +388,31 @@ class Restaurant_Menu_Shortcode {
         $price_data = $this->get_price_data( $post_id );
         $price_html = $this->render_price_html( $price_data );
 
+        $badge_new = get_field('badge_new', $post_id);
+        $badge_new_type = get_field('badge_new_type', $post_id) ?: 'text';
+        $badge_fav = get_field('badge_favorite', $post_id);
+        $badge_fav_type = get_field('badge_favorite_type', $post_id) ?: 'icon';
+        
+        $badges_html = '';
+        if ($badge_new || $badge_fav) {
+            $badges_html .= '<span class="menu-item-badges">';
+            if ($badge_new) {
+                if ($badge_new_type === 'icon') {
+                    $badges_html .= '<span class="menu-badge badge-new badge-icon" title="New">🔥</span>';
+                } else {
+                    $badges_html .= '<span class="menu-badge badge-new">' . ($lang === 'de' ? 'Neu' : 'New') . '</span>';
+                }
+            }
+            if ($badge_fav) {
+                if ($badge_fav_type === 'icon') {
+                    $badges_html .= '<span class="menu-badge badge-fav badge-icon" title="Favorite">❤️</span>';
+                } else {
+                    $badges_html .= '<span class="menu-badge badge-fav">' . ($lang === 'de' ? 'Tipp' : 'Popular') . '</span>';
+                }
+            }
+            $badges_html .= '</span>';
+        }
+
         $food_rows = get_field( 'list_of_food_types', $post_id );
         if ( ! is_array( $food_rows ) ) $food_rows = [];
         $food_html = $this->render_food_types( $food_rows, $lang );
@@ -407,11 +432,13 @@ class Restaurant_Menu_Shortcode {
                                 <sup class="menu-item__sup"><?php echo esc_html( trim( (string) $part['additives'] ) ); ?></sup>
                             <?php endif; ?>
                         <?php endforeach; ?>
+                        <?php echo $badges_html; ?>
                     <?php else : ?>
                         <span class="menu-item__name"><?php echo esc_html( $title ); ?></span>
                         <?php if ( $additives ) : ?>
                             <sup class="menu-item__sup"><?php echo esc_html( $additives ); ?></sup>
                         <?php endif; ?>
+                        <?php echo $badges_html; ?>
                         <?php if ( $title_trans ) : ?>
                             <span class="menu-item__name-translation">/ <?php echo esc_html( $title_trans ); ?></span>
                         <?php endif; ?>
