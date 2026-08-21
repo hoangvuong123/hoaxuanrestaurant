@@ -30,9 +30,9 @@ document.addEventListener('DOMContentLoaded', function () {
         currentLang = lang;
         localStorage.setItem(LANG_KEY, lang);
 
-        document.querySelectorAll('[data-da-lang]').forEach(function (el) {
-            el.style.display = el.dataset.daLang === lang ? '' : 'none';
-        });
+        document.body.setAttribute('data-active-lang', lang);
+        var popup = document.getElementById('da-popup');
+        if (popup) popup.setAttribute('data-active-lang', lang);
 
         document.querySelectorAll('.da-lang-btn').forEach(function (btn) {
             btn.classList.toggle('da-lang-active', btn.dataset.lang === lang);

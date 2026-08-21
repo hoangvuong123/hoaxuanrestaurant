@@ -107,8 +107,9 @@
     animation: da-slideUp 0.4s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-[data-da-lang="en"] {
-    display: none;
+[data-active-lang="de"] [data-da-lang="en"],
+[data-active-lang="en"] [data-da-lang="de"] {
+    display: none !important;
 }
 
 #da-popup-icon {
