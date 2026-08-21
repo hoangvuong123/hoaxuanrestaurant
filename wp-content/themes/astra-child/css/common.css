@@ -225,122 +225,87 @@
     margin-bottom: 0 !important;
 }
 
-/* ---------- NEW DISHES — our-menu style ---------- */
+/* ---------- NEW DISHES — render_menu_item reuse ---------- */
 .da-dish-list {
     display: flex;
     flex-direction: column;
-    max-height: 360px;
+    max-height: 380px;
     overflow-y: auto;
     padding-right: 4px;
-    gap: 0;
+    gap: 10px;
 }
 
-.da-dish-list .menu-item {
-    padding: 0.75rem 0;
-    border-bottom: 1px solid rgba(201, 169, 110, 0.18);
+/* Border card wrapping each dish */
+.da-dish-wrapper {
+    border: 1px solid rgba(201, 169, 110, 0.35);
+    border-radius: 10px;
+    padding: 12px 14px 10px;
+    background: rgba(255, 255, 255, 0.025);
+    transition: border-color 0.2s;
 }
 
-.da-dish-list .menu-item:last-child {
-    border-bottom: none;
+.da-dish-wrapper:hover {
+    border-color: rgba(201, 169, 110, 0.6);
 }
 
-.da-dish-list .menu-item__title-row {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    gap: 6px;
-    width: 100%;
+/* Strip bottom-border separator from inner menu-item (we have the card border) */
+.da-dish-wrapper .menu-item {
+    border-bottom: none !important;
+    padding: 0 !important;
 }
 
-.da-dish-list .menu-item__title-left {
-    display: flex;
-    align-items: baseline;
-    gap: 4px;
-    flex-shrink: 0;
-    color: #c9a96e;
+/* Color overrides: adapt our-menu (light page) colors → dark popup */
+.da-dish-wrapper .menu-item__name,
+.da-dish-wrapper .menu-item__code,
+.da-dish-wrapper .menu-item__title-left {
+    color: #c9a96e !important;
 }
 
-.da-dish-list .menu-item__code {
-    color: #c9a96e;
-    font-weight: 700;
-    font-size: 1rem;
-    text-transform: uppercase;
-    letter-spacing: 0.03em;
+.da-dish-wrapper .menu-item__name {
+    color: #f0e6d3 !important;
 }
 
-.da-dish-list .menu-item__name {
-    font-weight: 700;
-    font-size: 1rem;
-    text-transform: uppercase;
-    letter-spacing: 0.03em;
-    color: #f0e6d3;
-}
-
-.da-dish-list .menu-item__name-translation {
+.da-dish-wrapper .menu-item__name-translation {
     color: rgba(240, 230, 211, 0.5) !important;
-    font-size: 0.85rem;
-    font-weight: 400;
-    font-style: normal;
-    text-transform: none;
 }
 
-.da-dish-list .menu-item__dots {
-    flex: 1;
-    border-bottom: 1px dotted rgba(201, 169, 110, 0.45);
-    margin: 0 4px;
-    min-width: 16px;
-    transform: translateY(-4px);
+.da-dish-wrapper .menu-item__desc,
+.da-dish-wrapper .menu-item__details {
+    color: rgba(240, 230, 211, 0.75) !important;
 }
 
-.da-dish-list .menu-item-prices {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 4px;
-    flex-shrink: 0;
-}
-
-.da-dish-list .menu-item-price-badge {
-    flex-shrink: 0;
-    font-weight: 600;
-    font-size: 0.88rem;
-    padding: 2px 5px;
-    white-space: nowrap;
-    color: #c9a96e;
-    border: 1px dotted #c9a96e;
-}
-
-.da-dish-list .menu-item__desc {
-    margin: 2px 0 0 !important;
-    font-size: 0.88rem;
-    opacity: 0.75;
-    line-height: 1.45;
-}
-
-.da-dish-list .menu-item__desc--translation {
-    margin-top: 1px !important;
+.da-dish-wrapper .menu-item__desc--translation {
     color: rgba(240, 230, 211, 0.5) !important;
-    font-size: 0.82rem;
-    opacity: 1;
+}
+
+.da-dish-wrapper .menu-item__dots {
+    border-bottom-color: rgba(201, 169, 110, 0.4) !important;
+}
+
+.da-dish-wrapper .menu-item-price-badge {
+    color: #c9a96e !important;
+    border-color: rgba(201, 169, 110, 0.55) !important;
+}
+
+.da-dish-wrapper .menu-item__ft-title,
+.da-dish-wrapper .menu-item__ft-code {
+    color: rgba(240, 230, 211, 0.85) !important;
+}
+
+.da-dish-wrapper .menu-item__ft-price {
+    color: #c9a96e !important;
+}
+
+.da-dish-wrapper .menu-item__sup {
+    color: rgba(240, 230, 211, 0.7) !important;
 }
 
 /* Add to cart row */
 .da-dish-list .da-atc-row {
-    margin-top: 8px;
+    margin-top: 10px;
     display: flex;
     align-items: center;
     gap: 10px;
-}
-
-.da-dish-list .da-atc-qty {
-    width: 48px;
-    border: 1px solid rgba(201, 169, 110, 0.4);
-    border-radius: 6px;
-    background: rgba(255, 255, 255, 0.05);
-    color: #f0e6d3;
-    text-align: center;
-    font-size: 0.88rem;
-    padding: 4px 6px;
-    outline: none;
 }
 
 .da-add-to-cart {
@@ -370,6 +335,7 @@
     border-color: #c9a96e;
     color: #f0e6d3;
 }
+
 
 .da-actions {
     display: flex;

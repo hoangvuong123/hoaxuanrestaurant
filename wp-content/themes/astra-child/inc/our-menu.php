@@ -358,7 +358,7 @@ class Restaurant_Menu_Shortcode {
     // =========================================================
     // RENDER: Một dòng món ăn
     // =========================================================
-    private function render_menu_item( $post_id, $lang ) {
+    public function render_menu_item( $post_id, $lang ) {
         $code       = trim( (string) get_field( 'code', $post_id ) );
         $title_de   = trim( (string) get_the_title( $post_id ) );
         $title_en   = trim( (string) get_field( 'title-en', $post_id ) );

@@ -444,47 +444,16 @@ function hx_popup_render_html() {
                     <?php if ( in_array( 'new', $tabs, true ) ) : ?>
                         <?php hx_popup_render_panel_open( 'new', $first_tab === 'new', $has_tabs ); ?>
                             <div class="da-dish-list">
-                                <?php foreach ( $new_dishes as $dish ) :
-                                    $dish_id    = $dish->ID;
-                                    $title_de   = get_the_title( $dish_id );
-                                    $title_en   = trim( (string) hx_popup_get_field( 'title-en', $dish_id ) );
-                                    $desc_de    = trim( (string) hx_popup_get_field( 'describe-de', $dish_id ) );
-                                    $desc_en    = trim( (string) hx_popup_get_field( 'describe-en', $dish_id ) );
-                                    $code       = trim( (string) hx_popup_get_field( 'code', $dish_id ) );
-                                    $prices     = hx_popup_price_data( $dish_id );
-                                    ?>
-                                    <div class="menu-item" data-post-id="<?php echo esc_attr( $dish_id ); ?>">
-                                        <div class="menu-item__title-row">
-                                            <span class="menu-item__title-left">
-                                                <?php if ( $code ) : ?>
-                                                    <span class="menu-item__code"><?php echo esc_html( $code ); ?>.</span>
-                                                <?php endif; ?>
-                                                <span class="menu-item__name" data-da-lang="de"><?php echo esc_html( $title_de ); ?></span>
-                                                <span class="menu-item__name" data-da-lang="en"><?php echo esc_html( $title_en ?: $title_de ); ?></span>
-                                                <?php if ( $title_en && $title_en !== $title_de ) : ?>
-                                                    <span class="menu-item__name-translation" data-da-lang="de">/ <?php echo esc_html( $title_en ); ?></span>
-                                                    <span class="menu-item__name-translation" data-da-lang="en">/ <?php echo esc_html( $title_de ); ?></span>
-                                                <?php endif; ?>
-                                            </span>
-                                            <?php if ( ! empty( $prices ) ) : ?>
-                                                <span class="menu-item__dots" aria-hidden="true"></span>
-                                                <span class="menu-item-prices">
-                                                    <?php foreach ( $prices as $p ) :
-                                                        $label = $p['size'] ? $p['size'] . ': ' . $p['price'] : $p['price'];
-                                                    ?>
-                                                        <span class="menu-item-price-badge"><?php echo esc_html( $label ); ?></span>
-                                                    <?php endforeach; ?>
-                                                </span>
-                                            <?php endif; ?>
-                                        </div>
-
-                                        <?php if ( $desc_de || $desc_en ) : ?>
-                                            <div class="menu-item__descriptions">
-                                                <p class="menu-item__desc" data-da-lang="de"><?php echo esc_html( $desc_de ?: $desc_en ); ?></p>
-                                                <p class="menu-item__desc" data-da-lang="en"><?php echo esc_html( $desc_en ?: $desc_de ); ?></p>
-                                            </div>
-                                        <?php endif; ?>
-
+                                <?php
+                                $menu_sc = Restaurant_Menu_Shortcode::get_instance();
+                                foreach ( $new_dishes as $dish ) :
+                                    $dish_id = $dish->ID;
+                                    $html_de = $menu_sc->render_menu_item( $dish_id, 'de' );
+                                    $html_en = $menu_sc->render_menu_item( $dish_id, 'en' );
+                                ?>
+                                    <div class="da-dish-wrapper" data-post-id="<?php echo esc_attr( $dish_id ); ?>">
+                                        <div data-da-lang="de"><?php echo $html_de; ?></div>
+                                        <div data-da-lang="en"><?php echo $html_en; ?></div>
                                         <div class="da-atc-row">
                                             <button class="da-add-to-cart" type="button" data-post-id="<?php echo esc_attr( $dish_id ); ?>">
                                                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>

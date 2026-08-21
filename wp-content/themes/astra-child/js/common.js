@@ -105,8 +105,8 @@ document.addEventListener('DOMContentLoaded', function () {
         var btn = e.target.closest('.da-add-to-cart');
         if (!btn) return;
         var postId = btn.dataset.postId;
-        var menuItem = postId && document.querySelector('.da-dish-list .menu-item[data-post-id="' + postId + '"]');
-        var titleRow = menuItem && menuItem.querySelector('.hx-order-title-row');
+        var wrapper = postId && document.querySelector('.da-dish-wrapper[data-post-id="' + postId + '"]');
+        var titleRow = wrapper && wrapper.querySelector('.hx-order-title-row');
         if (titleRow) {
             titleRow.click();
         }
