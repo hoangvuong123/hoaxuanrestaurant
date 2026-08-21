@@ -106,7 +106,6 @@ Include PHP files
 require_once get_stylesheet_directory() . '/inc/top.php';
 require_once get_stylesheet_directory() . '/inc/featured-menu.php';
 require_once get_stylesheet_directory() . '/inc/our-menu.php';
-require_once get_stylesheet_directory() . '/inc/popup-notice.php';
 add_filter( 'astra_header_enabled', '__return_false' );
 
 function lumy_register_menus() {

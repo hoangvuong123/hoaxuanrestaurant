@@ -1,0 +1,710 @@
+/* ============================================
+   POPUP NOTIFICATION - Duy Anh Restaurant
+============================================ */
+#da-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.72);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    z-index: 99998;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+}
+
+#da-overlay.da-visible {
+    display: flex;
+    animation: da-fadeIn 0.35s ease;
+}
+
+#da-overlay.da-hidden {
+    display: none;
+}
+
+
+#da-popup {
+    background: linear-gradient(160deg, #1e1a14 0%, #171310 60%, #1a1510 100%);
+    border: 1px solid rgba(201, 169, 110, 0.45);
+    border-radius: 20px;
+    max-width: 560px;
+    max-height: calc(100vh - 32px);
+    width: 100%;
+    padding: 36px 32px 28px;
+    color: #f0e6d3;
+    position: relative;
+    overflow-y: auto;
+    box-shadow: 0 32px 90px rgba(0, 0, 0, 0.65),
+        0 0 0 1px rgba(201, 169, 110, 0.12),
+        inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    animation: da-slideUp 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+[data-active-lang="de"] [data-da-lang="en"],
+[data-active-lang="en"] [data-da-lang="de"] {
+    display: none !important;
+}
+
+#da-popup-icon {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(145deg, #c9a96e 0%, #8a5e28 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    box-shadow: 0 0 0 8px rgba(201, 169, 110, 0.1),
+        0 4px 20px rgba(201, 169, 110, 0.35);
+    animation: da-iconPulse 3s ease-in-out infinite;
+}
+
+#da-popup h2 {
+    font-family: 'Cinzel', 'Georgia', serif;
+    font-size: 1.2rem;
+    letter-spacing: 0.08em;
+    text-align: center;
+    color: #c9a96e;
+    margin: 0 0 18px;
+    text-transform: uppercase;
+    text-shadow: 0 1px 8px rgba(201, 169, 110, 0.2);
+}
+
+#da-popup p {
+    font-family: 'Lato', sans-serif;
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: #d4c4a8;
+    text-align: center;
+    margin: 0 0 12px;
+}
+
+/* Description inside dish cards must be left-aligned */
+.da-dish-wrapper p {
+    text-align: left !important;
+}
+
+.da-popup-tabs {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+    gap: 8px;
+    margin: 0 0 18px;
+}
+
+.da-popup-tab {
+    min-height: 42px;
+    border: 1px solid rgba(201, 169, 110, 0.24);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.04);
+    color: #d4c4a8;
+    cursor: pointer;
+    font-family: 'Lato', sans-serif;
+    font-size: 0.86rem;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 8px 10px;
+    transition: background 0.2s, border-color 0.2s, color 0.2s;
+}
+
+.da-popup-tab:hover,
+.da-popup-tab--active {
+    background: rgba(201, 169, 110, 0.14);
+    border-color: rgba(201, 169, 110, 0.7);
+    color: #f0e6d3;
+}
+
+.da-popup-tab__badge {
+    box-sizing: border-box;
+    min-width: 22px;
+    height: 22px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 6px;
+    background: #c9a96e;
+    color: #17120b;
+    font-size: 0.8rem;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: 0;
+    text-indent: 0;
+    margin-left: 2px;
+}
+
+.da-popup-panels {
+    margin-top: 4px;
+}
+
+.da-popup-panel[hidden] {
+    display: none;
+}
+
+.da-popup-panel--active {
+    animation: da-fadeIn 0.22s ease;
+}
+
+.da-closure-card {
+    text-align: center;
+    padding: 34px 20px 24px;
+    background: radial-gradient(circle at top, rgba(201, 169, 110, 0.06) 0%, transparent 60%);
+    border: 1px solid rgba(201, 169, 110, 0.18);
+    border-radius: 12px;
+    margin-top: 10px;
+    box-shadow: inset 0 2px 20px rgba(0, 0, 0, 0.4);
+}
+
+.da-closure-illustration {
+    margin-bottom: 22px;
+    display: inline-flex;
+    padding: 16px;
+    background: rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(201, 169, 110, 0.2);
+    border-radius: 50%;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5), inset 0 2px 0 rgba(201, 169, 110, 0.1);
+}
+
+.da-closure-title {
+    font-family: 'Cinzel', serif;
+    font-size: 1.45rem;
+    color: #f0e6d3;
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
+}
+
+.da-closure-divider {
+    margin: 16px 0;
+    line-height: 0;
+    opacity: 0.8;
+}
+
+.da-closure-text {
+    font-family: 'Jost', sans-serif;
+    color: rgba(240, 230, 211, 0.82);
+    font-size: 1.1rem;
+    line-height: 1.7;
+}
+
+.da-closure-text p {
+    margin-bottom: 0 !important;
+}
+
+/* ---------- NEW DISHES — render_menu_item reuse ---------- */
+.da-dish-list {
+    display: flex;
+    flex-direction: column;
+    max-height: 400px;
+    overflow-y: auto;
+    padding-right: 4px;
+    gap: 10px;
+}
+
+/* Border card wrapping each dish */
+.da-dish-wrapper {
+    border: 1px solid rgba(201, 169, 110, 0.35);
+    border-radius: 10px;
+    padding: 12px 14px 10px;
+    background: rgba(255, 255, 255, 0.025);
+    transition: border-color 0.2s;
+    cursor: pointer;
+}
+
+.da-dish-wrapper:hover {
+    border-color: rgba(201, 169, 110, 0.6);
+}
+
+/* ── Layout: copy core rules from our-menu.css, popup has no access to it ── */
+.da-dish-wrapper .menu-item {
+    border-bottom: none !important;
+    padding: 0 !important;
+    font-family: 'Jost', sans-serif;
+}
+
+.da-dish-wrapper .menu-item__title-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 6px;
+    width: 100%;
+}
+
+.da-dish-wrapper .menu-item__title-left {
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+    flex-shrink: 0;
+}
+
+.da-dish-wrapper .menu-item__code {
+    font-weight: 700;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+.da-dish-wrapper .menu-item__name {
+    font-weight: 700;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+.da-dish-wrapper .menu-item__name-translation {
+    font-size: 0.85rem;
+    font-weight: 400;
+    font-style: normal;
+    line-height: 1.35;
+    text-transform: none;
+}
+
+.da-dish-wrapper .menu-item__dots {
+    flex: 1;
+    border-bottom: 1px dotted;
+    opacity: 0.35;
+    margin: 0 6px;
+    min-width: 16px;
+    transform: translateY(-4px);
+}
+
+.da-dish-wrapper .menu-item-prices {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    flex-shrink: 0;
+}
+
+.da-dish-wrapper .menu-item-price-badge {
+    font-weight: 600;
+    font-size: 0.9rem;
+    line-height: 1;
+    padding: 2px 5px;
+    white-space: nowrap;
+    border: 1px dotted;
+}
+
+.da-dish-wrapper .menu-item__sup {
+    font-size: 0.75em;
+    vertical-align: super;
+    margin-left: 2px;
+}
+
+.da-dish-wrapper .menu-item__quantity {
+    font-size: 0.9em;
+    margin-left: 4px;
+}
+
+.da-dish-wrapper .menu-item__descriptions {
+    margin: 4px 0 6px !important;
+}
+
+.da-dish-wrapper .menu-item__desc {
+    font-size: 0.92rem;
+    opacity: 0.9;
+    line-height: 1.5;
+    margin: 0 !important;
+}
+
+.da-dish-wrapper .menu-item__desc--translation {
+    margin-top: 2px !important;
+    font-size: 0.85rem;
+}
+
+.da-dish-wrapper .menu-item__food-types {
+    list-style: none;
+    margin: 6px 0 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.da-dish-wrapper .menu-item__ft-row {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    font-size: 0.9rem;
+}
+
+.da-dish-wrapper .menu-item__ft-left {
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+    flex: 1;
+}
+
+.da-dish-wrapper .menu-item__ft-text {
+    min-width: 0;
+    flex: 1;
+}
+
+.da-dish-wrapper .menu-item__ft-code {
+    font-weight: 600;
+    font-size: 0.8rem;
+    flex-shrink: 0;
+}
+
+.da-dish-wrapper .menu-item__ft-price {
+    font-weight: 600;
+    font-size: 0.9rem;
+    flex-shrink: 0;
+}
+
+/* ── Color overrides: adapt our-menu (light page) → dark popup ── */
+.da-dish-wrapper .menu-item__code,
+.da-dish-wrapper .menu-item__title-left {
+    color: #c9a96e;
+}
+
+.da-dish-wrapper .menu-item__name {
+    color: #f0e6d3;
+}
+
+.da-dish-wrapper .menu-item__name-translation,
+.da-dish-wrapper .menu-item__desc--translation {
+    color: rgba(240, 230, 211, 0.5) !important;
+}
+
+.da-dish-wrapper .menu-item__desc,
+.da-dish-wrapper .menu-item__details {
+    color: rgba(240, 230, 211, 0.72);
+}
+
+.da-dish-wrapper .menu-item__dots {
+    border-bottom-color: rgba(201, 169, 110, 0.4);
+}
+
+.da-dish-wrapper .menu-item-price-badge {
+    color: #c9a96e;
+    border-color: rgba(201, 169, 110, 0.55);
+}
+
+.da-dish-wrapper .menu-item__ft-title {
+    color: rgba(240, 230, 211, 0.85);
+}
+
+.da-dish-wrapper .menu-item__ft-code {
+    color: rgba(240, 230, 211, 0.65);
+}
+
+.da-dish-wrapper .menu-item__ft-price {
+    color: #c9a96e;
+}
+
+.da-dish-wrapper .menu-item__sup {
+    color: rgba(240, 230, 211, 0.6) !important;
+}
+
+.da-dish-wrapper .menu-item__quantity {
+    color: rgba(240, 230, 211, 0.7);
+}
+
+
+
+.da-actions {
+    display: flex;
+    justify-content: center;
+    margin: 14px 0 2px;
+}
+
+.da-secondary-link {
+    min-height: 40px;
+    border-radius: 8px;
+    border: 1px solid rgba(201, 169, 110, 0.4);
+    color: #f0e6d3;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 16px;
+    text-decoration: none;
+    font-size: 0.86rem;
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+
+.da-secondary-link:hover {
+    background: rgba(201, 169, 110, 0.14);
+    color: #fff;
+}
+
+.da-phone-row {
+    display: flex;
+    justify-content: center;
+}
+
+.da-whatsapp-row {
+    font-size: .85rem !important;
+    color: #a08060 !important;
+}
+
+.da-phone-highlight {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(201, 169, 110, 0.12);
+    border: 1px solid rgba(201, 169, 110, 0.35);
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #c9a96e !important;
+    letter-spacing: 0.05em;
+    margin: 4px auto 16px;
+    width: fit-content;
+}
+
+.da-wa-link {
+    color: #25d366;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.da-wa-link:hover {
+    text-decoration: underline;
+}
+
+.da-divider {
+    border: none;
+    border-top: 1px solid rgba(201, 169, 110, 0.2);
+    margin: 20px 0;
+}
+
+#da-confirm-btn {
+    display: block;
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(135deg, #c9a96e, #a07840);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-family: 'Cinzel', Georgia, serif;
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: 0;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: opacity 0.2s, transform 0.15s;
+    margin-top: 16px;
+}
+
+#da-confirm-btn:hover {
+    opacity: 0.88;
+    transform: translateY(-1px);
+}
+
+#da-confirm-btn:active {
+    transform: translateY(0);
+}
+
+#da-fab-wrap {
+    position: fixed;
+    bottom: 75px;
+    right: 19px;
+    z-index: 99997;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+#da-notif-fab {
+    width: 52px;
+    height: 52px;
+    background: linear-gradient(135deg, #c9a96e, #8a6530);
+    border-radius: 50%;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(201, 169, 110, 0.45);
+    transition: transform 0.2s, box-shadow 0.2s;
+    border: 2px solid rgba(255, 255, 255, 0.15);
+    animation: da-pulse 2.5s ease infinite;
+}
+
+#da-notif-fab:hover {
+    transform: scale(1.08);
+    box-shadow: 0 6px 28px rgba(201, 169, 110, 0.6);
+}
+
+#da-notif-fab svg {
+    animation: da-ring 2.5s ease infinite;
+    transform-origin: top center;
+}
+
+#da-phone-fab {
+    width: 52px;
+    height: 52px;
+    background: linear-gradient(135deg, #25d366, #1a9e4d);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(37, 211, 102, 0.45);
+    transition: transform 0.2s, box-shadow 0.2s;
+    text-decoration: none;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    position: relative;
+}
+
+#da-phone-fab:hover {
+    transform: scale(1.08);
+    box-shadow: 0 6px 28px rgba(37, 211, 102, 0.6);
+}
+
+#da-phone-fab::before {
+    content: attr(data-phone);
+    position: absolute;
+    right: 62px;
+    background: #1a1a1a;
+    color: #c9a96e;
+    font-size: 0.78rem;
+    font-weight: 700;
+    padding: 6px 12px;
+    border-radius: 8px;
+    border: 1px solid rgba(201, 169, 110, 0.4);
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s;
+}
+
+#da-phone-fab:hover::before {
+    opacity: 1;
+}
+
+/* ---------- KEYFRAMES ---------- */
+@keyframes da-fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes da-slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(28px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes da-ring {
+
+    0%,
+    100% {
+        transform: rotate(0deg);
+    }
+
+    10% {
+        transform: rotate(-18deg);
+    }
+
+    20% {
+        transform: rotate(18deg);
+    }
+
+    30% {
+        transform: rotate(-12deg);
+    }
+
+    40% {
+        transform: rotate(12deg);
+    }
+
+    50% {
+        transform: rotate(0deg);
+    }
+}
+
+@keyframes da-pulse {
+
+    0%,
+    100% {
+        box-shadow: 0 0 0 0 rgba(201, 169, 110, 0.6);
+    }
+
+    50% {
+        box-shadow: 0 0 0 12px rgba(201, 169, 110, 0);
+    }
+}
+
+@keyframes da-iconPulse {
+
+    0%,
+    100% {
+        box-shadow: 0 0 0 8px rgba(201, 169, 110, 0.1), 0 4px 20px rgba(201, 169, 110, 0.35);
+    }
+
+    50% {
+        box-shadow: 0 0 0 14px rgba(201, 169, 110, 0.04), 0 4px 28px rgba(201, 169, 110, 0.5);
+    }
+}
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width: 480px) {
+    #da-popup {
+        padding: 28px 20px 22px;
+    }
+
+    #da-popup h2 {
+        font-size: 1.1rem;
+    }
+
+    .da-popup-tabs {
+        grid-template-columns: 1fr;
+    }
+
+    .da-dish-card {
+        gap: 10px;
+    }
+
+    .da-dish-card img {
+        flex-basis: 68px;
+        width: 68px;
+        height: 68px;
+    }
+}
+
+/* ---------- LANGUAGE SWITCHER ---------- */
+#da-lang-switcher {
+    display: flex;
+    justify-content: flex-end;
+    gap: 6px;
+    margin-bottom: 8px;
+}
+
+.da-lang-btn {
+    background: none;
+    border: 2px solid transparent;
+    border-radius: 6px;
+    padding: 2px 4px;
+    font-size: 1.4rem;
+    cursor: pointer;
+    line-height: 1;
+    opacity: 0.45;
+    transition: opacity 0.2s, border-color 0.2s, transform 0.15s;
+}
+
+.da-lang-btn:hover {
+    opacity: 0.85;
+    transform: scale(1.1);
+}
+
+.da-lang-btn.da-lang-active {
+    opacity: 1;
+    border-color: rgba(201, 169, 110, 0.6);
+    background: rgba(201, 169, 110, 0.1);
+}

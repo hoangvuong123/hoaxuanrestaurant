@@ -1,5 +1,18 @@
 <?php
+/**
+ * Plugin Name: Restaurant Notice Popup
+ * Description: A customizable modular popup for Restaurant notifications (Closure, New Dishes, Order Notice).
+ * Version: 1.0.0
+ * Author: Developer
+ * Text Domain: restaurant-notice-popup
+ */
 if ( ! defined( 'ABSPATH' ) ) exit;
+
+function rnp_enqueue_assets() {
+    wp_enqueue_style( 'rnp-popup', plugin_dir_url( __FILE__ ) . 'assets/popup.css', [], '1.0.0' );
+    wp_enqueue_script( 'rnp-popup', plugin_dir_url( __FILE__ ) . 'assets/popup.js', [], '1.0.0', true );
+}
+add_action( 'wp_enqueue_scripts', 'rnp_enqueue_assets' );
 
 if ( ! defined( 'DA_PHONE_DISPLAY' ) ) {
     define( 'DA_PHONE_DISPLAY', '0176 21927505' );
@@ -11,11 +24,11 @@ if ( ! defined( 'DA_WHATSAPP_LINK' ) ) {
     define( 'DA_WHATSAPP_LINK', 'https://wa.me/4917621927505' );
 }
 
-if ( ! defined( 'HX_POPUP_OPTION_KEY' ) ) {
-    define( 'HX_POPUP_OPTION_KEY', 'hx_popup_settings' );
+if ( ! defined( 'rnp_OPTION_KEY' ) ) {
+    define( 'rnp_OPTION_KEY', 'rnp_settings' );
 }
 
-function hx_popup_default_settings() {
+function rnp_default_settings() {
     return [
         'order_notice_enabled'   => '1',
         'new_dishes_enabled'     => '0',
@@ -26,13 +39,13 @@ function hx_popup_default_settings() {
     ];
 }
 
-function hx_popup_get_settings() {
-    $settings = get_option( HX_POPUP_OPTION_KEY, [] );
+function rnp_get_settings() {
+    $settings = get_option( rnp_OPTION_KEY, [] );
     if ( ! is_array( $settings ) ) {
         $settings = [];
     }
 
-    $settings = wp_parse_args( $settings, hx_popup_default_settings() );
+    $settings = wp_parse_args( $settings, rnp_default_settings() );
     
     $dish_ids = [];
     if ( isset( $settings['new_dish_ids'] ) && is_array( $settings['new_dish_ids'] ) ) {
@@ -48,14 +61,14 @@ function hx_popup_get_settings() {
     return $settings;
 }
 
-function hx_popup_sanitize_settings( $input ) {
+function rnp_sanitize_settings( $input ) {
     $log_file = WP_CONTENT_DIR . '/debug-popup.log';
     try {
         if ( ! is_array( $input ) ) {
             $input = [];
         }
 
-        $clean = hx_popup_default_settings();
+        $clean = rnp_default_settings();
 
         $clean['order_notice_enabled']   = empty( $input['order_notice_enabled'] ) ? '0' : '1';
         $clean['new_dishes_enabled']     = empty( $input['new_dishes_enabled'] ) ? '0' : '1';
@@ -78,40 +91,40 @@ function hx_popup_sanitize_settings( $input ) {
         }
         $clean['new_dish_ids'] = $dish_ids;
 
-        @file_put_contents( $log_file, date('[Y-m-d H:i:s]') . ' hx_popup_sanitize_settings: OK' . PHP_EOL, FILE_APPEND );
+        @file_put_contents( $log_file, date('[Y-m-d H:i:s]') . ' rnp_sanitize_settings: OK' . PHP_EOL, FILE_APPEND );
         return $clean;
 
     } catch ( \Throwable $e ) {
         @file_put_contents( $log_file, date('[Y-m-d H:i:s]') . ' EXCEPTION: ' . $e->getMessage() . ' in ' . $e->getFile() . ':' . $e->getLine() . PHP_EOL, FILE_APPEND );
-        return hx_popup_default_settings();
+        return rnp_default_settings();
     }
 }
 
-function hx_popup_register_settings() {
+function rnp_register_settings() {
     register_setting(
-        'hx_popup_settings_group',
-        HX_POPUP_OPTION_KEY,
+        'rnp_settings_group',
+        rnp_OPTION_KEY,
         [
             'type'              => 'array',
-            'sanitize_callback' => 'hx_popup_sanitize_settings',
-            'default'           => hx_popup_default_settings(),
+            'sanitize_callback' => 'rnp_sanitize_settings',
+            'default'           => rnp_default_settings(),
         ]
     );
 }
-add_action( 'admin_init', 'hx_popup_register_settings' );
+add_action( 'admin_init', 'rnp_register_settings' );
 
-function hx_popup_add_admin_page() {
+function rnp_add_admin_page() {
     add_options_page(
         'Hoa Xuan Popup',
         'Hoa Xuan Popup',
         'manage_options',
         'hoa-xuan-popup',
-        'hx_popup_render_settings_page'
+        'rnp_render_settings_page'
     );
 }
-add_action( 'admin_menu', 'hx_popup_add_admin_page' );
+add_action( 'admin_menu', 'rnp_add_admin_page' );
 
-function hx_popup_get_field( $field_name, $post_id ) {
+function rnp_get_field( $field_name, $post_id ) {
     if ( function_exists( 'get_field' ) ) {
         return get_field( $field_name, $post_id );
     }
@@ -119,8 +132,8 @@ function hx_popup_get_field( $field_name, $post_id ) {
     return get_post_meta( $post_id, $field_name, true );
 }
 
-function hx_popup_menu_sort_value( $post_id ) {
-    $code = trim( (string) hx_popup_get_field( 'code', $post_id ) );
+function rnp_menu_sort_value( $post_id ) {
+    $code = trim( (string) rnp_get_field( 'code', $post_id ) );
     if ( '' === $code ) {
         return PHP_INT_MAX;
     }
@@ -129,7 +142,7 @@ function hx_popup_menu_sort_value( $post_id ) {
     return isset( $match[1] ) ? (int) $match[1] : PHP_INT_MAX;
 }
 
-function hx_popup_get_menu_posts_for_admin() {
+function rnp_get_menu_posts_for_admin() {
     $posts = get_posts( [
         'post_type'      => 'menu',
         'post_status'    => 'publish',
@@ -139,8 +152,8 @@ function hx_popup_get_menu_posts_for_admin() {
     ] );
 
     usort( $posts, function ( $a, $b ) {
-        $code_a = hx_popup_menu_sort_value( $a->ID );
-        $code_b = hx_popup_menu_sort_value( $b->ID );
+        $code_a = rnp_menu_sort_value( $a->ID );
+        $code_b = rnp_menu_sort_value( $b->ID );
 
         if ( $code_a !== $code_b ) {
             return $code_a <=> $code_b;
@@ -152,28 +165,28 @@ function hx_popup_get_menu_posts_for_admin() {
     return $posts;
 }
 
-function hx_popup_render_settings_page() {
+function rnp_render_settings_page() {
     if ( ! current_user_can( 'manage_options' ) ) {
         return;
     }
 
-    $settings     = hx_popup_get_settings();
+    $settings     = rnp_get_settings();
     $selected_ids = array_map( 'absint', $settings['new_dish_ids'] );
-    $menu_posts   = hx_popup_get_menu_posts_for_admin();
+    $menu_posts   = rnp_get_menu_posts_for_admin();
     ?>
     <div class="wrap">
         <h1>Hoa Xuan Popup Settings</h1>
         <p>Manage the popup tabs: order notice, new dishes, and closure notice.</p>
 
         <form method="post" action="options.php">
-            <?php settings_fields( 'hx_popup_settings_group' ); ?>
+            <?php settings_fields( 'rnp_settings_group' ); ?>
 
             <table class="form-table" role="presentation">
                 <tr>
                     <th scope="row">Order Notice</th>
                     <td>
                         <label>
-                            <input type="checkbox" name="<?php echo esc_attr( HX_POPUP_OPTION_KEY ); ?>[order_notice_enabled]" value="1" <?php checked( '1', $settings['order_notice_enabled'] ); ?>>
+                            <input type="checkbox" name="<?php echo esc_attr( rnp_OPTION_KEY ); ?>[order_notice_enabled]" value="1" <?php checked( '1', $settings['order_notice_enabled'] ); ?>>
                             Show order notice / WhatsApp tab
                         </label>
                     </td>
@@ -183,15 +196,15 @@ function hx_popup_render_settings_page() {
                     <th scope="row">New Dishes</th>
                     <td>
                         <label>
-                            <input type="checkbox" name="<?php echo esc_attr( HX_POPUP_OPTION_KEY ); ?>[new_dishes_enabled]" value="1" <?php checked( '1', $settings['new_dishes_enabled'] ); ?>>
+                            <input type="checkbox" name="<?php echo esc_attr( rnp_OPTION_KEY ); ?>[new_dishes_enabled]" value="1" <?php checked( '1', $settings['new_dishes_enabled'] ); ?>>
                             Show new dishes tab
                         </label>
 
                         <p>
-                            <select name="<?php echo esc_attr( HX_POPUP_OPTION_KEY ); ?>[new_dish_ids][]" multiple size="12" style="min-width:360px;max-width:100%;">
+                            <select name="<?php echo esc_attr( rnp_OPTION_KEY ); ?>[new_dish_ids][]" multiple size="12" style="min-width:360px;max-width:100%;">
                                 <?php foreach ( $menu_posts as $post ) :
-                                    $code     = trim( (string) hx_popup_get_field( 'code', $post->ID ) );
-                                    $title_en = trim( (string) hx_popup_get_field( 'title-en', $post->ID ) );
+                                    $code     = trim( (string) rnp_get_field( 'code', $post->ID ) );
+                                    $title_en = trim( (string) rnp_get_field( 'title-en', $post->ID ) );
                                     $label    = ( $code ? $code . '. ' : '' ) . $post->post_title;
                                     if ( $title_en ) {
                                         $label .= ' / ' . $title_en;
@@ -211,18 +224,18 @@ function hx_popup_render_settings_page() {
                     <th scope="row">Closure Notice</th>
                     <td>
                         <label>
-                            <input type="checkbox" name="<?php echo esc_attr( HX_POPUP_OPTION_KEY ); ?>[closure_notice_enabled]" value="1" <?php checked( '1', $settings['closure_notice_enabled'] ); ?>>
+                            <input type="checkbox" name="<?php echo esc_attr( rnp_OPTION_KEY ); ?>[closure_notice_enabled]" value="1" <?php checked( '1', $settings['closure_notice_enabled'] ); ?>>
                             Show closure notice tab
                         </label>
 
                         <p>
                             <label for="hx-popup-closure-de"><strong>German text</strong></label><br>
-                            <textarea id="hx-popup-closure-de" name="<?php echo esc_attr( HX_POPUP_OPTION_KEY ); ?>[closure_text_de]" rows="4" class="large-text"><?php echo esc_textarea( $settings['closure_text_de'] ); ?></textarea>
+                            <textarea id="hx-popup-closure-de" name="<?php echo esc_attr( rnp_OPTION_KEY ); ?>[closure_text_de]" rows="4" class="large-text"><?php echo esc_textarea( $settings['closure_text_de'] ); ?></textarea>
                         </p>
 
                         <p>
                             <label for="hx-popup-closure-en"><strong>English text</strong></label><br>
-                            <textarea id="hx-popup-closure-en" name="<?php echo esc_attr( HX_POPUP_OPTION_KEY ); ?>[closure_text_en]" rows="4" class="large-text"><?php echo esc_textarea( $settings['closure_text_en'] ); ?></textarea>
+                            <textarea id="hx-popup-closure-en" name="<?php echo esc_attr( rnp_OPTION_KEY ); ?>[closure_text_en]" rows="4" class="large-text"><?php echo esc_textarea( $settings['closure_text_en'] ); ?></textarea>
                         </p>
                         <p class="description">Enter the closure message shown in the popup, e.g.: We are closed today and will reopen tomorrow.</p>
                     </td>
@@ -235,8 +248,8 @@ function hx_popup_render_settings_page() {
     <?php
 }
 
-function hx_popup_price_data( $post_id ) {
-    $variants = hx_popup_get_field( 'variants', $post_id );
+function rnp_price_data( $post_id ) {
+    $variants = rnp_get_field( 'variants', $post_id );
     if ( is_array( $variants ) && ! empty( $variants ) ) {
         $items = [];
         foreach ( $variants as $variant ) {
@@ -258,10 +271,10 @@ function hx_popup_price_data( $post_id ) {
         }
     }
 
-    $price = hx_popup_get_field( 'price', $post_id );
+    $price = rnp_get_field( 'price', $post_id );
     if ( '' !== $price && null !== $price && false !== $price ) {
         $numeric = str_replace( ',', '.', (string) $price );
-        $size    = trim( (string) hx_popup_get_field( 'size', $post_id ) );
+        $size    = trim( (string) rnp_get_field( 'size', $post_id ) );
 
         return [ [
             'size'  => $size,
@@ -272,8 +285,8 @@ function hx_popup_price_data( $post_id ) {
     return [];
 }
 
-function hx_popup_render_price_badges( $post_id ) {
-    $prices = hx_popup_price_data( $post_id );
+function rnp_render_price_badges( $post_id ) {
+    $prices = rnp_price_data( $post_id );
     if ( empty( $prices ) ) {
         return '';
     }
@@ -291,7 +304,7 @@ function hx_popup_render_price_badges( $post_id ) {
     return $html;
 }
 
-function hx_popup_get_new_dishes( array $settings ) {
+function rnp_get_new_dishes( array $settings ) {
     if ( '1' !== $settings['new_dishes_enabled'] || empty( $settings['new_dish_ids'] ) ) {
         return [];
     }
@@ -307,7 +320,7 @@ function hx_popup_get_new_dishes( array $settings ) {
     return $posts;
 }
 
-function hx_popup_lang_copy( $de, $en, $class = '', $allow_html = false ) {
+function rnp_lang_copy( $de, $en, $class = '', $allow_html = false ) {
     $de = trim( (string) $de );
     $en = trim( (string) $en );
 
@@ -328,7 +341,7 @@ function hx_popup_lang_copy( $de, $en, $class = '', $allow_html = false ) {
     );
 }
 
-function hx_popup_menu_page_url() {
+function rnp_menu_page_url() {
     $page = get_page_by_path( 'our-menu' );
     if ( $page ) {
         return get_permalink( $page );
@@ -337,7 +350,7 @@ function hx_popup_menu_page_url() {
     return home_url( '/our-menu/' );
 }
 
-function hx_popup_render_tab_button( $key, $active, $label_de, $label_en, $badge = '' ) {
+function rnp_render_tab_button( $key, $active, $label_de, $label_en, $badge = '' ) {
     ?>
     <button
         class="da-popup-tab <?php echo $active ? 'da-popup-tab--active' : ''; ?>"
@@ -348,7 +361,7 @@ function hx_popup_render_tab_button( $key, $active, $label_de, $label_en, $badge
         id="da-tab-<?php echo esc_attr( $key ); ?>"
         data-da-tab="<?php echo esc_attr( $key ); ?>"
     >
-        <?php echo hx_popup_lang_copy( $label_de, $label_en ); ?>
+        <?php echo rnp_lang_copy( $label_de, $label_en ); ?>
         <?php if ( '' !== $badge ) : ?>
             <span class="da-popup-tab__badge"><?php echo esc_html( $badge ); ?></span>
         <?php endif; ?>
@@ -356,7 +369,7 @@ function hx_popup_render_tab_button( $key, $active, $label_de, $label_en, $badge
     <?php
 }
 
-function hx_popup_render_panel_open( $key, $active, $has_tabs = true ) {
+function rnp_render_panel_open( $key, $active, $has_tabs = true ) {
     $labelledby = $has_tabs ? 'da-tab-' . $key : 'da-popup-title';
     ?>
     <section
@@ -370,12 +383,12 @@ function hx_popup_render_panel_open( $key, $active, $has_tabs = true ) {
     <?php
 }
 
-function hx_popup_render_html() {
-    $settings      = hx_popup_get_settings();
-    $new_dishes    = hx_popup_get_new_dishes( $settings );
+function rnp_render_html() {
+    $settings      = rnp_get_settings();
+    $new_dishes    = rnp_get_new_dishes( $settings );
     $closure_de    = trim( (string) $settings['closure_text_de'] );
     $closure_en    = trim( (string) $settings['closure_text_en'] );
-    $menu_url      = hx_popup_menu_page_url();
+    $menu_url      = rnp_menu_page_url();
     $tabs          = [];
 
     if ( '1' === $settings['closure_notice_enabled'] && ( '' !== $closure_de || '' !== $closure_en ) ) {
@@ -412,7 +425,7 @@ function hx_popup_render_html() {
                     </svg>
                 </div>
                 <h2 id="da-popup-title">
-                    <?php echo hx_popup_lang_copy( 'Aktuelle Hinweise', 'Current Notices' ); ?>
+                    <?php echo rnp_lang_copy( 'Aktuelle Hinweise', 'Current Notices' ); ?>
                 </h2>
 
                 <?php if ( $has_tabs ) : ?>
@@ -420,11 +433,11 @@ function hx_popup_render_html() {
                         <?php
                         foreach ( $tabs as $tab ) {
                             if ( 'closure' === $tab ) {
-                                hx_popup_render_tab_button( 'closure', $first_tab === $tab, 'Ruhetag', 'Closed', '!' );
+                                rnp_render_tab_button( 'closure', $first_tab === $tab, 'Ruhetag', 'Closed', '!' );
                             } elseif ( 'new' === $tab ) {
-                                hx_popup_render_tab_button( 'new', $first_tab === $tab, 'Neu', 'New', count( $new_dishes ) );
+                                rnp_render_tab_button( 'new', $first_tab === $tab, 'Neu', 'New', count( $new_dishes ) );
                             } else {
-                                hx_popup_render_tab_button( 'order', $first_tab === $tab, 'Bestellung', 'Order' );
+                                rnp_render_tab_button( 'order', $first_tab === $tab, 'Bestellung', 'Order' );
                             }
                         }
                         ?>
@@ -433,7 +446,7 @@ function hx_popup_render_html() {
 
                 <div class="da-popup-panels">
                     <?php if ( in_array( 'closure', $tabs, true ) ) : ?>
-                        <?php hx_popup_render_panel_open( 'closure', $first_tab === 'closure', $has_tabs ); ?>
+                        <?php rnp_render_panel_open( 'closure', $first_tab === 'closure', $has_tabs ); ?>
                             <div class="da-closure-card">
                                 <div class="da-closure-illustration">
                                     <svg viewBox="0 0 24 24" width="48" height="48" stroke="#c9a96e" stroke-width="1" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -452,14 +465,14 @@ function hx_popup_render_html() {
                                     </svg>
                                 </div>
                                 <div class="da-closure-text">
-                                    <?php echo hx_popup_lang_copy( $closure_de, $closure_en, '', true ); ?>
+                                    <?php echo rnp_lang_copy( $closure_de, $closure_en, '', true ); ?>
                                 </div>
                             </div>
                         </section>
                     <?php endif; ?>
 
                     <?php if ( in_array( 'new', $tabs, true ) ) : ?>
-                        <?php hx_popup_render_panel_open( 'new', $first_tab === 'new', $has_tabs ); ?>
+                        <?php rnp_render_panel_open( 'new', $first_tab === 'new', $has_tabs ); ?>
                             <div class="da-dish-list">
                                 <?php
                                 $menu_sc = Restaurant_Menu_Shortcode::get_instance();
@@ -474,16 +487,16 @@ function hx_popup_render_html() {
 
                             <div class="da-actions">
                                 <a class="da-secondary-link" href="<?php echo esc_url( $menu_url ); ?>">
-                                    <?php echo hx_popup_lang_copy( 'Menü ansehen', 'View menu' ); ?>
+                                    <?php echo rnp_lang_copy( 'Menü ansehen', 'View menu' ); ?>
                                 </a>
                             </div>
                         </section>
                     <?php endif; ?>
 
                     <?php if ( in_array( 'order', $tabs, true ) ) : ?>
-                        <?php hx_popup_render_panel_open( 'order', $first_tab === 'order', $has_tabs ); ?>
+                        <?php rnp_render_panel_open( 'order', $first_tab === 'order', $has_tabs ); ?>
                             <p id="da-popup-body">
-                                <?php echo hx_popup_lang_copy(
+                                <?php echo rnp_lang_copy(
                                     'Für Bestellungen <strong>zum Mitnehmen</strong> können Sie uns telefonisch oder per WhatsApp erreichen:',
                                     'To place a <strong>takeaway order</strong>, please call or send us a WhatsApp message:',
                                     '',
@@ -502,14 +515,14 @@ function hx_popup_render_html() {
 
                             <p class="da-whatsapp-row">
                                 <a href="<?php echo esc_url( $whatsapp ); ?>" target="_blank" rel="noopener noreferrer" id="da-popup-wa" class="da-wa-link">
-                                    <?php echo hx_popup_lang_copy( 'WhatsApp schreiben', 'Message on WhatsApp' ); ?>
+                                    <?php echo rnp_lang_copy( 'WhatsApp schreiben', 'Message on WhatsApp' ); ?>
                                 </a>
                             </p>
 
                             <hr class="da-divider">
 
                             <p id="da-popup-delivery">
-                                <?php echo hx_popup_lang_copy(
+                                <?php echo rnp_lang_copy(
                                     '<strong>Lieferung</strong> - bitte nachfragen.',
                                     '<strong>Delivery</strong> - please enquire.',
                                     '',
@@ -521,7 +534,7 @@ function hx_popup_render_html() {
                 </div>
 
                 <button id="da-confirm-btn" type="button">
-                    <?php echo hx_popup_lang_copy( 'Verstanden', 'Got it' ); ?>
+                    <?php echo rnp_lang_copy( 'Verstanden', 'Got it' ); ?>
                 </button>
             </div>
         </div>
@@ -545,4 +558,4 @@ function hx_popup_render_html() {
     </div>
     <?php
 }
-add_action( 'wp_footer', 'hx_popup_render_html' );
+add_action( 'wp_footer', 'rnp_render_html' );
