@@ -434,9 +434,26 @@ function hx_popup_render_html() {
                 <div class="da-popup-panels">
                     <?php if ( in_array( 'closure', $tabs, true ) ) : ?>
                         <?php hx_popup_render_panel_open( 'closure', $first_tab === 'closure', $has_tabs ); ?>
-                            <div class="da-alert da-alert--closed">
-                                <strong><?php echo hx_popup_lang_copy( 'Hinweis zum Ruhetag', 'Closure Notice' ); ?></strong>
-                                <p><?php echo hx_popup_lang_copy( $closure_de, $closure_en, '', true ); ?></p>
+                            <div class="da-closure-card">
+                                <div class="da-closure-illustration">
+                                    <svg viewBox="0 0 24 24" width="48" height="48" stroke="#c9a96e" stroke-width="1" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                                        <path d="M9 22V12h6v10"></path>
+                                        <rect x="11" y="15" width="2" height="3" fill="#c9a96e"></rect>
+                                    </svg>
+                                </div>
+                                <h3 class="da-closure-title">
+                                    <span data-da-lang="de">Ruhetag</span>
+                                    <span data-da-lang="en">Closed Today</span>
+                                </h3>
+                                <div class="da-closure-divider">
+                                    <svg width="80" height="12" viewBox="0 0 100 12" fill="none" aria-hidden="true">
+                                        <path d="M0 6h40M60 6h40M50 2L54 6L50 10L46 6L50 2Z" stroke="#c9a96e" stroke-width="0.75" fill="#c9a96e" fill-opacity="0.2"/>
+                                    </svg>
+                                </div>
+                                <div class="da-closure-text">
+                                    <?php echo hx_popup_lang_copy( $closure_de, $closure_en, '', true ); ?>
+                                </div>
                             </div>
                         </section>
                     <?php endif; ?>
