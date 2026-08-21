@@ -136,3 +136,28 @@ add_action( 'after_setup_theme', 'lumy_register_menus' );
     ));
 }
 add_action( 'customize_register', 'lumy_customizer_settings' );
+
+/* =======================================
+   Floating Phone Action Button
+======================================= */
+if ( ! defined( 'DA_PHONE_DISPLAY' ) ) {
+    define( 'DA_PHONE_DISPLAY', '0176 21927505' );
+}
+if ( ! defined( 'DA_PHONE_LINK' ) ) {
+    define( 'DA_PHONE_LINK', 'tel:017621927505' );
+}
+
+function hx_render_floating_phone_button() {
+    $phone = DA_PHONE_DISPLAY;
+    $tel   = DA_PHONE_LINK;
+    ?>
+    <div id="da-fab-wrap">
+        <a id="da-phone-fab" href="<?php echo esc_attr( $tel ); ?>" data-phone="<?php echo esc_attr( $phone ); ?>" title="<?php echo esc_attr( $phone ); ?>">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.5 12 19.79 19.79 0 0 1 1.49 3.18A2 2 0 0 1 3.47 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.54a16 16 0 0 0 5.55 5.55l.81-.81a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+            </svg>
+        </a>
+    </div>
+    <?php
+}
+add_action( 'wp_footer', 'hx_render_floating_phone_button' );
