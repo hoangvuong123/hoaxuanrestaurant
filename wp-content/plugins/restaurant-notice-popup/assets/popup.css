@@ -500,9 +500,9 @@
     transform: translateY(0);
 }
 
-#da-fab-wrap {
+#rnp-fab-wrap {
     position: fixed;
-    bottom: 75px;
+    bottom: 139px;
     right: 19px;
     z-index: 99997;
     display: flex;

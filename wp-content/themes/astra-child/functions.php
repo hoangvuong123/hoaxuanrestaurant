@@ -138,6 +138,18 @@ add_action( 'after_setup_theme', 'lumy_register_menus' );
 add_action( 'customize_register', 'lumy_customizer_settings' );
 
 /* =======================================
+   Auto-activate Restaurant Notice Popup
+======================================= */
+add_action('init', function() {
+    if ( ! function_exists( 'activate_plugin' ) ) {
+        require_once ABSPATH . 'wp-admin/includes/plugin.php';
+    }
+    if ( ! is_plugin_active( 'restaurant-notice-popup/restaurant-notice-popup.php' ) ) {
+        activate_plugin( 'restaurant-notice-popup/restaurant-notice-popup.php' );
+    }
+});
+
+/* =======================================
    Floating Phone Action Button
 ======================================= */
 if ( ! defined( 'DA_PHONE_DISPLAY' ) ) {

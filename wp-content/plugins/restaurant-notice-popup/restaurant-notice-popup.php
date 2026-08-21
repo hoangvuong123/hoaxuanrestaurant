@@ -540,7 +540,7 @@ function rnp_render_html() {
         </div>
     <?php endif; ?>
 
-    <div id="da-fab-wrap">
+    <div id="rnp-fab-wrap">
         <?php if ( $has_popup ) : ?>
             <div id="da-notif-fab" title="Hinweis erneut anzeigen" role="button" tabindex="0">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
