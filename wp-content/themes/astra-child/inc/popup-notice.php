@@ -454,13 +454,6 @@ function hx_popup_render_html() {
                                     <div class="da-dish-wrapper" data-post-id="<?php echo esc_attr( $dish_id ); ?>">
                                         <div data-da-lang="de"><?php echo $html_de; ?></div>
                                         <div data-da-lang="en"><?php echo $html_en; ?></div>
-                                        <div class="da-atc-row">
-                                            <button class="da-add-to-cart" type="button" data-post-id="<?php echo esc_attr( $dish_id ); ?>">
-                                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
-                                                <span data-da-lang="de">In den Warenkorb</span>
-                                                <span data-da-lang="en">Add to cart</span>
-                                            </button>
-                                        </div>
                                     </div>
                                 <?php endforeach; ?>
                             </div>

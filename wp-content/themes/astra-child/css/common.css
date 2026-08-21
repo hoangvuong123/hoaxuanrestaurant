@@ -145,6 +145,11 @@
     margin: 0 0 12px;
 }
 
+/* Description inside dish cards must be left-aligned */
+.da-dish-wrapper p {
+    text-align: left !important;
+}
+
 .da-popup-tabs {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
@@ -432,40 +437,6 @@
     color: rgba(240, 230, 211, 0.7);
 }
 
-/* Add to cart row */
-.da-dish-list .da-atc-row {
-    margin-top: 10px;
-    display: flex;
-    align-items: center;
-}
-
-.da-add-to-cart {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 5px 14px;
-    border-radius: 6px;
-    border: 1px solid rgba(201, 169, 110, 0.5);
-    background: rgba(201, 169, 110, 0.1);
-    color: #c9a96e;
-    font-size: 0.8rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background 0.2s, color 0.2s, border-color 0.2s;
-    letter-spacing: 0.02em;
-}
-
-.da-add-to-cart:hover {
-    background: rgba(201, 169, 110, 0.22);
-    border-color: #c9a96e;
-    color: #f0e6d3;
-}
-
-.da-add-to-cart.da-added {
-    background: rgba(201, 169, 110, 0.28);
-    border-color: #c9a96e;
-    color: #f0e6d3;
-}
 
 
 .da-actions {

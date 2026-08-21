@@ -100,18 +100,6 @@ document.addEventListener('DOMContentLoaded', function () {
     });
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closePopup(); });
 
-    /* ---- Add-to-cart → trigger WhatsApp order plugin modal ---- */
-    overlay.addEventListener('click', function (e) {
-        var btn = e.target.closest('.da-add-to-cart');
-        if (!btn) return;
-        var postId = btn.dataset.postId;
-        var wrapper = postId && document.querySelector('.da-dish-wrapper[data-post-id="' + postId + '"]');
-        var titleRow = wrapper && wrapper.querySelector('.hx-order-title-row');
-        if (titleRow) {
-            titleRow.click();
-        }
-    });
-
 });
 
 /* ============================================
