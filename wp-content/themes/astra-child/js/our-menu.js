@@ -20,12 +20,12 @@
         if (getCurrentLang() === 'en') {
             return {
                 noPost: 'No dishes in this category.',
-                error:  'An error occurred. Please try again.',
+                error: 'An error occurred. Please try again.',
             };
         }
         return {
             noPost: 'Keine Gerichte in dieser Kategorie.',
-            error:  'Ein Fehler ist aufgetreten. Bitte versuche es erneut.',
+            error: 'Ein Fehler ist aufgetreten. Bitte versuche es erneut.',
         };
     }
 
@@ -56,81 +56,81 @@
 
     function loadItems($section, termId, page) {
         const taxonomy = $section.data('taxonomy');
-        const i18n     = getI18n();
+        const i18n = getI18n();
 
         setLoading($section, true);
 
         $.post(ajaxUrl, {
-            action:   'restaurant_menu_filter',
-            nonce:    nonce,
-            term_id:  termId,
-            page:     page,
+            action: 'restaurant_menu_filter',
+            nonce: nonce,
+            term_id: termId,
+            page: page,
             taxonomy: taxonomy,
         })
-        .done(function (res) {
-            if (!res.success) {
+            .done(function (res) {
+                if (!res.success) {
+                    $section.find('.menu-items-list')
+                        .html('<p class="menu-empty">' + i18n.error + '</p>');
+                    return;
+                }
+
+                const d = res.data;
+                const $list = $section.find('.menu-items-list');
+
+                // 1. Cập nhật danh sách món
+                $list.html(
+                    d.items_html
+                        ? d.items_html
+                        : '<p class="menu-empty">' + i18n.noPost + '</p>'
+                );
+
+                $list.attr('data-current-term', String(termId));
+                $list.attr('data-page', String(page));
+
+                // 2. Cập nhật term description
+                $section.find('.menu-term-desc')
+                    .html(d.term_desc_html || '')
+                    .attr('data-term-id', String(termId));
+
+                // 3. Cập nhật categories block
+                let $catWrap = $section.find('.menu-categories-wrap');
+                if (d.categories_html) {
+                    if (!$catWrap.length) {
+                        $catWrap = $('<div class="menu-categories-wrap">');
+                        $section.find('.menu-loading').before($catWrap);
+                    }
+                    $catWrap.html(d.categories_html).show();
+                } else {
+                    $catWrap.hide();
+                }
+
+                // 4. Cập nhật pagination
+                let $nav = $section.find('.menu-pagination');
+                if (d.total_pages > 1) {
+                    if (!$nav.length) {
+                        $nav = $('<nav class="menu-pagination">');
+                        $section.find('.menu-grid-wrap').after($nav);
+                    }
+                    buildPagination($nav, d.total_pages, page);
+                    $nav.show();
+                } else {
+                    if ($nav.length) $nav.hide();
+                }
+            })
+            .fail(function () {
+                const i18n = getI18n();
                 $section.find('.menu-items-list')
                     .html('<p class="menu-empty">' + i18n.error + '</p>');
-                return;
-            }
-
-            const d     = res.data;
-            const $list = $section.find('.menu-items-list');
-
-            // 1. Cập nhật danh sách món
-            $list.html(
-                d.items_html
-                    ? d.items_html
-                    : '<p class="menu-empty">' + i18n.noPost + '</p>'
-            );
-
-            $list.attr('data-current-term', String(termId));
-            $list.attr('data-page', String(page));
-
-            // 2. Cập nhật term description
-            $section.find('.menu-term-desc')
-                .html(d.term_desc_html || '')
-                .attr('data-term-id', String(termId));
-
-            // 3. Cập nhật categories block
-            let $catWrap = $section.find('.menu-categories-wrap');
-            if (d.categories_html) {
-                if (!$catWrap.length) {
-                    $catWrap = $('<div class="menu-categories-wrap">');
-                    $section.find('.menu-loading').before($catWrap);
-                }
-                $catWrap.html(d.categories_html).show();
-            } else {
-                $catWrap.hide();
-            }
-
-            // 4. Cập nhật pagination
-            let $nav = $section.find('.menu-pagination');
-            if (d.total_pages > 1) {
-                if (!$nav.length) {
-                    $nav = $('<nav class="menu-pagination">');
-                    $section.find('.menu-grid-wrap').after($nav);
-                }
-                buildPagination($nav, d.total_pages, page);
-                $nav.show();
-            } else {
-                if ($nav.length) $nav.hide();
-            }
-        })
-        .fail(function () {
-            const i18n = getI18n();
-            $section.find('.menu-items-list')
-                .html('<p class="menu-empty">' + i18n.error + '</p>');
-        })
-        .always(function () {
-            setLoading($section, false);
-        });
+            })
+            .always(function () {
+                setLoading($section, false);
+            });
     }
 
     // ─── Event: click tab ────────────────────────────────────
 
     $(document).on('click', '.menu-tab', function () {
-        const $tab     = $(this);
+        const $tab = $(this);
         const $section = $tab.closest('.menu-section');
 
         if ($tab.hasClass('menu-tab--active')) return;
@@ -151,7 +151,7 @@
     // ─── Event: click page button ────────────────────────────
 
     $(document).on('click', '.menu-page-btn', function () {
-        const $btn     = $(this);
+        const $btn = $(this);
         const $section = $btn.closest('.menu-section');
 
         if ($btn.hasClass('menu-page-btn--active')) return;
@@ -171,8 +171,8 @@
             scrollTop: $section.offset().top - 80
         }, 300);
     });
-    
-     function activateFromHash() {
+
+    function activateFromHash() {
         const hash = window.location.hash.replace('#', '');
         if (!hash) return;
 
@@ -183,7 +183,7 @@
         if (termSlug) {
             const $tab = $section.find('.menu-tab[data-term-slug="' + termSlug + '"]');
             if ($tab.length && !$tab.hasClass('menu-tab--active')) {
-                $tab.trigger('click'); 
+                $tab.trigger('click');
             }
         }
 
@@ -195,5 +195,101 @@
     }
 
     $(window).on('load', activateFromHash);
+
+    // ─── Event: Sticky Nav Scroll ────────────────────────────
+    $('.menu-quick-nav-btn').on('click', function () {
+        const targetSlug = $(this).data('target');
+        const $targetSection = $('#' + targetSlug);
+        if ($targetSection.length) {
+            $('html, body').animate({
+                scrollTop: $targetSection.offset().top - 140
+            }, 300);
+        }
+    });
+
+    let isNavUserDragging = false;
+    $(window).on('scroll', function () {
+        const scrollPos = $(window).scrollTop() + 180;
+        let currentTarget = null;
+        $('.menu-section').each(function () {
+            if ($(this).offset().top <= scrollPos && ($(this).offset().top + $(this).outerHeight() > scrollPos)) {
+                currentTarget = $(this).data('taxonomy');
+            }
+        });
+
+        if (currentTarget) {
+            $('.menu-quick-nav-btn').removeClass('active');
+            const $activeBtn = $('.menu-quick-nav-btn[data-target="' + currentTarget + '"]');
+            $activeBtn.addClass('active');
+
+            if ($activeBtn.length && !isNavUserDragging) {
+                const $navLinks = $('.menu-sticky-nav__links');
+                const btnLeft = $activeBtn.position().left;
+                const btnWidth = $activeBtn.outerWidth();
+                const containerWidth = $navLinks.width();
+                const scrollLeft = $navLinks.scrollLeft();
+
+                if (btnLeft < 20 || btnLeft + btnWidth > containerWidth - 20) {
+                    $navLinks.stop().animate({
+                        scrollLeft: scrollLeft + btnLeft - (containerWidth / 2) + (btnWidth / 2)
+                    }, 150);
+                }
+            }
+        }
+    });
+
+    // ─── Event: Live Search ──────────────────────────────────
+    let searchTimeout = null;
+    const $searchInput = $('#menu-live-search');
+    const $searchClear = $('#menu-search-clear');
+    const $mainContent = $('#menu-main-content');
+    const $resultsContainer = $('#menu-search-results-container');
+
+    function performLiveSearch(keyword) {
+        if (!keyword) {
+            $resultsContainer.hide().empty();
+            $mainContent.show();
+            return;
+        }
+
+        $mainContent.hide();
+        $resultsContainer.html('<div class="menu-search-loading" style="padding:40px; text-align:center;"><div class="menu-loading__spinner" style="margin: 0 auto; display:block; position:relative;"></div></div>').show();
+
+        $.post(ajaxUrl, {
+            action: 'restaurant_menu_search',
+            keyword: keyword,
+            nonce: nonce
+        }).done(function (res) {
+            if (res.success) {
+                $resultsContainer.html(res.data.items_html);
+            } else {
+                $resultsContainer.html('<p class="menu-empty">Fehler beim Laden. Bitte versuchen Sie es erneut.</p>');
+            }
+        }).fail(function () {
+            $resultsContainer.html('<p class="menu-empty">Netzwerkfehler. Bitte versuchen Sie es erneut.</p>');
+        });
+    }
+
+    if ($searchInput.length) {
+        $searchInput.on('input', function () {
+            const val = $(this).val().trim();
+            if (val.length > 0) {
+                $searchClear.show();
+            } else {
+                $searchClear.hide();
+            }
+
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(function () {
+                performLiveSearch(val);
+            }, 350);
+        });
+
+        $searchClear.on('click', function () {
+            $searchInput.val('');
+            $(this).hide();
+            performLiveSearch('');
+        });
+    }
 
 })(jQuery);

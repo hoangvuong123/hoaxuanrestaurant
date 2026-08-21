@@ -31,6 +31,8 @@ class Restaurant_Menu_Shortcode {
         add_shortcode( 'restaurant_menu', [ $this, 'render_shortcode' ] );
         add_action( 'wp_ajax_restaurant_menu_filter',        [ $this, 'ajax_handler' ] );
         add_action( 'wp_ajax_nopriv_restaurant_menu_filter', [ $this, 'ajax_handler' ] );
+        add_action( 'wp_ajax_restaurant_menu_search',        [ $this, 'ajax_search_handler' ] );
+        add_action( 'wp_ajax_nopriv_restaurant_menu_search', [ $this, 'ajax_search_handler' ] );
     }
 
     // =========================================================
@@ -554,7 +556,30 @@ class Restaurant_Menu_Shortcode {
         ?>
         <div class="our-menu-page" data-lang="<?php echo esc_attr( $lang ); ?>">
             <div class="menu-wrapper">
+                
+                <?php if ( get_theme_mod( 'lumy_enable_menu_search', true ) ) : ?>
+                <div class="menu-sticky-nav">
+                    <div class="menu-sticky-nav__inner">
+                        <div class="menu-sticky-nav__search">
+                            <svg class="search-icon" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 103 10.5a7.5 7.5 0 0013.65 6.15z"></path></svg>
+                            <input type="text" id="menu-live-search" placeholder="<?php echo $lang === 'de' ? 'Gericht suchen...' : 'Search dishes...'; ?>">
+                            <button id="menu-search-clear" type="button" aria-label="Clear"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path></svg></button>
+                        </div>
+                        <div class="menu-sticky-nav__links">
+                            <?php foreach ( $this->taxonomies as $tax ) : 
+                                $tax_label = $this->get_taxonomy_label( $tax, $lang );
+                            ?>
+                                <button type="button" class="menu-quick-nav-btn" data-target="<?php echo esc_attr($tax['slug']); ?>">
+                                    <?php echo esc_html($tax_label); ?>
+                                </button>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+                </div>
+                <div id="menu-search-results-container" style="display:none;"></div>
+                <?php endif; ?>
 
+                <div id="menu-main-content">
                 <?php foreach ( $this->taxonomies as $tax ) :
                     $taxonomy_slug  = $tax['slug'];
                     $taxonomy_label = $this->get_taxonomy_label( $tax, $lang );
@@ -669,6 +694,7 @@ class Restaurant_Menu_Shortcode {
                 </section>
 
                 <?php endforeach; ?>
+                </div>
 
                 <aside class="menu-allergen-note" aria-labelledby="menu-allergen-note-title">
                     <h3 class="menu-allergen-note__title" id="menu-allergen-note-title">
@@ -742,6 +768,43 @@ class Restaurant_Menu_Shortcode {
             'found_posts'     => $render['found_posts'],
             'current_page'    => $page,
             'term_id'         => $term_id,
+        ] );
+    }
+
+    // =========================================================
+    // AJAX SEARCH HANDLER
+    // =========================================================
+    public function ajax_search_handler() {
+        $keyword = sanitize_text_field( wp_unslash( $_POST['keyword'] ?? '' ) );
+        $lang    = $this->get_current_lang();
+        
+        if ( empty( $keyword ) ) {
+            wp_send_json_success( ['items_html' => ''] );
+        }
+
+        $query = new WP_Query( [
+            'post_type'      => $this->post_type,
+            'post_status'    => 'publish',
+            'posts_per_page' => -1,
+            's'              => $keyword,
+        ] );
+
+        $items_html = '';
+        if ( $query->have_posts() ) {
+            foreach ( $query->posts as $post ) {
+                $items_html .= $this->render_menu_item( $post->ID, $lang );
+            }
+        }
+        
+        $count = count($query->posts);
+        $header_html = '<h3 class="menu-search-results-title">' . 
+            ($lang === 'de' ? 'Suchergebnisse für' : 'Search results for') . 
+            ': "' . esc_html($keyword) . '" (' . $count . ')' . 
+            '</h3>';
+
+        wp_send_json_success( [
+            'items_html' => $count > 0 ? $header_html . '<div class="menu-items-list">' . $items_html . '</div>' : $header_html . '<p class="menu-empty">' . ($lang === 'de' ? 'Keine Ergebnisse gefunden' : 'No results found') . '</p>',
+            'count'      => $count
         ] );
     }
 }
