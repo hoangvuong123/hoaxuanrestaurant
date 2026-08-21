@@ -229,7 +229,7 @@
 .da-dish-list {
     display: flex;
     flex-direction: column;
-    max-height: 380px;
+    max-height: 400px;
     overflow-y: auto;
     padding-right: 4px;
     gap: 10px;
@@ -248,56 +248,188 @@
     border-color: rgba(201, 169, 110, 0.6);
 }
 
-/* Strip bottom-border separator from inner menu-item (we have the card border) */
+/* ── Layout: copy core rules from our-menu.css, popup has no access to it ── */
 .da-dish-wrapper .menu-item {
     border-bottom: none !important;
     padding: 0 !important;
 }
 
-/* Color overrides: adapt our-menu (light page) colors → dark popup */
-.da-dish-wrapper .menu-item__name,
-.da-dish-wrapper .menu-item__code,
+.da-dish-wrapper .menu-item__title-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 6px;
+    width: 100%;
+}
+
 .da-dish-wrapper .menu-item__title-left {
-    color: #c9a96e !important;
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+    flex-shrink: 0;
+}
+
+.da-dish-wrapper .menu-item__code {
+    font-weight: 700;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
 }
 
 .da-dish-wrapper .menu-item__name {
-    color: #f0e6d3 !important;
+    font-weight: 700;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
 }
 
 .da-dish-wrapper .menu-item__name-translation {
+    font-size: 0.85rem;
+    font-weight: 400;
+    font-style: normal;
+    line-height: 1.35;
+    text-transform: none;
+}
+
+.da-dish-wrapper .menu-item__dots {
+    flex: 1;
+    border-bottom: 1px dotted;
+    opacity: 0.35;
+    margin: 0 6px;
+    min-width: 16px;
+    transform: translateY(-4px);
+}
+
+.da-dish-wrapper .menu-item-prices {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    flex-shrink: 0;
+}
+
+.da-dish-wrapper .menu-item-price-badge {
+    font-weight: 600;
+    font-size: 0.9rem;
+    line-height: 1;
+    padding: 2px 5px;
+    white-space: nowrap;
+    border: 1px dotted;
+}
+
+.da-dish-wrapper .menu-item__sup {
+    font-size: 0.75em;
+    vertical-align: super;
+    margin-left: 2px;
+}
+
+.da-dish-wrapper .menu-item__quantity {
+    font-size: 0.9em;
+    margin-left: 4px;
+}
+
+.da-dish-wrapper .menu-item__descriptions {
+    margin: 4px 0 6px !important;
+}
+
+.da-dish-wrapper .menu-item__desc {
+    font-size: 0.92rem;
+    opacity: 0.9;
+    line-height: 1.5;
+    margin: 0 !important;
+}
+
+.da-dish-wrapper .menu-item__desc--translation {
+    margin-top: 2px !important;
+    font-size: 0.85rem;
+}
+
+.da-dish-wrapper .menu-item__food-types {
+    list-style: none;
+    margin: 6px 0 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.da-dish-wrapper .menu-item__ft-row {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    font-size: 0.9rem;
+}
+
+.da-dish-wrapper .menu-item__ft-left {
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+    flex: 1;
+}
+
+.da-dish-wrapper .menu-item__ft-text {
+    min-width: 0;
+    flex: 1;
+}
+
+.da-dish-wrapper .menu-item__ft-code {
+    font-weight: 600;
+    font-size: 0.8rem;
+    flex-shrink: 0;
+}
+
+.da-dish-wrapper .menu-item__ft-price {
+    font-weight: 600;
+    font-size: 0.9rem;
+    flex-shrink: 0;
+}
+
+/* ── Color overrides: adapt our-menu (light page) → dark popup ── */
+.da-dish-wrapper .menu-item__code,
+.da-dish-wrapper .menu-item__title-left {
+    color: #c9a96e;
+}
+
+.da-dish-wrapper .menu-item__name {
+    color: #f0e6d3;
+}
+
+.da-dish-wrapper .menu-item__name-translation,
+.da-dish-wrapper .menu-item__desc--translation {
     color: rgba(240, 230, 211, 0.5) !important;
 }
 
 .da-dish-wrapper .menu-item__desc,
 .da-dish-wrapper .menu-item__details {
-    color: rgba(240, 230, 211, 0.75) !important;
-}
-
-.da-dish-wrapper .menu-item__desc--translation {
-    color: rgba(240, 230, 211, 0.5) !important;
+    color: rgba(240, 230, 211, 0.72);
 }
 
 .da-dish-wrapper .menu-item__dots {
-    border-bottom-color: rgba(201, 169, 110, 0.4) !important;
+    border-bottom-color: rgba(201, 169, 110, 0.4);
 }
 
 .da-dish-wrapper .menu-item-price-badge {
-    color: #c9a96e !important;
-    border-color: rgba(201, 169, 110, 0.55) !important;
+    color: #c9a96e;
+    border-color: rgba(201, 169, 110, 0.55);
 }
 
-.da-dish-wrapper .menu-item__ft-title,
+.da-dish-wrapper .menu-item__ft-title {
+    color: rgba(240, 230, 211, 0.85);
+}
+
 .da-dish-wrapper .menu-item__ft-code {
-    color: rgba(240, 230, 211, 0.85) !important;
+    color: rgba(240, 230, 211, 0.65);
 }
 
 .da-dish-wrapper .menu-item__ft-price {
-    color: #c9a96e !important;
+    color: #c9a96e;
 }
 
 .da-dish-wrapper .menu-item__sup {
-    color: rgba(240, 230, 211, 0.7) !important;
+    color: rgba(240, 230, 211, 0.6) !important;
+}
+
+.da-dish-wrapper .menu-item__quantity {
+    color: rgba(240, 230, 211, 0.7);
 }
 
 /* Add to cart row */
@@ -305,19 +437,18 @@
     margin-top: 10px;
     display: flex;
     align-items: center;
-    gap: 10px;
 }
 
 .da-add-to-cart {
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    padding: 5px 12px;
+    padding: 5px 14px;
     border-radius: 6px;
     border: 1px solid rgba(201, 169, 110, 0.5);
     background: rgba(201, 169, 110, 0.1);
     color: #c9a96e;
-    font-size: 0.82rem;
+    font-size: 0.8rem;
     font-weight: 600;
     cursor: pointer;
     transition: background 0.2s, color 0.2s, border-color 0.2s;
