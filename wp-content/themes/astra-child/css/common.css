@@ -247,6 +247,7 @@
     padding: 12px 14px 10px;
     background: rgba(255, 255, 255, 0.025);
     transition: border-color 0.2s;
+    cursor: pointer;
 }
 
 .da-dish-wrapper:hover {

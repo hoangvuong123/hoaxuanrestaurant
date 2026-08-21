@@ -100,6 +100,16 @@ document.addEventListener('DOMContentLoaded', function () {
     });
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closePopup(); });
 
+    /* ---- Dish card: click anywhere on card → open order modal ---- */
+    document.addEventListener('click', function (e) {
+        var wrapper = e.target.closest('.da-dish-wrapper');
+        if (!wrapper) return;
+        /* Ignore if user already clicked on .hx-order-title-row (plugin handles it) */
+        if (e.target.closest('.hx-order-title-row')) return;
+        var titleRow = wrapper.querySelector('.hx-order-title-row');
+        if (titleRow) titleRow.click();
+    });
+
 });
 
 /* ============================================
