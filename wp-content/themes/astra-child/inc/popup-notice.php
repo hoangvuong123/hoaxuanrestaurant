@@ -448,12 +448,9 @@ function hx_popup_render_html() {
                                 $menu_sc = Restaurant_Menu_Shortcode::get_instance();
                                 foreach ( $new_dishes as $dish ) :
                                     $dish_id = $dish->ID;
-                                    $html_de = $menu_sc->render_menu_item( $dish_id, 'de' );
-                                    $html_en = $menu_sc->render_menu_item( $dish_id, 'en' );
                                 ?>
                                     <div class="da-dish-wrapper" data-post-id="<?php echo esc_attr( $dish_id ); ?>">
-                                        <div data-da-lang="de"><?php echo $html_de; ?></div>
-                                        <div data-da-lang="en"><?php echo $html_en; ?></div>
+                                        <?php echo $menu_sc->render_menu_item( $dish_id, 'de' ); ?>
                                     </div>
                                 <?php endforeach; ?>
                             </div>

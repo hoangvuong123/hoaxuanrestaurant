@@ -259,6 +259,7 @@
 .da-dish-wrapper .menu-item {
     border-bottom: none !important;
     padding: 0 !important;
+    font-family: 'Jost', sans-serif;
 }
 
 .da-dish-wrapper .menu-item__title-row {
