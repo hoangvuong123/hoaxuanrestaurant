@@ -9,8 +9,10 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 function rnp_enqueue_assets() {
-    wp_enqueue_style( 'rnp-popup', plugin_dir_url( __FILE__ ) . 'assets/popup.css', [], '1.0.0' );
-    wp_enqueue_script( 'rnp-popup', plugin_dir_url( __FILE__ ) . 'assets/popup.js', [], '1.0.0', true );
+    $css_ver = filemtime( plugin_dir_path( __FILE__ ) . 'assets/popup.css' );
+    $js_ver  = filemtime( plugin_dir_path( __FILE__ ) . 'assets/popup.js' );
+    wp_enqueue_style( 'rnp-popup', plugin_dir_url( __FILE__ ) . 'assets/popup.css', [], $css_ver );
+    wp_enqueue_script( 'rnp-popup', plugin_dir_url( __FILE__ ) . 'assets/popup.js', [], $js_ver, true );
 }
 add_action( 'wp_enqueue_scripts', 'rnp_enqueue_assets' );
 
