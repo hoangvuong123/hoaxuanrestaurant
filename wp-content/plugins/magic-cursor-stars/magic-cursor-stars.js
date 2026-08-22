@@ -1,7 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Determine selected style (fallback to style_1)
-    const activeStyleKey = (typeof magicCursorConfig !== 'undefined' && magicCursorConfig.style) ? magicCursorConfig.style : 'style_1';
-
     // Style configurations
     const PRESETS = {
         'style_1': { // Classic Gold Stars
@@ -106,18 +103,23 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    const config = PRESETS[activeStyleKey] || PRESETS['style_1'];
-
     let lastX = -1000, lastY = -1000;
-    const DISTANCE_THRESHOLD = 20;
 
     const randomRange = (min, max) => Math.random() * (max - min) + min;
 
     const spawnParticle = (x, y) => {
+        // Fetch config dynamically for LIVE PREVIEW
+        const optStyle = (typeof magicCursorConfig !== 'undefined' && magicCursorConfig.style) ? magicCursorConfig.style : 'style_1';
+        const optSize = (typeof magicCursorConfig !== 'undefined' && magicCursorConfig.size) ? magicCursorConfig.size : 'normal';
+
+        const config = PRESETS[optStyle] || PRESETS['style_1'];
+
+        const sizeScale = optSize === 'large' ? 1.6 : (optSize === 'small' ? 0.6 : 1);
+
         const p = document.createElement('div');
         p.className = 'magic-cursor-star';
 
-        const size = randomRange(config.size[0], config.size[1]);
+        const size = randomRange(config.size[0], config.size[1]) * sizeScale;
         const moveX = randomRange(config.moveX[0], config.moveX[1]);
         const moveY = randomRange(config.moveY[0], config.moveY[1]);
         const rotStart = randomRange(config.rot[0], config.rot[1]);
@@ -150,7 +152,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         // Setup Shooting star specific styling if needed
-        if (activeStyleKey === 'style_19') {
+        if (optStyle === 'style_19') {
             p.style.height = `${size * 6}px`; // Make it a streak
             p.style.borderRadius = '50px';
         }
@@ -198,6 +200,13 @@ document.addEventListener('DOMContentLoaded', () => {
             lastY = currentY;
             return;
         }
+
+        // Calculate dynamic threshold based on density
+        const optDensity = (typeof magicCursorConfig !== 'undefined' && magicCursorConfig.density) ? magicCursorConfig.density : 'normal';
+        let densityScale = 1;
+        if (optDensity === 'high') densityScale = 0.5; // Spawn 2x more often
+        if (optDensity === 'low') densityScale = 2.5;  // Spawn 2.5x less often
+        const DISTANCE_THRESHOLD = 20 * densityScale;
 
         const deltaX = currentX - lastX;
         const deltaY = currentY - lastY;
