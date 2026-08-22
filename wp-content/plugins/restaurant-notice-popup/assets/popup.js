@@ -71,19 +71,18 @@ document.addEventListener('DOMContentLoaded', function () {
 
     if (!sessionStorage.getItem(STORAGE_KEY)) {
         overlay.classList.add('da-visible');
-    } else {
-        notifFab.style.display = 'flex';
     }
+
+    /* Always show the notification FAB */
+    notifFab.style.display = 'flex';
 
     function closePopup() {
         overlay.classList.remove('da-visible');
-        notifFab.style.display = 'flex';
         sessionStorage.setItem(STORAGE_KEY, '1');
     }
 
     function openPopup() {
         overlay.classList.add('da-visible');
-        notifFab.style.display = 'none';
     }
 
     confirmBtn.addEventListener('click', closePopup);
