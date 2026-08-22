@@ -555,21 +555,6 @@ class Restaurant_Menu_Shortcode {
         <div class="our-menu-page" data-lang="<?php echo esc_attr( $lang ); ?>">
             <div class="menu-wrapper">
                 
-                <div class="menu-sticky-nav">
-                    <div class="menu-sticky-nav__inner">
-                        <div class="menu-sticky-nav__links">
-                            <?php foreach ( $this->taxonomies as $tax ) : 
-                                $tax_label = $this->get_taxonomy_label( $tax, $lang );
-                            ?>
-                                <button type="button" class="menu-quick-nav-btn" data-target="<?php echo esc_attr($tax['slug']); ?>">
-                                    <?php echo esc_html($tax_label); ?>
-                                </button>
-                            <?php endforeach; ?>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="menu-main-content">
                 <?php foreach ( $this->taxonomies as $tax ) :
                     $taxonomy_slug  = $tax['slug'];
                     $taxonomy_label = $this->get_taxonomy_label( $tax, $lang );
@@ -684,7 +669,6 @@ class Restaurant_Menu_Shortcode {
                 </section>
 
                 <?php endforeach; ?>
-                </div>
 
                 <aside class="menu-allergen-note" aria-labelledby="menu-allergen-note-title">
                     <h3 class="menu-allergen-note__title" id="menu-allergen-note-title">
