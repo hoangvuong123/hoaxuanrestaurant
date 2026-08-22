@@ -1,0 +1,144 @@
+.magic-cursor-star {
+    position: absolute;
+    pointer-events: none;
+    z-index: 2147483647;
+    user-select: none;
+    -webkit-user-select: none;
+    transform: translate(-50%, -50%);
+    will-change: transform, opacity;
+}
+
+.magic-cursor-shape-circle {
+    border-radius: 50%;
+    background-color: currentColor;
+}
+
+.magic-cursor-shape-square {
+    background-color: currentColor;
+}
+
+/* ANIMATION PRESETS */
+
+/* Fall down and fade */
+@keyframes magicCursorFall {
+    0% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(0.5) rotate(0deg);
+    }
+
+    15% {
+        transform: translate(-50%, -50%) scale(1.1) rotate(var(--rot-start));
+    }
+
+    100% {
+        opacity: 0;
+        transform: translate(calc(-50% + var(--move-x)), calc(-50% + var(--move-y))) scale(0.2) rotate(var(--rot-end));
+    }
+}
+
+/* Float up and expand/fade */
+@keyframes magicCursorFloat {
+    0% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(0.5) rotate(0deg);
+    }
+
+    20% {
+        transform: translate(-50%, -50%) scale(1) rotate(var(--rot-start));
+    }
+
+    100% {
+        opacity: 0;
+        transform: translate(calc(-50% + var(--move-x)), calc(-50% + var(--move-y))) scale(1.5) rotate(var(--rot-end));
+    }
+}
+
+/* Drift widely side to side while falling slowly */
+@keyframes magicCursorDrift {
+    0% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(0.5) rotate(0deg);
+    }
+
+    25% {
+        transform: translate(calc(-50% + calc(var(--move-x) * 0.4)), calc(-50% + calc(var(--move-y) * 0.3))) scale(1) rotate(calc(var(--rot-start) * 0.5));
+    }
+
+    100% {
+        opacity: 0;
+        transform: translate(calc(-50% + var(--move-x)), calc(-50% + var(--move-y))) scale(0.5) rotate(var(--rot-end));
+    }
+}
+
+/* Drop straight down fast (Matrix effect) */
+@keyframes magicCursorDrop {
+    0% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+
+    10% {
+        transform: translate(-50%, -50%) scale(1.2);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translate(-50%, calc(-50% + var(--move-y))) scale(0.8);
+    }
+}
+
+/* Burst outward and pop (Bubbles, Sparks) */
+@keyframes magicCursorPop {
+    0% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0) rotate(0deg);
+    }
+
+    20% {
+        opacity: 1;
+        transform: translate(calc(-50% + calc(var(--move-x) * 0.2)), calc(-50% + calc(var(--move-y) * 0.2))) scale(1.2) rotate(var(--rot-start));
+    }
+
+    80% {
+        opacity: 0.8;
+        transform: translate(calc(-50% + calc(var(--move-x) * 0.8)), calc(-50% + calc(var(--move-y) * 0.8))) scale(1);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translate(calc(-50% + var(--move-x)), calc(-50% + var(--move-y))) scale(0) rotate(var(--rot-end));
+    }
+}
+
+/* Shooting star (fast diagonal) */
+@keyframes magicCursorShoot {
+    0% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1) rotate(var(--rot-start));
+    }
+
+    100% {
+        opacity: 0;
+        transform: translate(calc(-50% + var(--move-x)), calc(-50% + var(--move-y))) scale(0.1) rotate(var(--rot-start));
+    }
+}
+
+/* Pulse (Neon Orbs, Sparks) */
+@keyframes magicCursorPulse {
+    0% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.5);
+    }
+
+    30% {
+        opacity: 1;
+        transform: translate(calc(-50% + calc(var(--move-x) * 0.3)), calc(-50% + calc(var(--move-y) * 0.3))) scale(1.2);
+        box-shadow: 0 0 10px currentColor, 0 0 20px currentColor;
+    }
+
+    100% {
+        opacity: 0;
+        transform: translate(calc(-50% + var(--move-x)), calc(-50% + var(--move-y))) scale(0.5);
+        box-shadow: 0 0 2px currentColor;
+    }
+}
