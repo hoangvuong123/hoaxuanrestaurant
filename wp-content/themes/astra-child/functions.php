@@ -139,15 +139,6 @@ add_action( 'after_setup_theme', 'lumy_register_menus' );
         'title'    => __( 'Thiết lập Our Menu', 'lumy' ),
         'priority' => 31,
     ]);
-    $wp_customize->add_setting( 'lumy_enable_menu_search', [
-        'default'   => true,
-        'transport' => 'refresh',
-    ]);
-    $wp_customize->add_control( 'lumy_enable_menu_search', [
-        'label'    => __( 'Bật tiện ích Danh Mục & Tìm Kiếm nhanh', 'lumy' ),
-        'section'  => 'lumy_menu_section',
-        'type'     => 'checkbox',
-    ]);
 }
 add_action( 'customize_register', 'lumy_customizer_settings' );
 
