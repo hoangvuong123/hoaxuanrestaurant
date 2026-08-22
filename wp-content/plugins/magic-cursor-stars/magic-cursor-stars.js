@@ -116,8 +116,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const throttle = (callback, time) => {
         if (throttleTimer) return;
         throttleTimer = true;
+        callback(); // Thực thi ngay lập tức để không bị trễ
         setTimeout(() => {
-            callback();
             throttleTimer = false;
         }, time);
     };
