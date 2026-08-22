@@ -213,11 +213,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
 
         if (distance >= DISTANCE_THRESHOLD) {
-            const steps = Math.floor(distance / DISTANCE_THRESHOLD);
+            const expectedSteps = Math.floor(distance / DISTANCE_THRESHOLD);
+            const steps = Math.min(expectedSteps, 15); // Khống chế tối đa 15 hạt 1 lúc để chống lấp đầy line
             if (steps > 0) {
                 for (let i = 1; i <= steps; i++) {
-                    const interpX = lastX + (deltaX * i / steps);
-                    const interpY = lastY + (deltaY * i / steps);
+                    const interpX = lastX + (deltaX * i / expectedSteps);
+                    const interpY = lastY + (deltaY * i / expectedSteps);
                     spawnParticle(interpX, interpY);
                 }
             }
@@ -229,4 +230,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.addEventListener('mousemove', interact);
     document.addEventListener('touchmove', interact, { passive: true });
+
+    // Sửa lỗi: Cập nhật lại toạ độ tức thì khi đưa chuột vào màn hình hoặc bắt đầu chạm cảm ứng (Tránh vẽ line)
+    document.addEventListener('touchstart', (e) => {
+        if (e.touches.length > 0) {
+            lastX = e.touches[0].pageX;
+            lastY = e.touches[0].pageY;
+        }
+    }, { passive: true });
+
+    document.addEventListener('mouseenter', (e) => {
+        lastX = e.pageX;
+        lastY = e.pageY;
+    });
 });
