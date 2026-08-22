@@ -108,19 +108,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const config = PRESETS[activeStyleKey] || PRESETS['style_1'];
 
-    let throttleTimer = false;
-    let lastX = 0, lastY = 0;
+    let lastX = -1000, lastY = -1000;
+    const DISTANCE_THRESHOLD = 20;
 
     const randomRange = (min, max) => Math.random() * (max - min) + min;
-
-    const throttle = (callback, time) => {
-        if (throttleTimer) return;
-        throttleTimer = true;
-        callback(); // Thực thi ngay lập tức để không bị trễ
-        setTimeout(() => {
-            throttleTimer = false;
-        }, time);
-    };
 
     const spawnParticle = (x, y) => {
         const p = document.createElement('div');
@@ -201,13 +192,26 @@ document.addEventListener('DOMContentLoaded', () => {
             currentY = e.pageY;
         }
 
-        const deltaX = Math.abs(currentX - lastX);
-        const deltaY = Math.abs(currentY - lastY);
+        if (lastX === -1000) {
+            spawnParticle(currentX, currentY);
+            lastX = currentX;
+            lastY = currentY;
+            return;
+        }
 
-        if (deltaX > 4 || deltaY > 4) {
-            throttle(() => {
-                spawnParticle(currentX, currentY);
-            }, config.throttle);
+        const deltaX = currentX - lastX;
+        const deltaY = currentY - lastY;
+        const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+
+        if (distance >= DISTANCE_THRESHOLD) {
+            const steps = Math.floor(distance / DISTANCE_THRESHOLD);
+            if (steps > 0) {
+                for (let i = 1; i <= steps; i++) {
+                    const interpX = lastX + (deltaX * i / steps);
+                    const interpY = lastY + (deltaY * i / steps);
+                    spawnParticle(interpX, interpY);
+                }
+            }
 
             lastX = currentX;
             lastY = currentY;
