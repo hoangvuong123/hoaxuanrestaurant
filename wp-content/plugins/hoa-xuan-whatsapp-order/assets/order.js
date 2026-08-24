@@ -251,8 +251,7 @@
           <button class="hx-icon-button hx-close-modal" type="button" title="${escapeHtml(text.close)}" aria-label="${escapeHtml(text.close)}"><span class="dashicons dashicons-no-alt" aria-hidden="true"></span></button>
         </header>
         <div class="hx-modal-image-wrapper" hidden>
-          <img class="hx-modal-image" src="" alt="">
-          <button class="hx-modal-zoom-btn menu-item--has-image" type="button" data-image="" title="Zoom" aria-label="Zoom image"><span class="dashicons dashicons-search" aria-hidden="true"></span></button>
+          <img class="hx-modal-image hx-modal-zoom-btn" src="" alt="" title="Phóng to" data-image="">
         </div>
         <form class="hx-product-form">
           <fieldset class="hx-choice-fieldset">
@@ -343,11 +342,10 @@
     const imgWrapper = modal.querySelector(".hx-modal-image-wrapper");
     if (imgWrapper) {
       const imgEl = imgWrapper.querySelector(".hx-modal-image");
-      const zoomBtn = imgWrapper.querySelector(".hx-modal-zoom-btn");
       const imgToUse = choice?.image || modalProduct.image || "";
       if (imgToUse) {
         imgEl.src = imgToUse;
-        zoomBtn.dataset.image = imgToUse;
+        imgEl.dataset.image = imgToUse;
         imgWrapper.hidden = false;
       } else {
         imgWrapper.hidden = true;
