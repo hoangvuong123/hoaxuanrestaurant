@@ -256,6 +256,23 @@ class Restaurant_Menu_Shortcode {
             $price_norm = str_replace( ',', '.', $price );
             $price_fmt  = $price !== '' ? number_format( (float) $price_norm, 2, ',', '.' ) . '€' : '';
 
+            $sub_img_url = '';
+            foreach (['image', 'img', 'photo', 'picture', 'hinh_anh'] as $img_key) {
+                if (!empty($row[$img_key])) {
+                    $img_val = $row[$img_key];
+                    if (is_array($img_val) && isset($img_val['url'])) {
+                        $sub_img_url = $img_val['url'];
+                    } elseif (is_numeric($img_val)) {
+                        $sub_img_url = wp_get_attachment_url($img_val);
+                    } elseif (is_string($img_val) && filter_var($img_val, FILTER_VALIDATE_URL)) {
+                        $sub_img_url = $img_val;
+                    }
+                    if ($sub_img_url) break;
+                }
+            }
+            $img_attr  = $sub_img_url ? ' data-image="' . esc_url( $sub_img_url ) . '"' : '';
+            $img_class = $sub_img_url ? ' menu-item__ft-row--has-image' : '';
+
             $sup_html   = $allergens ? '<sup class="menu-item__sup">' . $allergens . '</sup>' : '';
             $translation_html = $translation
                 ? '<span class="menu-item__ft-translation">/ ' . esc_html( $translation ) . '</span>'
@@ -263,10 +280,12 @@ class Restaurant_Menu_Shortcode {
             $price_html = $price_fmt ? '<span class="menu-item__ft-price">' . esc_html( $price_fmt ) . '</span>' : '';
 
             $html .= sprintf(
-                '<li class="menu-item__ft-row">
+                '<li class="menu-item__ft-row%s"%s>
                     <span class="menu-item__ft-left">%s<span class="menu-item__ft-text"><span class="menu-item__ft-title">%s</span>%s%s</span></span>
                     %s
                 </li>',
+                $img_class,
+                $img_attr,
                 $code ? '<span class="menu-item__ft-code">' . $code . '.</span>' : '',
                 esc_html( $title ),
                 $sup_html,

@@ -838,3 +838,28 @@
     display: none;
   }
 }
+
+.menu-item__ft-row--has-image {
+  cursor: pointer;
+  position: relative;
+  z-index: 1;
+  padding: 4px 8px;
+  margin: -4px -8px;
+  border-radius: 6px;
+}
+
+.menu-item__ft-row--has-image::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(201, 197, 24, 0.1);
+  border-radius: 6px;
+  opacity: 0;
+  transition: opacity 0.2s;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.menu-item__ft-row--has-image:hover::after {
+  opacity: 1;
+}
