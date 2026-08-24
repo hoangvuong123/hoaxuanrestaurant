@@ -248,7 +248,7 @@
             setTimeout(() => { $imgPopup.find('img').attr('src', ''); }, 350);
         };
 
-        $(document).on('click', '.menu-item--has-image, .menu-item__ft-row--has-image', function (e) {
+        $(document).on('click', '.hx-modal-zoom-btn', function (e) {
             e.stopPropagation();
             const imgSrc = $(this).attr('data-image');
             if (imgSrc) {
