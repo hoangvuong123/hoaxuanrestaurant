@@ -805,6 +805,38 @@ body.hx-order-open {
   left: 150%;
 }
 
+/* Skeleton Loading Shimmer */
+@keyframes hx-shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.hx-image-loading {
+  aspect-ratio: 4 / 5;
+}
+
+.hx-image-loading::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 6px;
+  background: linear-gradient(90deg,
+      rgba(255, 255, 255, 0.02) 25%,
+      rgba(255, 255, 255, 0.08) 50%,
+      rgba(255, 255, 255, 0.02) 75%);
+  background-size: 200% 100%;
+  animation: hx-shimmer 1.5s ease infinite;
+}
+
+.hx-modal-image {
+  transition: opacity 0.4s ease;
+}
+
 .hx-no-image-placeholder {
   pointer-events: none !important;
   background: rgba(255, 255, 255, 0.02) !important;

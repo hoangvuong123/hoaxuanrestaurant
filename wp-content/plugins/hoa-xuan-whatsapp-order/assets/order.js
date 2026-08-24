@@ -350,15 +350,27 @@
       if (hasAnyImage) {
         imgWrapper.hidden = false;
         if (imgToUse) {
+          imgWrapper.classList.remove("hx-no-image-placeholder");
+          imgWrapper.classList.add("hx-image-loading");
+          imgEl.style.display = "block";
+          imgEl.style.opacity = "0";
+          imgEl.onload = () => {
+            imgWrapper.classList.remove("hx-image-loading");
+            imgEl.style.opacity = "1";
+          };
+          imgEl.onerror = () => {
+            imgWrapper.classList.remove("hx-image-loading");
+            imgWrapper.classList.add("hx-no-image-placeholder");
+            imgEl.style.display = "none";
+          };
           imgEl.src = imgToUse;
           imgEl.dataset.image = imgToUse;
-          imgEl.style.display = "block";
-          imgWrapper.classList.remove("hx-no-image-placeholder");
         } else {
           imgEl.src = "";
           imgEl.dataset.image = "";
           imgEl.style.display = "none";
           imgWrapper.classList.add("hx-no-image-placeholder");
+          imgWrapper.classList.remove("hx-image-loading");
         }
       } else {
         imgWrapper.hidden = true;
