@@ -4,78 +4,78 @@
    File: /wp-content/themes/your-child-theme/lumy-header/lumy-header.js
 ================================================ */
 (function () {
-  'use strict';
+    'use strict';
 
-  /* ── Desktop overlay ── */
-  var hbgD    = document.getElementById('lumy-hbg-desktop');
-  var overlay = document.getElementById('lumy-overlay');
-  var ovClose = document.getElementById('lumy-ov-close');
+    /* ── Desktop overlay ── */
+    var hbgD = document.getElementById('lumy-hbg-desktop');
+    var overlay = document.getElementById('lumy-overlay');
+    var ovClose = document.getElementById('lumy-ov-close');
 
-  function openDesktop() {
-    overlay.classList.add('on');
-    overlay.setAttribute('aria-hidden', 'false');
-    hbgD.classList.add('open');
-    hbgD.setAttribute('aria-expanded', 'true');
-    document.body.classList.add('lumy-menu-open');
-  }
-  function closeDesktop() {
-    overlay.classList.remove('on');
-    overlay.setAttribute('aria-hidden', 'true');
-    hbgD.classList.remove('open');
-    hbgD.setAttribute('aria-expanded', 'false');
-    document.body.classList.remove('lumy-menu-open');
-  }
+    function openDesktop() {
+        overlay.classList.add('on');
+        overlay.setAttribute('aria-hidden', 'false');
+        hbgD.classList.add('open');
+        hbgD.setAttribute('aria-expanded', 'true');
+        document.body.classList.add('lumy-menu-open');
+    }
+    function closeDesktop() {
+        overlay.classList.remove('on');
+        overlay.setAttribute('aria-hidden', 'true');
+        hbgD.classList.remove('open');
+        hbgD.setAttribute('aria-expanded', 'false');
+        document.body.classList.remove('lumy-menu-open');
+    }
 
-  if (hbgD) {
-    hbgD.addEventListener('click', function () {
-      overlay.classList.contains('on') ? closeDesktop() : openDesktop();
+    if (hbgD) {
+        hbgD.addEventListener('click', function () {
+            overlay.classList.contains('on') ? closeDesktop() : openDesktop();
+        });
+    }
+    if (ovClose) {
+        ovClose.addEventListener('click', closeDesktop);
+    }
+
+    /* ── Mobile overlay ── */
+    var hbgM = document.getElementById('lumy-hbg-mobile');
+    var mobOv = document.getElementById('lumy-mob-overlay');
+    var mobClose = document.getElementById('lumy-mob-close');
+
+    function openMobile() {
+        mobOv.classList.add('on');
+        mobOv.setAttribute('aria-hidden', 'false');
+        hbgM.classList.add('open');
+        hbgM.setAttribute('aria-expanded', 'true');
+        document.body.classList.add('lumy-menu-open');
+    }
+    function closeMobile() {
+        mobOv.classList.remove('on');
+        mobOv.setAttribute('aria-hidden', 'true');
+        hbgM.classList.remove('open');
+        hbgM.setAttribute('aria-expanded', 'false');
+        document.body.classList.remove('lumy-menu-open');
+    }
+
+    if (hbgM) {
+        hbgM.addEventListener('click', function () {
+            mobOv.classList.contains('on') ? closeMobile() : openMobile();
+        });
+    }
+    if (mobClose) {
+        mobClose.addEventListener('click', closeMobile);
+    }
+
+    /* ── ESC closes both ── */
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') { closeDesktop(); closeMobile(); }
     });
-  }
-  if (ovClose) {
-    ovClose.addEventListener('click', closeDesktop);
-  }
 
-  /* ── Mobile overlay ── */
-  var hbgM     = document.getElementById('lumy-hbg-mobile');
-  var mobOv    = document.getElementById('lumy-mob-overlay');
-  var mobClose = document.getElementById('lumy-mob-close');
-
-  function openMobile() {
-    mobOv.classList.add('on');
-    mobOv.setAttribute('aria-hidden', 'false');
-    hbgM.classList.add('open');
-    hbgM.setAttribute('aria-expanded', 'true');
-    document.body.classList.add('lumy-menu-open');
-  }
-  function closeMobile() {
-    mobOv.classList.remove('on');
-    mobOv.setAttribute('aria-hidden', 'true');
-    hbgM.classList.remove('open');
-    hbgM.setAttribute('aria-expanded', 'false');
-    document.body.classList.remove('lumy-menu-open');
-  }
-
-  if (hbgM) {
-    hbgM.addEventListener('click', function () {
-      mobOv.classList.contains('on') ? closeMobile() : openMobile();
-    });
-  }
-  if (mobClose) {
-    mobClose.addEventListener('click', closeMobile);
-  }
-
-  /* ── ESC closes both ── */
-  document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape') { closeDesktop(); closeMobile(); }
-  });
-
-  /* ── Scroll: add .scrolled to desktop header ── */
-  var hd = document.getElementById('lumy-hd');
-  if (hd) {
-    window.addEventListener('scroll', function () {
-      hd.classList.toggle('scrolled', window.scrollY > 30);
-    }, { passive: true });
-  }
+    /* ── Scroll: add .scrolled to desktop header ── */
+    var hd = document.getElementById('lumy-hd');
+    if (hd) {
+        window.addEventListener('scroll', function () {
+            hd.classList.toggle('scrolled', window.scrollY > 30);
+        }, { passive: true });
+    }
 })();
 
 
@@ -109,12 +109,6 @@ async function initHoaXuanThree() {
         THREE = await import(
             'https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js'
         );
-
-        console.log(
-            'HX THREE: Three.js loaded',
-            THREE.REVISION
-        );
-
     } catch (error) {
 
         console.error(
@@ -368,12 +362,6 @@ async function initHoaXuanThree() {
         );
 
     scene.add(particles);
-
-    console.log(
-        'HX THREE: particles created',
-        count
-    );
-
 
     /* ==============================
        LARGE BOKEH
@@ -729,10 +717,5 @@ async function initHoaXuanThree() {
     window.addEventListener(
         'resize',
         resize
-    );
-
-
-    console.log(
-        '✅ HX THREE ACTIVE'
     );
 }
