@@ -257,3 +257,11 @@ function my_acf_add_local_field_groups() {
         ));
     endif;
 }
+
+/* =======================================
+   Enable Featured Image for Menu
+======================================= */
+add_action('init', function() {
+    add_theme_support('post-thumbnails');
+    add_post_type_support('menu', 'thumbnail');
+}, 99);
