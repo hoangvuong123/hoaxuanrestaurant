@@ -6,6 +6,7 @@
     -webkit-user-select: none;
     transform: translate(-50%, -50%);
     will-change: transform, opacity;
+    animation-fill-mode: forwards;
 }
 
 .magic-cursor-shape-circle {

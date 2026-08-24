@@ -170,6 +170,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Apply Animation
         p.style.animationName = config.anim;
         p.style.animationDuration = `${config.duration}ms`;
+        p.style.animationFillMode = 'forwards';
         // Ease based on animation
         if (config.anim === 'magicCursorPop' || config.anim === 'magicCursorShoot') {
             p.style.animationTimingFunction = 'ease-out';
