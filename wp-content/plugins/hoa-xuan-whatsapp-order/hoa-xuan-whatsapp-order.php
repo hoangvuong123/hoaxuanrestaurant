@@ -148,10 +148,6 @@ final class Hoa_Xuan_WhatsApp_Order {
         wp_send_json_success( array( 'id' => (int) $wpdb->insert_id ) );
     }
 
-    public function clear_menu_cache() {
-        delete_transient( 'hoa_xuan_order_menu_data_v3' );
-    }
-
     public function settings_link( $links ) {
         array_unshift(
             $links,
