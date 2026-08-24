@@ -82,7 +82,7 @@ function astra_child_enqueue_scripts() {
             'our-menu-js',
             get_stylesheet_directory_uri() . '/js/our-menu.js',
             array('jquery'),
-            '1.0',
+            filemtime( get_stylesheet_directory() . '/js/our-menu.js' ),
             true
         );
     }
