@@ -471,6 +471,18 @@ final class Hoa_Xuan_WhatsApp_Order {
             return $cached;
         }
 
+        try {
+            return $this->build_menu_data();
+        } catch ( \Throwable $e ) {
+            if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+                error_log( 'HX WhatsApp Order: ' . $e->getMessage() );
+            }
+            return array();
+        }
+    }
+
+    private function build_menu_data() {
+
         $posts = get_posts(
             array(
                 'post_type' => 'menu',
@@ -546,12 +558,19 @@ final class Hoa_Xuan_WhatsApp_Order {
 
             $img_url = get_the_post_thumbnail_url( $post->ID, 'large' );
 
+            $raw_additives = $this->get_field_value( 'additives', $post->ID );
+            if ( is_array( $raw_additives ) ) {
+                $additives_str = implode( ', ', array_map( 'strval', $raw_additives ) );
+            } else {
+                $additives_str = (string) ( $raw_additives ?? '' );
+            }
+
             $items[ (string) $post->ID ] = array(
                 'postId' => (int) $post->ID,
-                'code' => sanitize_text_field( (string) $this->get_field_value( 'code', $post->ID ) ),
-                'titleDe' => sanitize_text_field( (string) $post->post_title ),
-                'titleEn' => sanitize_text_field( (string) $this->get_field_value( 'title-en', $post->ID ) ),
-                'additives' => sanitize_text_field( is_array($additives = $this->get_field_value( 'additives', $post->ID )) ? implode(', ', $additives) : (string) $additives ),
+                'code' => sanitize_text_field( (string) ( $this->get_field_value( 'code', $post->ID ) ?? '' ) ),
+                'titleDe' => sanitize_text_field( (string) ( $post->post_title ?? '' ) ),
+                'titleEn' => sanitize_text_field( (string) ( $this->get_field_value( 'title-en', $post->ID ) ?? '' ) ),
+                'additives' => sanitize_text_field( $additives_str ),
                 'basePrice' => $base_price,
                 'image' => $img_url ? esc_url($img_url) : '',
                 'choices' => $choices,
