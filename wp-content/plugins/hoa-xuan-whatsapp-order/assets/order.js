@@ -342,13 +342,24 @@
     modalPriceTotal.textContent = pending ? "—" : euro.format(Number(unitPrice) * quantity);
 
     const imgWrapper = modal.querySelector(".hx-modal-image-wrapper");
-    if (imgWrapper) {
+    if (imgWrapper && modalProduct) {
+      const hasAnyImage = !!modalProduct.image || (modalProduct.choices && modalProduct.choices.some(c => c.image));
       const imgEl = imgWrapper.querySelector(".hx-modal-image");
       const imgToUse = choice?.image || modalProduct.image || "";
-      if (imgToUse) {
-        imgEl.src = imgToUse;
-        imgEl.dataset.image = imgToUse;
+
+      if (hasAnyImage) {
         imgWrapper.hidden = false;
+        if (imgToUse) {
+          imgEl.src = imgToUse;
+          imgEl.dataset.image = imgToUse;
+          imgEl.style.display = "block";
+          imgWrapper.classList.remove("hx-no-image-placeholder");
+        } else {
+          imgEl.src = "";
+          imgEl.dataset.image = "";
+          imgEl.style.display = "none";
+          imgWrapper.classList.add("hx-no-image-placeholder");
+        }
       } else {
         imgWrapper.hidden = true;
       }
@@ -447,7 +458,7 @@
       .map((choice, index) => {
         const checked = line
           ? line.choiceId === choice.id
-          : product.choices.length === 1 && index === 0;
+          : index === 0;
         const name = [choice.code, choiceTitle(choice)].filter(Boolean).join(" - ");
         return `<label class="hx-choice-option">
           <input type="radio" name="choice" value="${escapeHtml(choice.id)}" ${checked ? "checked" : ""}>
