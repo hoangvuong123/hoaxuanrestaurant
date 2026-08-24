@@ -34,7 +34,7 @@ final class Hoa_Xuan_WhatsApp_Order {
     public static function activate() {
         self::create_orders_table();
         update_option( self::DB_VERSION_KEY, self::DB_VERSION );
-        delete_transient( 'hoa_xuan_order_menu_data_v1' );
+        delete_transient( 'hoa_xuan_order_menu_data_v3' );
         if ( false === get_option( self::OPTION_KEY, false ) ) {
             add_option(
                 self::OPTION_KEY,
@@ -144,7 +144,7 @@ final class Hoa_Xuan_WhatsApp_Order {
     }
 
     public function clear_menu_cache() {
-        delete_transient( 'hoa_xuan_order_menu_data_v1' );
+        delete_transient( 'hoa_xuan_order_menu_data_v3' );
     }
 
     public function settings_link( $links ) {
@@ -461,7 +461,7 @@ final class Hoa_Xuan_WhatsApp_Order {
     }
 
     private function get_menu_data() {
-        $cached = get_transient( 'hoa_xuan_order_menu_data_v1' );
+        $cached = get_transient( 'hoa_xuan_order_menu_data_v3' );
         if ( is_array( $cached ) ) {
             return $cached;
         }
@@ -552,7 +552,7 @@ final class Hoa_Xuan_WhatsApp_Order {
             );
         }
 
-        set_transient( 'hoa_xuan_order_menu_data_v1', $items, 12 * HOUR_IN_SECONDS );
+        set_transient( 'hoa_xuan_order_menu_data_v3', $items, 12 * HOUR_IN_SECONDS );
         return $items;
     }
 
