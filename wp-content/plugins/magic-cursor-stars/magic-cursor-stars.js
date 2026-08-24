@@ -104,6 +104,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     let lastX = -1000, lastY = -1000;
+    let lastTime = Date.now();
 
     const randomRange = (min, max) => Math.random() * (max - min) + min;
 
@@ -194,6 +195,13 @@ document.addEventListener('DOMContentLoaded', () => {
             currentY = e.pageY;
         }
 
+        const now = Date.now();
+        if (now - lastTime > 300) {
+            lastX = currentX;
+            lastY = currentY;
+        }
+        lastTime = now;
+
         if (lastX === -1000) {
             spawnParticle(currentX, currentY);
             lastX = currentX;
@@ -213,12 +221,18 @@ document.addEventListener('DOMContentLoaded', () => {
         const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
 
         if (distance >= DISTANCE_THRESHOLD) {
+            if (distance > 300) {
+                lastX = currentX;
+                lastY = currentY;
+                return;
+            }
+
             const expectedSteps = Math.floor(distance / DISTANCE_THRESHOLD);
-            const steps = Math.min(expectedSteps, 15); // Khống chế tối đa 15 hạt 1 lúc để chống lấp đầy line
+            const steps = Math.min(expectedSteps, 25);
             if (steps > 0) {
                 for (let i = 1; i <= steps; i++) {
-                    const interpX = lastX + (deltaX * i / expectedSteps);
-                    const interpY = lastY + (deltaY * i / expectedSteps);
+                    const interpX = lastX + (deltaX * i / steps);
+                    const interpY = lastY + (deltaY * i / steps);
                     spawnParticle(interpX, interpY);
                 }
             }
