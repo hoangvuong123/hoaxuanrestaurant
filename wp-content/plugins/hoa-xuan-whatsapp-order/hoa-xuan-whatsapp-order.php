@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 final class Hoa_Xuan_WhatsApp_Order {
-    const VERSION = '1.6.6';
+    const VERSION = '1.6.7';
     const DB_VERSION = '1.1.0';
     const DB_VERSION_KEY = 'hoa_xuan_order_db_version';
     const OPTION_KEY = 'hoa_xuan_order_settings';
@@ -31,10 +31,20 @@ final class Hoa_Xuan_WhatsApp_Order {
         add_action( 'admin_notices', array( $this, 'orders_admin_notice' ) );
     }
 
+    public function clear_menu_cache( $post_id = null ) {
+        if ( null !== $post_id ) {
+            if ( wp_is_post_revision( $post_id ) || wp_is_post_autosave( $post_id ) ) {
+                return;
+            }
+        }
+        delete_transient( 'hoa_xuan_order_menu_data_v3' );
+        delete_transient( 'hoa_xuan_order_menu_data_v4' );
+    }
+
     public static function activate() {
         self::create_orders_table();
         update_option( self::DB_VERSION_KEY, self::DB_VERSION );
-        delete_transient( 'hoa_xuan_order_menu_data_v3' );
+        delete_transient( 'hoa_xuan_order_menu_data_v4' );
         if ( false === get_option( self::OPTION_KEY, false ) ) {
             add_option(
                 self::OPTION_KEY,
@@ -461,7 +471,7 @@ final class Hoa_Xuan_WhatsApp_Order {
     }
 
     private function get_menu_data() {
-        $cached = get_transient( 'hoa_xuan_order_menu_data_v3' );
+        $cached = get_transient( 'hoa_xuan_order_menu_data_v4' );
         if ( is_array( $cached ) ) {
             return $cached;
         }
@@ -552,7 +562,7 @@ final class Hoa_Xuan_WhatsApp_Order {
             );
         }
 
-        set_transient( 'hoa_xuan_order_menu_data_v3', $items, 12 * HOUR_IN_SECONDS );
+        set_transient( 'hoa_xuan_order_menu_data_v4', $items, 12 * HOUR_IN_SECONDS );
         return $items;
     }
 

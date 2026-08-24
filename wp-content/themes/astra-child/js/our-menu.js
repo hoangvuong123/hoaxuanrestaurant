@@ -240,7 +240,14 @@
         });
 
         // ─── Event: Image Popup ──────────────────────────────────
-        let $imgPopup = $('<div class="menu-img-popup"><div class="menu-img-popup__content"><img class="menu-img-popup__img" src="" alt="Menu image"><button class="menu-img-popup-close" aria-label="Close">×</button></div></div>');
+        let $imgPopup = $(`<div class="menu-img-popup">
+            <div class="menu-img-popup__content">
+                <img class="menu-img-popup__img" src="" alt="Menu image">
+                <button class="menu-img-popup-close" aria-label="Close">
+                    <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </button>
+            </div>
+        </div>`);
         $('body').append($imgPopup);
 
         const closePopup = function () {
