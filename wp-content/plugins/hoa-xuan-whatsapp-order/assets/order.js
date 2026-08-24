@@ -43,53 +43,53 @@
     document.querySelector(".our-menu-page")?.dataset.lang === "en";
   const text = isEnglish
     ? {
-        add: "Order",
-        cart: "Your order",
-        empty: "Your order is empty.",
-        choice: "Choose an option",
-        quantity: "Quantity",
-        note: "Note for this item (optional)",
-        generalNote: "Note for the whole order (optional)",
-        addNote: "Add note",
-        editNote: "Edit note",
-        save: "Save",
-        addToCart: "Add to order",
-        edit: "Edit",
-        remove: "Remove",
-        total: "Total",
-        whatsapp: "Order via WhatsApp",
-        unitPrice: "Unit price",
-        subtotal: "Subtotal",
-        close: "Close",
-        missingChoice: "Please choose an option.",
-        missingPhone: "Please configure the WhatsApp number first.",
-        added: "Added to your order",
-        updated: "Item updated",
-      }
+      add: "Order",
+      cart: "Your order",
+      empty: "Your order is empty.",
+      choice: "Choose an option",
+      quantity: "Quantity",
+      note: "Note for this item (optional)",
+      generalNote: "Note for the whole order (optional)",
+      addNote: "Add note",
+      editNote: "Edit note",
+      save: "Save",
+      addToCart: "Add to order",
+      edit: "Edit",
+      remove: "Remove",
+      total: "Total",
+      whatsapp: "Order via WhatsApp",
+      unitPrice: "Unit price",
+      subtotal: "Subtotal",
+      close: "Close",
+      missingChoice: "Please choose an option.",
+      missingPhone: "Please configure the WhatsApp number first.",
+      added: "Added to your order",
+      updated: "Item updated",
+    }
     : {
-        add: "Bestellen",
-        cart: "Ihre Bestellung",
-        empty: "Ihre Bestellung ist leer.",
-        choice: "Option auswählen",
-        quantity: "Anzahl",
-        note: "Hinweis zu diesem Gericht (optional)",
-        generalNote: "Hinweis zur gesamten Bestellung (optional)",
-        addNote: "Hinweis hinzufügen",
-        editNote: "Hinweis bearbeiten",
-        save: "Speichern",
-        addToCart: "Zur Bestellung hinzufügen",
-        edit: "Bearbeiten",
-        remove: "Entfernen",
-        total: "Gesamt",
-        whatsapp: "Über WhatsApp bestellen",
-        unitPrice: "Einzelpreis",
-        subtotal: "Zwischensumme",
-        close: "Schließen",
-        missingChoice: "Bitte wählen Sie eine Option.",
-        missingPhone: "Bitte zuerst die WhatsApp-Nummer konfigurieren.",
-        added: "Zur Bestellung hinzugefügt",
-        updated: "Gericht aktualisiert",
-      };
+      add: "Bestellen",
+      cart: "Ihre Bestellung",
+      empty: "Ihre Bestellung ist leer.",
+      choice: "Option auswählen",
+      quantity: "Anzahl",
+      note: "Hinweis zu diesem Gericht (optional)",
+      generalNote: "Hinweis zur gesamten Bestellung (optional)",
+      addNote: "Hinweis hinzufügen",
+      editNote: "Hinweis bearbeiten",
+      save: "Speichern",
+      addToCart: "Zur Bestellung hinzufügen",
+      edit: "Bearbeiten",
+      remove: "Entfernen",
+      total: "Gesamt",
+      whatsapp: "Über WhatsApp bestellen",
+      unitPrice: "Einzelpreis",
+      subtotal: "Zwischensumme",
+      close: "Schließen",
+      missingChoice: "Bitte wählen Sie eine Option.",
+      missingPhone: "Bitte zuerst die WhatsApp-Nummer konfigurieren.",
+      added: "Zur Bestellung hinzugefügt",
+      updated: "Gericht aktualisiert",
+    };
 
   const euro = new Intl.NumberFormat("de-DE", {
     style: "currency",
@@ -191,7 +191,7 @@
       body: data,
       credentials: "same-origin",
       keepalive: true,
-    }).catch(() => {});
+    }).catch(() => { });
   };
 
   let cart = [];
@@ -250,6 +250,10 @@
           <h2 id="hx-product-modal-title" tabindex="-1"></h2>
           <button class="hx-icon-button hx-close-modal" type="button" title="${escapeHtml(text.close)}" aria-label="${escapeHtml(text.close)}"><span class="dashicons dashicons-no-alt" aria-hidden="true"></span></button>
         </header>
+        <div class="hx-modal-image-wrapper" hidden>
+          <img class="hx-modal-image" src="" alt="">
+          <button class="hx-modal-zoom-btn menu-item--has-image" type="button" data-image="" title="Zoom" aria-label="Zoom image"><span class="dashicons dashicons-search" aria-hidden="true"></span></button>
+        </div>
         <form class="hx-product-form">
           <fieldset class="hx-choice-fieldset">
             <legend>${escapeHtml(text.choice)}</legend>
@@ -335,6 +339,20 @@
       ? text.choice
       : `${euro.format(unitPrice)} × ${quantity}`;
     modalPriceTotal.textContent = pending ? "—" : euro.format(Number(unitPrice) * quantity);
+
+    const imgWrapper = modal.querySelector(".hx-modal-image-wrapper");
+    if (imgWrapper) {
+      const imgEl = imgWrapper.querySelector(".hx-modal-image");
+      const zoomBtn = imgWrapper.querySelector(".hx-modal-zoom-btn");
+      const imgToUse = choice?.image || modalProduct.image || "";
+      if (imgToUse) {
+        imgEl.src = imgToUse;
+        zoomBtn.dataset.image = imgToUse;
+        imgWrapper.hidden = false;
+      } else {
+        imgWrapper.hidden = true;
+      }
+    }
   }
 
   function renderCart() {
@@ -363,8 +381,8 @@
       .map((line) => {
         const option = line.choiceName
           ? `<p class="hx-cart-line__option">${escapeHtml(
-              [line.choiceCode, line.choiceName].filter(Boolean).join(" - "),
-            )}</p>`
+            [line.choiceCode, line.choiceName].filter(Boolean).join(" - "),
+          )}</p>`
           : "";
         const noteIsOpen = openNotes.has(line.id);
         const noteControl = `<button class="hx-note-toggle hx-cart-note-toggle" type="button" data-action="toggle-note" aria-expanded="${noteIsOpen ? "true" : "false"}"><span class="dashicons dashicons-edit-page" aria-hidden="true"></span><span>${escapeHtml(line.note ? text.editNote : text.addNote)}</span></button>`;
@@ -559,7 +577,7 @@
     generalNote = event.target.value.slice(0, 500);
     try {
       localStorage.setItem(generalNoteStorageKey, generalNote);
-    } catch (_error) {}
+    } catch (_error) { }
     generalNoteToggle.querySelector("span:last-child").textContent = generalNote ? text.editNote : text.addNote;
   });
 

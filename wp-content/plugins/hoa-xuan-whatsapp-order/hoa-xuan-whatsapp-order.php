@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 final class Hoa_Xuan_WhatsApp_Order {
-    const VERSION = '1.6.1';
+    const VERSION = '1.6.2';
     const DB_VERSION = '1.1.0';
     const DB_VERSION_KEY = 'hoa_xuan_order_db_version';
     const OPTION_KEY = 'hoa_xuan_order_settings';
@@ -505,6 +505,20 @@ final class Hoa_Xuan_WhatsApp_Order {
                     if ( null === $price ) {
                         continue;
                     }
+                    $sub_img_url = '';
+                    foreach (['image', 'img', 'photo', 'picture', 'hinh_anh'] as $img_key) {
+                        if (!empty($food_type[$img_key])) {
+                            $img_val = $food_type[$img_key];
+                            if (is_array($img_val) && isset($img_val['url'])) {
+                                $sub_img_url = $img_val['url'];
+                            } elseif (is_numeric($img_val)) {
+                                $sub_img_url = wp_get_attachment_url($img_val);
+                            } elseif (is_string($img_val) && filter_var($img_val, FILTER_VALIDATE_URL)) {
+                                $sub_img_url = $img_val;
+                            }
+                            if ($sub_img_url) break;
+                        }
+                    }
                     $normalized_food_types[] = array(
                         'id' => 'food-' . $index,
                         'code' => sanitize_text_field( $food_type['code'] ?? '' ),
@@ -512,6 +526,7 @@ final class Hoa_Xuan_WhatsApp_Order {
                         'nameEn' => sanitize_text_field( $food_type['title-en'] ?? '' ),
                         'allergens' => sanitize_text_field( $food_type['allergens'] ?? '' ),
                         'price' => $price,
+                        'image' => $sub_img_url ? esc_url($sub_img_url) : '',
                     );
                 }
             }
@@ -522,6 +537,8 @@ final class Hoa_Xuan_WhatsApp_Order {
                 continue;
             }
 
+            $img_url = get_the_post_thumbnail_url( $post->ID, 'large' );
+
             $items[ (string) $post->ID ] = array(
                 'postId' => (int) $post->ID,
                 'code' => sanitize_text_field( $this->get_field_value( 'code', $post->ID ) ),
@@ -529,6 +546,7 @@ final class Hoa_Xuan_WhatsApp_Order {
                 'titleEn' => sanitize_text_field( $this->get_field_value( 'title-en', $post->ID ) ),
                 'additives' => sanitize_text_field( $this->get_field_value( 'additives', $post->ID ) ),
                 'basePrice' => $base_price,
+                'image' => $img_url ? esc_url($img_url) : '',
                 'choices' => $choices,
                 'choiceType' => ! empty( $normalized_food_types ) ? 'food' : ( ! empty( $normalized_variants ) ? 'variant' : 'none' ),
             );
