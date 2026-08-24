@@ -32,11 +32,6 @@ final class Hoa_Xuan_WhatsApp_Order {
     }
 
     public function clear_menu_cache( $post_id = null ) {
-        if ( null !== $post_id ) {
-            if ( wp_is_post_revision( $post_id ) || wp_is_post_autosave( $post_id ) ) {
-                return;
-            }
-        }
         delete_transient( 'hoa_xuan_order_menu_data_v3' );
         delete_transient( 'hoa_xuan_order_menu_data_v4' );
     }
