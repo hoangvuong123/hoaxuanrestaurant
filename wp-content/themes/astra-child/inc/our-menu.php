@@ -440,12 +440,6 @@ class Restaurant_Menu_Shortcode {
 
         ob_start(); ?>
         <div class="menu-item" data-post-id="<?php echo esc_attr( $post_id ); ?>">
-            <?php if ( $img_url ) : ?>
-                <div class="menu-item__thumb">
-                    <img src="<?php echo esc_url($img_url); ?>" loading="lazy" alt="<?php echo esc_attr($title); ?>">
-                </div>
-            <?php endif; ?>
-            <div class="menu-item__info">
             <div class="menu-item__title-row">
                 <span class="menu-item__title-left">
                     <?php if ( $code ) : ?>
@@ -504,7 +498,6 @@ class Restaurant_Menu_Shortcode {
             <?php if ( $food_html ) : ?>
                 <?php echo $food_html; ?>
             <?php endif; ?>
-            </div>
         </div>
         <?php
         return ob_get_clean();

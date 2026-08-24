@@ -250,10 +250,11 @@
           <h2 id="hx-product-modal-title" tabindex="-1"></h2>
           <button class="hx-icon-button hx-close-modal" type="button" title="${escapeHtml(text.close)}" aria-label="${escapeHtml(text.close)}"><span class="dashicons dashicons-no-alt" aria-hidden="true"></span></button>
         </header>
-        <div class="hx-modal-image-wrapper" hidden>
-          <img class="hx-modal-image hx-modal-zoom-btn" src="" alt="" title="Phóng to" data-image="">
-        </div>
-        <form class="hx-product-form">
+        <div class="hx-product-modal__body">
+          <div class="hx-modal-image-wrapper" hidden>
+            <img class="hx-modal-image hx-modal-zoom-btn" src="" alt="" title="Phóng to" data-image="">
+          </div>
+          <form class="hx-product-form">
           <fieldset class="hx-choice-fieldset">
             <legend>${escapeHtml(text.choice)}</legend>
             <div class="hx-choice-list"></div>
@@ -274,7 +275,8 @@
           <label class="hx-note-field" hidden><span>${escapeHtml(text.note)}</span><textarea name="note" rows="3" maxlength="300"></textarea></label>
           <p class="hx-form-error" role="alert" hidden></p>
           <button class="hx-modal-submit" type="submit">${escapeHtml(text.addToCart)}</button>
-        </form>
+          </form>
+        </div>
       </div>
     </div>`,
   );
