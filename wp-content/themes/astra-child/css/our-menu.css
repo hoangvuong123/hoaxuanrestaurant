@@ -728,3 +728,113 @@
     top: 50px;
   }
 }
+
+/* ================================================
+   IMAGE POPUP MODAL
+   ================================================ */
+.menu-img-popup {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(10, 10, 10, 0.65);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  z-index: 999999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.35s ease, visibility 0.35s ease;
+}
+
+.menu-img-popup.on {
+  opacity: 1;
+  visibility: visible;
+}
+
+.menu-img-popup__content {
+  position: relative;
+  max-width: 90vw;
+  max-height: 85vh;
+  transform: scale(0.92);
+  transition: transform 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.menu-img-popup.on .menu-img-popup__content {
+  transform: scale(1);
+}
+
+.menu-img-popup__img {
+  max-width: 100%;
+  max-height: 85vh;
+  object-fit: contain;
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+  display: block;
+}
+
+.menu-img-popup-close {
+  position: absolute;
+  top: -42px;
+  right: 0;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 20px;
+  line-height: 1;
+  transition: background 0.2s, transform 0.2s;
+  padding: 0 0 2px 0;
+}
+
+.menu-img-popup-close:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(1.1);
+}
+
+@media (max-width: 750px) {
+  .menu-img-popup__content {
+    width: 95vw;
+  }
+
+  .menu-img-popup-close {
+    top: -46px;
+    width: 36px;
+    height: 36px;
+    font-size: 24px;
+  }
+}
+
+.menu-item--has-image {
+  cursor: pointer;
+  position: relative;
+}
+
+.menu-item--has-image::after {
+  content: '';
+  position: absolute;
+  inset: -6px -12px;
+  background: rgba(201, 197, 24, 0.05);
+  border-radius: 8px;
+  opacity: 0;
+  transition: opacity 0.2s;
+  pointer-events: none;
+}
+
+.menu-item--has-image:hover::after {
+  opacity: 1;
+}
+
+@media (max-width: 750px) {
+  .menu-item--has-image::after {
+    display: none;
+  }
+}

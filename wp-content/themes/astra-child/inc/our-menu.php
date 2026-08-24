@@ -417,8 +417,12 @@ class Restaurant_Menu_Shortcode {
         if ( ! is_array( $food_rows ) ) $food_rows = [];
         $food_html = $this->render_food_types( $food_rows, $lang );
 
+        $img_url   = get_the_post_thumbnail_url( $post_id, 'large' );
+        $img_attr  = $img_url ? ' data-image="' . esc_url( $img_url ) . '"' : '';
+        $img_class = $img_url ? ' menu-item--has-image' : '';
+
         ob_start(); ?>
-        <div class="menu-item" data-post-id="<?php echo esc_attr( $post_id ); ?>">
+        <div class="menu-item<?php echo $img_class; ?>"<?php echo $img_attr; ?> data-post-id="<?php echo esc_attr( $post_id ); ?>">
             <div class="menu-item__title-row">
                 <span class="menu-item__title-left">
                     <?php if ( $code ) : ?>

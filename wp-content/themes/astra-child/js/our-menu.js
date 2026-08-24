@@ -239,6 +239,35 @@
             }
         });
 
+        // ─── Event: Image Popup ──────────────────────────────────
+        let $imgPopup = $('<div class="menu-img-popup"><div class="menu-img-popup__content"><img class="menu-img-popup__img" src="" alt="Menu image"><button class="menu-img-popup-close" aria-label="Close">×</button></div></div>');
+        $('body').append($imgPopup);
+
+        const closePopup = function () {
+            $imgPopup.removeClass('on');
+            setTimeout(() => { $imgPopup.find('img').attr('src', ''); }, 350);
+        };
+
+        $(document).on('click', '.menu-item--has-image', function () {
+            const imgSrc = $(this).attr('data-image');
+            if (imgSrc) {
+                $imgPopup.find('img').attr('src', imgSrc);
+                $imgPopup.addClass('on');
+            }
+        });
+
+        $imgPopup.on('click', function (e) {
+            if ($(e.target).is('.menu-img-popup') || $(e.target).closest('.menu-img-popup-close').length) {
+                closePopup();
+            }
+        });
+
+        $(document).on('keydown', function (e) {
+            if (e.key === 'Escape' && $imgPopup.hasClass('on')) {
+                closePopup();
+            }
+        });
+
     });
 
 })(jQuery);
