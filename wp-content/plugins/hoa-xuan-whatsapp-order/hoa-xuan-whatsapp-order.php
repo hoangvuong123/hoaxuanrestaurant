@@ -490,6 +490,7 @@ final class Hoa_Xuan_WhatsApp_Order {
 
             if ( is_array( $variants ) ) {
                 foreach ( $variants as $index => $variant ) {
+                    if ( ! is_array( $variant ) ) continue;
                     $price = $this->normalize_price( $variant['price'] ?? '' );
                     if ( null === $price ) {
                         continue;
@@ -506,6 +507,7 @@ final class Hoa_Xuan_WhatsApp_Order {
 
             if ( is_array( $food_types ) ) {
                 foreach ( $food_types as $index => $food_type ) {
+                    if ( ! is_array( $food_type ) ) continue;
                     $price = $this->normalize_price( $food_type['price'] ?? '' );
                     if ( null === $price ) {
                         continue;
@@ -526,10 +528,10 @@ final class Hoa_Xuan_WhatsApp_Order {
                     }
                     $normalized_food_types[] = array(
                         'id' => 'food-' . $index,
-                        'code' => sanitize_text_field( $food_type['code'] ?? '' ),
-                        'nameDe' => sanitize_text_field( $food_type['title-de'] ?? '' ),
-                        'nameEn' => sanitize_text_field( $food_type['title-en'] ?? '' ),
-                        'allergens' => sanitize_text_field( $food_type['allergens'] ?? '' ),
+                        'code' => sanitize_text_field( (string) ($food_type['code'] ?? '') ),
+                        'nameDe' => sanitize_text_field( (string) ($food_type['title-de'] ?? '') ),
+                        'nameEn' => sanitize_text_field( (string) ($food_type['title-en'] ?? '') ),
+                        'allergens' => sanitize_text_field( (string) ($food_type['allergens'] ?? '') ),
                         'price' => $price,
                         'image' => $sub_img_url ? esc_url($sub_img_url) : '',
                     );
@@ -546,10 +548,10 @@ final class Hoa_Xuan_WhatsApp_Order {
 
             $items[ (string) $post->ID ] = array(
                 'postId' => (int) $post->ID,
-                'code' => sanitize_text_field( $this->get_field_value( 'code', $post->ID ) ),
-                'titleDe' => sanitize_text_field( $post->post_title ),
-                'titleEn' => sanitize_text_field( $this->get_field_value( 'title-en', $post->ID ) ),
-                'additives' => sanitize_text_field( $this->get_field_value( 'additives', $post->ID ) ),
+                'code' => sanitize_text_field( (string) $this->get_field_value( 'code', $post->ID ) ),
+                'titleDe' => sanitize_text_field( (string) $post->post_title ),
+                'titleEn' => sanitize_text_field( (string) $this->get_field_value( 'title-en', $post->ID ) ),
+                'additives' => sanitize_text_field( is_array($additives = $this->get_field_value( 'additives', $post->ID )) ? implode(', ', $additives) : (string) $additives ),
                 'basePrice' => $base_price,
                 'image' => $img_url ? esc_url($img_url) : '',
                 'choices' => $choices,
