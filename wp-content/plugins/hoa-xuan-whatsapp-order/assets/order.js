@@ -483,22 +483,23 @@
       if (!product) return;
       const title = element.querySelector(".menu-item__name");
       const titleRow = element.querySelector(".menu-item__title-row");
-      if (!title || !titleRow) return;
+      if (!title) return;
       element.dataset.hxOrderDecorated = "true";
       title.classList.add("hx-order-title");
-      titleRow.classList.add("hx-order-title-row");
-      titleRow.dataset.postId = String(product.postId);
-      titleRow.setAttribute("role", "button");
-      titleRow.setAttribute("tabindex", "0");
-      titleRow.setAttribute("title", text.addToCart);
-      titleRow.setAttribute("aria-label", `${text.addToCart}: ${productTitle(product)}`);
+
+      element.classList.add("hx-order-card");
+      element.dataset.postId = String(product.postId);
+      element.setAttribute("role", "button");
+      element.setAttribute("tabindex", "0");
+      element.setAttribute("title", text.addToCart);
+      element.setAttribute("aria-label", `${text.addToCart}: ${productTitle(product)}`);
     });
   }
 
   document.addEventListener("click", (event) => {
-    const orderTitleRow = event.target.closest(".hx-order-title-row");
-    if (orderTitleRow) {
-      const product = products.get(String(orderTitleRow.dataset.postId));
+    const orderCard = event.target.closest(".hx-order-card");
+    if (orderCard) {
+      const product = products.get(String(orderCard.dataset.postId));
       if (product) openProductModal(product);
       return;
     }
@@ -679,7 +680,7 @@
     closeDrawer();
   });
   document.addEventListener("keydown", (event) => {
-    if ((event.key === "Enter" || event.key === " ") && event.target.matches(".hx-order-title-row")) {
+    if ((event.key === "Enter" || event.key === " ") && event.target.matches(".hx-order-card")) {
       event.preventDefault();
       const product = products.get(String(event.target.dataset.postId));
       if (product) openProductModal(product);

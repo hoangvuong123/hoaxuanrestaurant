@@ -51,10 +51,16 @@ body.hx-order-open {
   font-size: 16px;
 }
 
-.hx-order-title-row {
+.hx-order-card {
   cursor: pointer;
-  border-radius: 3px;
+  border-radius: 4px;
   outline: none;
+  transition: background-color 150ms ease;
+}
+
+.hx-order-card:hover,
+.hx-order-card:focus-visible {
+  background-color: rgba(255, 255, 255, 0.03);
 }
 
 .hx-order-title {
@@ -66,8 +72,8 @@ body.hx-order-open {
   transition: color 150ms ease, text-decoration-color 150ms ease;
 }
 
-.hx-order-title-row:hover .hx-order-title,
-.hx-order-title-row:focus-visible .hx-order-title {
+.hx-order-card:hover .hx-order-title,
+.hx-order-card:focus-visible .hx-order-title {
   color: var(--hx-order-accent-strong) !important;
   text-decoration-color: currentColor;
 }

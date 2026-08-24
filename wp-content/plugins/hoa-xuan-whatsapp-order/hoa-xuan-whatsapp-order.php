@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 final class Hoa_Xuan_WhatsApp_Order {
-    const VERSION = '1.6.3';
+    const VERSION = '1.6.4';
     const DB_VERSION = '1.1.0';
     const DB_VERSION_KEY = 'hoa_xuan_order_db_version';
     const OPTION_KEY = 'hoa_xuan_order_settings';

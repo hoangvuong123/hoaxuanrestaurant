@@ -437,11 +437,15 @@ class Restaurant_Menu_Shortcode {
         $food_html = $this->render_food_types( $food_rows, $lang );
 
         $img_url   = get_the_post_thumbnail_url( $post_id, 'large' );
-        $img_attr  = $img_url ? ' data-image="' . esc_url( $img_url ) . '"' : '';
-        $img_class = $img_url ? ' menu-item--has-image' : '';
 
         ob_start(); ?>
-        <div class="menu-item<?php echo $img_class; ?>"<?php echo $img_attr; ?> data-post-id="<?php echo esc_attr( $post_id ); ?>">
+        <div class="menu-item" data-post-id="<?php echo esc_attr( $post_id ); ?>">
+            <?php if ( $img_url ) : ?>
+                <div class="menu-item__thumb">
+                    <img src="<?php echo esc_url($img_url); ?>" loading="lazy" alt="<?php echo esc_attr($title); ?>">
+                </div>
+            <?php endif; ?>
+            <div class="menu-item__info">
             <div class="menu-item__title-row">
                 <span class="menu-item__title-left">
                     <?php if ( $code ) : ?>
@@ -500,6 +504,7 @@ class Restaurant_Menu_Shortcode {
             <?php if ( $food_html ) : ?>
                 <?php echo $food_html; ?>
             <?php endif; ?>
+            </div>
         </div>
         <?php
         return ob_get_clean();
