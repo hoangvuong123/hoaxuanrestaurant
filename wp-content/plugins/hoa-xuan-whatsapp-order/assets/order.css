@@ -747,12 +747,24 @@ body.hx-order-open {
 /* Modal Image Wrapper */
 .hx-modal-image-wrapper {
   position: relative;
-  width: 40%;
+  width: 42%;
   flex-shrink: 0;
-  background: var(--hx-order-surface);
-  border: 1px solid var(--hx-order-border);
-  border-radius: 6px;
+  background: linear-gradient(145deg, rgba(30, 30, 30, 0.4), rgba(10, 10, 10, 0.8));
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
   overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.4s ease, border-color 0.4s ease;
+}
+
+.hx-modal-image-wrapper:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.15);
 }
 
 .hx-modal-image-wrapper[hidden] {
@@ -761,11 +773,36 @@ body.hx-order-open {
 
 .hx-modal-image {
   width: 100%;
-  height: auto;
-  max-height: 250px;
+  height: 100%;
+  max-height: 280px;
   object-fit: contain;
+  border-radius: 6px;
   display: block;
   cursor: pointer;
+  transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1), filter 0.4s ease;
+}
+
+.hx-modal-image-wrapper:hover .hx-modal-image {
+  transform: scale(1.06);
+  filter: contrast(1.05) brightness(1.05);
+}
+
+/* Artistic Glare Effect */
+.hx-modal-image-wrapper::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -120%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.1) 50%, rgba(255, 255, 255, 0) 100%);
+  transform: skewX(-25deg);
+  transition: left 0.7s ease;
+  pointer-events: none;
+}
+
+.hx-modal-image-wrapper:hover::after {
+  left: 150%;
 }
 
 .hx-choice-fieldset {
