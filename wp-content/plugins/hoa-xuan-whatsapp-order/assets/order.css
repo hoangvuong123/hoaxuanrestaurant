@@ -735,7 +735,6 @@ body.hx-order-open {
 
 .hx-product-modal__body {
   display: flex;
-  flex-wrap: wrap;
   gap: 20px;
   padding: 17px 18px 19px;
   align-items: stretch;
@@ -745,14 +744,14 @@ body.hx-order-open {
 }
 
 .hx-product-form {
-  flex: 1 1 220px;
+  flex: 1 1 0;
   min-width: 0;
 }
 
 /* Modal Image Wrapper */
 .hx-modal-image-wrapper {
   position: relative;
-  flex: 0 0 40%;
+  flex: 0 0 calc(50% - 10px);
   min-width: 180px;
   background: linear-gradient(145deg, rgba(30, 30, 30, 0.4), rgba(10, 10, 10, 0.8));
   border: 1px solid rgba(255, 255, 255, 0.08);
@@ -991,6 +990,15 @@ body.hx-order-open {
     border-bottom: 0;
     border-left: 0;
     border-radius: 6px 6px 0 0;
+  }
+
+  .hx-product-modal__body {
+    flex-direction: column;
+  }
+
+  .hx-modal-image-wrapper {
+    flex: 0 0 auto;
+    width: 100%;
   }
 
   .hx-modal-submit {
