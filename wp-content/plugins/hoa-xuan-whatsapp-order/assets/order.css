@@ -799,7 +799,7 @@ body.hx-order-open {
 }
 
 /* Artistic Glare Effect */
-.hx-modal-image-wrapper::after {
+.hx-modal-image-wrapper:not(.hx-no-image-placeholder)::after {
   content: '';
   position: absolute;
   top: 0;
@@ -813,7 +813,7 @@ body.hx-order-open {
   z-index: 1;
 }
 
-.hx-modal-image-wrapper:hover::after {
+.hx-modal-image-wrapper:not(.hx-no-image-placeholder):hover::after {
   left: 150%;
 }
 
@@ -858,6 +858,10 @@ body.hx-order-open {
 
 .hx-no-image-placeholder:hover {
   transform: none !important;
+}
+
+.hx-no-image-placeholder:hover::after {
+  left: 0 !important;
 }
 
 .hx-no-image-placeholder::before {
