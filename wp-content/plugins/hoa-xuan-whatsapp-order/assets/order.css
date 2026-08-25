@@ -1012,19 +1012,17 @@ body.hx-order-open {
 
   .hx-modal-image-wrapper {
     flex: 0 0 auto;
-    width: 100%;
+    width: 65%;
+    max-width: 260px;
+    margin: 0 auto 15px;
   }
 
   .hx-modal-submit {
     position: sticky;
-    bottom: 0;
+    bottom: 15px;
     z-index: 2;
-    margin: 15px -18px 0;
-    padding: 14px 18px !important;
-    border-radius: 0 !important;
-    background: var(--hx-order-bg) !important;
-    border-top: 1px solid var(--hx-order-border);
-    box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.3);
+    margin: 15px 0 15px;
+    box-shadow: 0 5px 24px rgba(0, 0, 0, 0.45);
   }
 }
 
