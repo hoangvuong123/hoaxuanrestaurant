@@ -90,8 +90,6 @@ async function initHoaXuanThree() {
     const hero = document.querySelector('.mv');
     const canvas = document.getElementById('hoaXuanThree');
 
-    console.log('HX THREE: start');
-
     if (!hero) {
         console.error('HX THREE: Không tìm thấy .mv');
         return;

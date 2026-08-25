@@ -218,16 +218,16 @@
 
   document.body.insertAdjacentHTML(
     "beforeend",
-    `<button class="hx-cart-trigger" type="button" title="${escapeHtml(text.cart)}" aria-label="${escapeHtml(text.cart)}">
+    `<button class="hx-cart-trigger" type="button" title="${escapeHtml(text.cart)}" aria-label="${escapeHtml(text.cart)}" data-no-translation>
       <span class="dashicons dashicons-cart" aria-hidden="true"></span>
       <span class="hx-cart-count">0</span>
     </button>
-    <div class="hx-order-toast" role="status" aria-live="polite" aria-atomic="true">
+    <div class="hx-order-toast" role="status" aria-live="polite" aria-atomic="true" data-no-translation>
       <span class="dashicons dashicons-yes-alt" aria-hidden="true"></span>
       <span><strong class="hx-order-toast__title"></strong><span class="hx-order-toast__message"></span></span>
     </div>
-    <div class="hx-order-overlay" hidden></div>
-    <aside class="hx-cart-drawer" aria-hidden="true" aria-label="${escapeHtml(text.cart)}">
+    <div class="hx-order-overlay" data-no-translation hidden></div>
+    <aside class="hx-cart-drawer" aria-hidden="true" aria-label="${escapeHtml(text.cart)}" data-no-translation>
       <header class="hx-panel-header">
         <h2>${escapeHtml(text.cart)}</h2>
         <button class="hx-icon-button hx-close-cart" type="button" title="${escapeHtml(text.close)}" aria-label="${escapeHtml(text.close)}"><span class="dashicons dashicons-no-alt" aria-hidden="true"></span></button>
@@ -246,7 +246,7 @@
         <button class="hx-whatsapp-button" type="button"><span class="dashicons dashicons-format-chat" aria-hidden="true"></span>${escapeHtml(text.whatsapp)}</button>
       </footer>
     </aside>
-    <div class="hx-product-modal" role="dialog" aria-modal="true" aria-labelledby="hx-product-modal-title" hidden>
+    <div class="hx-product-modal" role="dialog" aria-modal="true" aria-labelledby="hx-product-modal-title" data-no-translation hidden>
       <div class="hx-product-modal__panel">
         <header class="hx-panel-header">
           <h2 id="hx-product-modal-title" tabindex="-1"></h2>
