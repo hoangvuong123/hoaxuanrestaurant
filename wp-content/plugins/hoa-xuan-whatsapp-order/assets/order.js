@@ -276,7 +276,9 @@
           <button class="hx-note-toggle hx-modal-note-toggle" type="button" aria-expanded="false"><span class="dashicons dashicons-edit-page" aria-hidden="true"></span><span>${escapeHtml(text.addNote)}</span></button>
           <label class="hx-note-field" hidden><span>${escapeHtml(text.note)}</span><textarea name="note" rows="3" maxlength="300"></textarea></label>
           <p class="hx-form-error" role="alert" hidden></p>
-          <button class="hx-modal-submit" type="submit">${escapeHtml(text.addToCart)}</button>
+          <div class="hx-modal-submit-wrap">
+            <button class="hx-modal-submit" type="submit">${escapeHtml(text.addToCart)}</button>
+          </div>
           </form>
         </div>
       </div>

@@ -415,9 +415,11 @@ function rnp_render_html() {
         ?>
         <div id="da-overlay" data-da-popup-version="<?php echo esc_attr( $version ); ?>">
             <div id="da-popup" role="dialog" aria-modal="true" aria-labelledby="da-popup-title">
-                <div id="da-lang-switcher">
-                    <button class="da-lang-btn" type="button" data-lang="de" title="Deutsch">🇩🇪</button>
-                    <button class="da-lang-btn" type="button" data-lang="en" title="English">🇬🇧</button>
+                <div id="da-lang-switcher-wrap">
+                    <div id="da-lang-switcher">
+                        <button class="da-lang-btn" type="button" data-lang="de" title="Deutsch">🇩🇪</button>
+                        <button class="da-lang-btn" type="button" data-lang="en" title="English">🇬🇧</button>
+                    </div>
                 </div>
 
                 <div id="da-popup-icon" aria-hidden="true">
@@ -535,9 +537,11 @@ function rnp_render_html() {
                     <?php endif; ?>
                 </div>
 
-                <button id="da-confirm-btn" type="button">
-                    <?php echo rnp_lang_copy( 'Verstanden', 'Got it' ); ?>
-                </button>
+                <div id="da-confirm-wrap">
+                    <button id="da-confirm-btn" type="button">
+                        <?php echo rnp_lang_copy( 'Verstanden', 'Got it' ); ?>
+                    </button>
+                </div>
             </div>
         </div>
     <?php endif; ?>

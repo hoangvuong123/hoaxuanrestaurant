@@ -1017,12 +1017,21 @@ body.hx-order-open {
     margin: 0 auto 15px;
   }
 
-  .hx-modal-submit {
+  .hx-modal-submit-wrap {
     position: sticky;
-    bottom: 15px;
+    bottom: 0;
     z-index: 2;
-    margin: 15px 0 15px;
-    box-shadow: 0 5px 24px rgba(0, 0, 0, 0.45);
+    margin: 15px -18px 0;
+    padding: 10px 18px 16px;
+    background: var(--hx-order-bg);
+    box-shadow: 0 -15px 30px var(--hx-order-bg);
+  }
+
+  .hx-modal-submit {
+    margin: 0;
+    position: relative;
+    bottom: auto;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.4);
   }
 }
 

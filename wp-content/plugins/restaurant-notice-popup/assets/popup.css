@@ -473,6 +473,16 @@
     margin: 20px 0;
 }
 
+#da-confirm-wrap {
+    position: sticky;
+    bottom: -28px;
+    z-index: 10;
+    margin: 16px -32px -28px;
+    padding: 16px 32px 28px;
+    background: linear-gradient(to top, #1a1510 75%, transparent);
+    border-radius: 0 0 20px 20px;
+}
+
 #da-confirm-btn {
     display: block;
     width: 100%;
@@ -488,7 +498,7 @@
     text-transform: uppercase;
     cursor: pointer;
     transition: opacity 0.2s, transform 0.15s;
-    margin-top: 16px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
 }
 
 #da-confirm-btn:hover {
@@ -679,11 +689,20 @@
 }
 
 /* ---------- LANGUAGE SWITCHER ---------- */
+#da-lang-switcher-wrap {
+    position: sticky;
+    top: -36px;
+    z-index: 10;
+    margin: -36px -32px 0;
+    padding: 24px 32px 8px;
+    background: linear-gradient(to bottom, #1e1a14 65%, transparent);
+    border-radius: 20px 20px 0 0;
+}
+
 #da-lang-switcher {
     display: flex;
     justify-content: flex-end;
     gap: 6px;
-    margin-bottom: 8px;
 }
 
 .da-lang-btn {
