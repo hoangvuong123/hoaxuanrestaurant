@@ -798,6 +798,25 @@ body.hx-order-open {
   filter: contrast(1.03) brightness(1.02);
 }
 
+/* Artistic Glare Effect */
+.hx-modal-image-wrapper::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -120%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.1) 50%, rgba(255, 255, 255, 0) 100%);
+  transform: skewX(-25deg);
+  transition: left 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.hx-modal-image-wrapper:hover::after {
+  left: 150%;
+}
+
 
 /* Skeleton Loading Shimmer */
 @keyframes hx-shimmer {
