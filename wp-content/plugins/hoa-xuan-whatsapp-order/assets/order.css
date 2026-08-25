@@ -1003,6 +1003,11 @@ body.hx-order-open {
 
   .hx-product-modal__body {
     flex-direction: column;
+    padding-bottom: 0;
+  }
+
+  .hx-product-form {
+    flex: 0 0 auto;
   }
 
   .hx-modal-image-wrapper {
@@ -1014,7 +1019,7 @@ body.hx-order-open {
     position: sticky;
     bottom: 0;
     z-index: 2;
-    margin: 15px -18px -19px;
+    margin: 15px -18px 0;
     padding: 14px 18px !important;
     border-radius: 0 !important;
     background: var(--hx-order-bg) !important;
