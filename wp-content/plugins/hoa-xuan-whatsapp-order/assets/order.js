@@ -65,6 +65,7 @@
       missingPhone: "Please configure the WhatsApp number first.",
       added: "Added to your order",
       updated: "Item updated",
+      noImage: "No Image",
     }
     : {
       add: "Bestellen",
@@ -89,6 +90,7 @@
       missingPhone: "Bitte zuerst die WhatsApp-Nummer konfigurieren.",
       added: "Zur Bestellung hinzugefügt",
       updated: "Gericht aktualisiert",
+      noImage: "Kein Bild",
     };
 
   const euro = new Intl.NumberFormat("de-DE", {
@@ -349,6 +351,7 @@
 
       if (hasAnyImage) {
         imgWrapper.hidden = false;
+        imgWrapper.setAttribute("data-no-image", text.noImage);
         if (imgToUse) {
           imgWrapper.classList.remove("hx-no-image-placeholder");
           imgWrapper.classList.add("hx-image-loading");
