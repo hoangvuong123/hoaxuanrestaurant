@@ -701,9 +701,11 @@ body.hx-order-open {
 }
 
 .hx-product-modal__panel {
-  width: min(520px, 100%);
+  display: flex;
+  flex-direction: column;
+  width: min(700px, 100%);
   max-height: min(760px, calc(100dvh - 36px));
-  overflow-y: auto;
+  overflow: hidden;
   border: 1px solid var(--hx-order-border);
   border-radius: 6px;
   background: var(--hx-order-bg);
@@ -733,22 +735,25 @@ body.hx-order-open {
 
 .hx-product-modal__body {
   display: flex;
+  flex-wrap: wrap;
   gap: 20px;
   padding: 17px 18px 19px;
-  align-items: flex-start;
+  align-items: stretch;
   overflow-y: auto;
+  flex: 1 1 auto;
+  min-height: 0;
 }
 
 .hx-product-form {
-  flex-grow: 1;
+  flex: 1 1 220px;
   min-width: 0;
 }
 
 /* Modal Image Wrapper */
 .hx-modal-image-wrapper {
   position: relative;
-  width: 42%;
-  flex-shrink: 0;
+  flex: 0 0 40%;
+  min-width: 180px;
   background: linear-gradient(145deg, rgba(30, 30, 30, 0.4), rgba(10, 10, 10, 0.8));
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 12px;
@@ -758,11 +763,13 @@ body.hx-order-open {
   align-items: center;
   justify-content: center;
   padding: 8px;
-  transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.4s ease, border-color 0.4s ease;
+  transition: transform 0.35s cubic-bezier(0.22, 0.61, 0.36, 1),
+    box-shadow 0.35s cubic-bezier(0.22, 0.61, 0.36, 1),
+    border-color 0.35s ease;
 }
 
 .hx-modal-image-wrapper:hover {
-  transform: translateY(-4px);
+  transform: translateY(-3px) scale(1.01);
   box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.15);
   border-color: rgba(255, 255, 255, 0.15);
 }
@@ -773,18 +780,18 @@ body.hx-order-open {
 
 .hx-modal-image {
   width: 100%;
-  height: 100%;
-  max-height: 280px;
+  height: auto;
   object-fit: contain;
   border-radius: 6px;
   display: block;
   cursor: pointer;
-  transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1), filter 0.4s ease;
+  transition: transform 0.45s cubic-bezier(0.22, 0.61, 0.36, 1),
+    filter 0.45s cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 
 .hx-modal-image-wrapper:hover .hx-modal-image {
-  transform: scale(1.06);
-  filter: contrast(1.05) brightness(1.05);
+  transform: scale(1.04);
+  filter: contrast(1.04) brightness(1.04);
 }
 
 /* Artistic Glare Effect */
@@ -797,7 +804,7 @@ body.hx-order-open {
   height: 100%;
   background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.1) 50%, rgba(255, 255, 255, 0) 100%);
   transform: skewX(-25deg);
-  transition: left 0.7s ease;
+  transition: left 0.6s cubic-bezier(0.22, 0.61, 0.36, 1);
   pointer-events: none;
 }
 
@@ -984,6 +991,18 @@ body.hx-order-open {
     border-bottom: 0;
     border-left: 0;
     border-radius: 6px 6px 0 0;
+  }
+
+  .hx-modal-submit {
+    position: sticky;
+    bottom: 0;
+    z-index: 2;
+    margin: 15px -18px -19px;
+    padding: 14px 18px !important;
+    border-radius: 0 !important;
+    background: var(--hx-order-bg) !important;
+    border-top: 1px solid var(--hx-order-border);
+    box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.3);
   }
 }
 
