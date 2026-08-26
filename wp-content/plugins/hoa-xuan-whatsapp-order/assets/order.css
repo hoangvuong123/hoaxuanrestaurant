@@ -690,6 +690,16 @@ body.hx-order-open {
   color: #111 !important;
 }
 
+.hx-modal-submit-wrap {
+  position: sticky;
+  bottom: -19px;
+  margin: 15px -18px -19px;
+  padding: 15px 18px 19px;
+  background: var(--hx-order-bg);
+  z-index: 10;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
 .hx-product-modal {
   position: fixed;
   inset: 0;
