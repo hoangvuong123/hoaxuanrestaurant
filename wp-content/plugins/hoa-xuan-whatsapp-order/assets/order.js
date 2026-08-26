@@ -348,6 +348,7 @@
     const imgWrapper = modal.querySelector(".hx-modal-image-wrapper");
     if (imgWrapper && modalProduct) {
       const hasAnyImage = !!modalProduct.image || (modalProduct.choices && modalProduct.choices.some(c => c.image));
+      modal.classList.toggle("hx-no-image-mode", !hasAnyImage);
       const imgEl = imgWrapper.querySelector(".hx-modal-image");
       const imgToUse = choice?.image || modalProduct.image || "";
 

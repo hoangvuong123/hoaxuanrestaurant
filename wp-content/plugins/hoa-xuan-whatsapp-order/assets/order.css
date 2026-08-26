@@ -715,6 +715,10 @@ body.hx-order-open {
   pointer-events: auto;
 }
 
+.hx-product-modal.hx-no-image-mode .hx-product-modal__panel {
+  width: min(500px, 100%);
+}
+
 .hx-product-modal .hx-panel-header h2 {
   font-family: Jost, sans-serif;
   font-size: 1.2rem;
