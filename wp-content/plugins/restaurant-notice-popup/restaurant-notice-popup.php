@@ -133,10 +133,10 @@ add_action( 'admin_init', 'rnp_register_settings' );
 
 function rnp_add_admin_page() {
     add_options_page(
-        'Hoa Xuan Popup',
-        'Hoa Xuan Popup',
+        'Restaurant Notice Popup',
+        'Notice Popup',
         'manage_options',
-        'hoa-xuan-popup',
+        'restaurant-notice-popup',
         'rnp_render_settings_page'
     );
 }
@@ -193,7 +193,7 @@ function rnp_render_settings_page() {
     $menu_posts   = rnp_get_menu_posts_for_admin();
     ?>
     <div class="wrap">
-        <h1>Hoa Xuan Popup Settings</h1>
+        <h1>Notice Popup Settings</h1>
         <p>Manage the popup tabs: order notice, new dishes, and closure notice.</p>
 
         <form method="post" action="options.php">
