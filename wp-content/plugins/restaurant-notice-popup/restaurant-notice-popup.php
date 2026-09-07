@@ -16,23 +16,25 @@ function rnp_enqueue_assets() {
 }
 add_action( 'wp_enqueue_scripts', 'rnp_enqueue_assets' );
 
-if ( ! defined( 'DA_PHONE_DISPLAY' ) ) {
-    define( 'DA_PHONE_DISPLAY', '0176 21927505' );
-}
-if ( ! defined( 'DA_PHONE_LINK' ) ) {
-    define( 'DA_PHONE_LINK', 'tel:017621927505' );
-}
-if ( ! defined( 'DA_WHATSAPP_LINK' ) ) {
-    define( 'DA_WHATSAPP_LINK', 'https://wa.me/4917621927505' );
-}
-
 if ( ! defined( 'rnp_OPTION_KEY' ) ) {
     define( 'rnp_OPTION_KEY', 'rnp_settings' );
 }
 
 function rnp_default_settings() {
     return [
+        'popup_icon_svg'         => '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>',
+        'popup_title_de'         => 'Aktuelle Hinweise',
+        'popup_title_en'         => 'Current Notices',
+
         'order_notice_enabled'   => '1',
+        'order_text_takeaway_de' => 'Für Bestellungen <strong>zum Mitnehmen</strong> können Sie uns telefonisch oder per WhatsApp erreichen:',
+        'order_text_takeaway_en' => 'To place a <strong>takeaway order</strong>, please call or send us a WhatsApp message:',
+        'order_phone_display'    => '0176 21927505',
+        'order_phone_link'       => 'tel:017621927505',
+        'order_whatsapp_link'    => 'https://wa.me/4917621927505',
+        'order_text_delivery_de' => '<strong>Lieferung</strong> - bitte nachfragen.',
+        'order_text_delivery_en' => '<strong>Delivery</strong> - please enquire.',
+
         'new_dishes_enabled'     => '0',
         'new_dish_ids'           => [],
         'closure_notice_enabled' => '0',
@@ -75,6 +77,20 @@ function rnp_sanitize_settings( $input ) {
         $clean['order_notice_enabled']   = empty( $input['order_notice_enabled'] ) ? '0' : '1';
         $clean['new_dishes_enabled']     = empty( $input['new_dishes_enabled'] ) ? '0' : '1';
         $clean['closure_notice_enabled'] = empty( $input['closure_notice_enabled'] ) ? '0' : '1';
+
+        $clean['popup_icon_svg'] = isset( $input['popup_icon_svg'] ) ? wp_unslash( $input['popup_icon_svg'] ) : $clean['popup_icon_svg'];
+        $clean['popup_title_de'] = isset( $input['popup_title_de'] ) ? sanitize_text_field( wp_unslash( $input['popup_title_de'] ) ) : $clean['popup_title_de'];
+        $clean['popup_title_en'] = isset( $input['popup_title_en'] ) ? sanitize_text_field( wp_unslash( $input['popup_title_en'] ) ) : $clean['popup_title_en'];
+
+        $clean['order_text_takeaway_de'] = isset( $input['order_text_takeaway_de'] ) ? wp_kses_post( wp_unslash( $input['order_text_takeaway_de'] ) ) : $clean['order_text_takeaway_de'];
+        $clean['order_text_takeaway_en'] = isset( $input['order_text_takeaway_en'] ) ? wp_kses_post( wp_unslash( $input['order_text_takeaway_en'] ) ) : $clean['order_text_takeaway_en'];
+        
+        $clean['order_phone_display'] = isset( $input['order_phone_display'] ) ? sanitize_text_field( wp_unslash( $input['order_phone_display'] ) ) : $clean['order_phone_display'];
+        $clean['order_phone_link']    = isset( $input['order_phone_link'] ) ? sanitize_text_field( wp_unslash( $input['order_phone_link'] ) ) : $clean['order_phone_link'];
+        $clean['order_whatsapp_link'] = isset( $input['order_whatsapp_link'] ) ? esc_url_raw( wp_unslash( $input['order_whatsapp_link'] ) ) : $clean['order_whatsapp_link'];
+
+        $clean['order_text_delivery_de'] = isset( $input['order_text_delivery_de'] ) ? wp_kses_post( wp_unslash( $input['order_text_delivery_de'] ) ) : $clean['order_text_delivery_de'];
+        $clean['order_text_delivery_en'] = isset( $input['order_text_delivery_en'] ) ? wp_kses_post( wp_unslash( $input['order_text_delivery_en'] ) ) : $clean['order_text_delivery_en'];
 
         $text_de = isset( $input['closure_text_de'] ) && is_scalar( $input['closure_text_de'] ) ? (string) $input['closure_text_de'] : '';
         $text_en = isset( $input['closure_text_en'] ) && is_scalar( $input['closure_text_en'] ) ? (string) $input['closure_text_en'] : '';
@@ -185,12 +201,64 @@ function rnp_render_settings_page() {
 
             <table class="form-table" role="presentation">
                 <tr>
+                    <th scope="row">General Popup Settings</th>
+                    <td>
+                        <p>
+                            <label for="popup_title_de"><strong>Popup Title (German)</strong></label><br>
+                            <input type="text" id="popup_title_de" name="<?php echo esc_attr( rnp_OPTION_KEY ); ?>[popup_title_de]" value="<?php echo esc_attr( $settings['popup_title_de'] ); ?>" class="regular-text">
+                        </p>
+                        <p>
+                            <label for="popup_title_en"><strong>Popup Title (English)</strong></label><br>
+                            <input type="text" id="popup_title_en" name="<?php echo esc_attr( rnp_OPTION_KEY ); ?>[popup_title_en]" value="<?php echo esc_attr( $settings['popup_title_en'] ); ?>" class="regular-text">
+                        </p>
+                        <p>
+                            <label for="popup_icon_svg"><strong>Popup Icon (SVG HTML)</strong></label><br>
+                            <textarea id="popup_icon_svg" name="<?php echo esc_attr( rnp_OPTION_KEY ); ?>[popup_icon_svg]" rows="4" class="large-text"><?php echo esc_textarea( $settings['popup_icon_svg'] ); ?></textarea>
+                            <br><span class="description">Paste the HTML code for the SVG icon (defaults to bell).</span>
+                        </p>
+                    </td>
+                </tr>
+
+                <tr>
                     <th scope="row">Order Notice</th>
                     <td>
                         <label>
                             <input type="checkbox" name="<?php echo esc_attr( rnp_OPTION_KEY ); ?>[order_notice_enabled]" value="1" <?php checked( '1', $settings['order_notice_enabled'] ); ?>>
                             Show order notice / WhatsApp tab
                         </label>
+                        
+                        <hr>
+                        <p>
+                            <label><strong>Takeaway Text (German)</strong></label><br>
+                            <textarea name="<?php echo esc_attr( rnp_OPTION_KEY ); ?>[order_text_takeaway_de]" rows="2" class="large-text"><?php echo esc_textarea( $settings['order_text_takeaway_de'] ); ?></textarea>
+                        </p>
+                        <p>
+                            <label><strong>Takeaway Text (English)</strong></label><br>
+                            <textarea name="<?php echo esc_attr( rnp_OPTION_KEY ); ?>[order_text_takeaway_en]" rows="2" class="large-text"><?php echo esc_textarea( $settings['order_text_takeaway_en'] ); ?></textarea>
+                        </p>
+
+                        <p>
+                            <label><strong>Phone Display Text</strong></label><br>
+                            <input type="text" name="<?php echo esc_attr( rnp_OPTION_KEY ); ?>[order_phone_display]" value="<?php echo esc_attr( $settings['order_phone_display'] ); ?>" class="regular-text">
+                        </p>
+                        <p>
+                            <label><strong>Phone Link (e.g. tel:0176...)</strong></label><br>
+                            <input type="text" name="<?php echo esc_attr( rnp_OPTION_KEY ); ?>[order_phone_link]" value="<?php echo esc_attr( $settings['order_phone_link'] ); ?>" class="regular-text">
+                        </p>
+                        <p>
+                            <label><strong>WhatsApp Link</strong></label><br>
+                            <input type="url" name="<?php echo esc_attr( rnp_OPTION_KEY ); ?>[order_whatsapp_link]" value="<?php echo esc_attr( $settings['order_whatsapp_link'] ); ?>" class="regular-text">
+                        </p>
+
+                        <hr>
+                        <p>
+                            <label><strong>Delivery Text (German)</strong></label><br>
+                            <textarea name="<?php echo esc_attr( rnp_OPTION_KEY ); ?>[order_text_delivery_de]" rows="2" class="large-text"><?php echo esc_textarea( $settings['order_text_delivery_de'] ); ?></textarea>
+                        </p>
+                        <p>
+                            <label><strong>Delivery Text (English)</strong></label><br>
+                            <textarea name="<?php echo esc_attr( rnp_OPTION_KEY ); ?>[order_text_delivery_en]" rows="2" class="large-text"><?php echo esc_textarea( $settings['order_text_delivery_en'] ); ?></textarea>
+                        </p>
                     </td>
                 </tr>
 
@@ -405,9 +473,9 @@ function rnp_render_html() {
 
     $has_popup = ! empty( $tabs );
     $version   = substr( md5( wp_json_encode( [ $settings, wp_list_pluck( $new_dishes, 'ID' ) ] ) ), 0, 12 );
-    $phone     = DA_PHONE_DISPLAY;
-    $tel       = DA_PHONE_LINK;
-    $whatsapp  = DA_WHATSAPP_LINK;
+    $phone     = trim( (string) $settings['order_phone_display'] );
+    $tel       = trim( (string) $settings['order_phone_link'] );
+    $whatsapp  = trim( (string) $settings['order_whatsapp_link'] );
 
     if ( $has_popup ) :
         $first_tab = $tabs[0];
@@ -423,13 +491,10 @@ function rnp_render_html() {
                 </div>
 
                 <div id="da-popup-icon" aria-hidden="true">
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
-                        <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
-                    </svg>
+                    <?php echo $settings['popup_icon_svg']; ?>
                 </div>
                 <h2 id="da-popup-title">
-                    <?php echo rnp_lang_copy( 'Aktuelle Hinweise', 'Current Notices' ); ?>
+                    <?php echo rnp_lang_copy( $settings['popup_title_de'], $settings['popup_title_en'] ); ?>
                 </h2>
 
                 <?php if ( $has_tabs ) : ?>
@@ -501,20 +566,20 @@ function rnp_render_html() {
                         <?php rnp_render_panel_open( 'order', $first_tab === 'order', $has_tabs ); ?>
                             <p id="da-popup-body">
                                 <?php echo rnp_lang_copy(
-                                    'Für Bestellungen <strong>zum Mitnehmen</strong> können Sie uns telefonisch oder per WhatsApp erreichen:',
-                                    'To place a <strong>takeaway order</strong>, please call or send us a WhatsApp message:',
+                                    $settings['order_text_takeaway_de'],
+                                    $settings['order_text_takeaway_en'],
                                     '',
                                     true
                                 ); ?>
                             </p>
 
                             <div class="da-phone-row">
-                                <span class="da-phone-highlight">
+                                <a href="<?php echo esc_url( $tel ); ?>" class="da-phone-highlight">
                                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#f0e6d3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                                         <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.5 12 19.79 19.79 0 0 1 1.49 3.18A2 2 0 0 1 3.47 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.54a16 16 0 0 0 5.55 5.55l.81-.81a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
                                     </svg>
                                     <?php echo esc_html( $phone ); ?>
-                                </span>
+                                </a>
                             </div>
 
                             <p class="da-whatsapp-row">
@@ -527,8 +592,8 @@ function rnp_render_html() {
 
                             <p id="da-popup-delivery">
                                 <?php echo rnp_lang_copy(
-                                    '<strong>Lieferung</strong> - bitte nachfragen.',
-                                    '<strong>Delivery</strong> - please enquire.',
+                                    $settings['order_text_delivery_de'],
+                                    $settings['order_text_delivery_en'],
                                     '',
                                     true
                                 ); ?>
@@ -549,10 +614,7 @@ function rnp_render_html() {
     <div id="rnp-fab-wrap">
         <?php if ( $has_popup ) : ?>
             <div id="da-notif-fab" title="Hinweis erneut anzeigen" role="button" tabindex="0">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
-                    <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
-                </svg>
+                <?php echo str_replace('width="28" height="28"', 'width="24" height="24"', $settings['popup_icon_svg']); ?>
             </div>
         <?php endif; ?>
     </div>
