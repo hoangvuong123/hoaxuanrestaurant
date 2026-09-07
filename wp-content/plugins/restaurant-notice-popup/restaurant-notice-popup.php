@@ -228,14 +228,15 @@ function rnp_render_settings_page() {
                         </label>
                         
                         <hr>
-                        <p>
-                            <label><strong>Takeaway Text (German)</strong></label><br>
-                            <textarea name="<?php echo esc_attr( rnp_OPTION_KEY ); ?>[order_text_takeaway_de]" rows="2" class="large-text"><?php echo esc_textarea( $settings['order_text_takeaway_de'] ); ?></textarea>
-                        </p>
-                        <p>
-                            <label><strong>Takeaway Text (English)</strong></label><br>
-                            <textarea name="<?php echo esc_attr( rnp_OPTION_KEY ); ?>[order_text_takeaway_en]" rows="2" class="large-text"><?php echo esc_textarea( $settings['order_text_takeaway_en'] ); ?></textarea>
-                        </p>
+                        <div>
+                            <label><strong>Takeaway Text (German)</strong></label>
+                            <?php wp_editor( $settings['order_text_takeaway_de'], 'order_text_takeaway_de', [ 'textarea_name' => rnp_OPTION_KEY . '[order_text_takeaway_de]', 'textarea_rows' => 3, 'media_buttons' => false ] ); ?>
+                        </div>
+                        <br>
+                        <div>
+                            <label><strong>Takeaway Text (English)</strong></label>
+                            <?php wp_editor( $settings['order_text_takeaway_en'], 'order_text_takeaway_en', [ 'textarea_name' => rnp_OPTION_KEY . '[order_text_takeaway_en]', 'textarea_rows' => 3, 'media_buttons' => false ] ); ?>
+                        </div>
 
                         <p>
                             <label><strong>Phone Display Text</strong></label><br>
@@ -251,14 +252,15 @@ function rnp_render_settings_page() {
                         </p>
 
                         <hr>
-                        <p>
-                            <label><strong>Delivery Text (German)</strong></label><br>
-                            <textarea name="<?php echo esc_attr( rnp_OPTION_KEY ); ?>[order_text_delivery_de]" rows="2" class="large-text"><?php echo esc_textarea( $settings['order_text_delivery_de'] ); ?></textarea>
-                        </p>
-                        <p>
-                            <label><strong>Delivery Text (English)</strong></label><br>
-                            <textarea name="<?php echo esc_attr( rnp_OPTION_KEY ); ?>[order_text_delivery_en]" rows="2" class="large-text"><?php echo esc_textarea( $settings['order_text_delivery_en'] ); ?></textarea>
-                        </p>
+                        <div>
+                            <label><strong>Delivery Text (German)</strong></label>
+                            <?php wp_editor( $settings['order_text_delivery_de'], 'order_text_delivery_de', [ 'textarea_name' => rnp_OPTION_KEY . '[order_text_delivery_de]', 'textarea_rows' => 3, 'media_buttons' => false ] ); ?>
+                        </div>
+                        <br>
+                        <div>
+                            <label><strong>Delivery Text (English)</strong></label>
+                            <?php wp_editor( $settings['order_text_delivery_en'], 'order_text_delivery_en', [ 'textarea_name' => rnp_OPTION_KEY . '[order_text_delivery_en]', 'textarea_rows' => 3, 'media_buttons' => false ] ); ?>
+                        </div>
                     </td>
                 </tr>
 
@@ -298,15 +300,35 @@ function rnp_render_settings_page() {
                             Show closure notice tab
                         </label>
 
-                        <p>
-                            <label for="hx-popup-closure-de"><strong>German text</strong></label><br>
-                            <textarea id="hx-popup-closure-de" name="<?php echo esc_attr( rnp_OPTION_KEY ); ?>[closure_text_de]" rows="4" class="large-text"><?php echo esc_textarea( $settings['closure_text_de'] ); ?></textarea>
-                        </p>
-
-                        <p>
-                            <label for="hx-popup-closure-en"><strong>English text</strong></label><br>
-                            <textarea id="hx-popup-closure-en" name="<?php echo esc_attr( rnp_OPTION_KEY ); ?>[closure_text_en]" rows="4" class="large-text"><?php echo esc_textarea( $settings['closure_text_en'] ); ?></textarea>
-                        </p>
+                        <div>
+                            <label><strong>German text</strong></label>
+                            <?php 
+                            wp_editor( 
+                                $settings['closure_text_de'], 
+                                'hx_popup_closure_de', 
+                                [ 
+                                    'textarea_name' => rnp_OPTION_KEY . '[closure_text_de]', 
+                                    'textarea_rows' => 4,
+                                    'media_buttons' => false
+                                ] 
+                            ); 
+                            ?>
+                        </div>
+                        <br>
+                        <div>
+                            <label><strong>English text</strong></label>
+                            <?php 
+                            wp_editor( 
+                                $settings['closure_text_en'], 
+                                'hx_popup_closure_en', 
+                                [ 
+                                    'textarea_name' => rnp_OPTION_KEY . '[closure_text_en]', 
+                                    'textarea_rows' => 4,
+                                    'media_buttons' => false
+                                ] 
+                            ); 
+                            ?>
+                        </div>
                         <p class="description">Enter the closure message shown in the popup, e.g.: We are closed today and will reopen tomorrow.</p>
                     </td>
                 </tr>
